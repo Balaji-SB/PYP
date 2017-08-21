@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PYP</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="my_profile">My Profile</string>
+    <string name="my_favorites">My Favorites</string>
+    <string name="home">Home</string>
+    <string name="my_properties">My Properties</string>
+    <string name="settings">Settings</string>
+</resources>

@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="220sp"
+                android:background="#12000000"
+                >
+
+                <ImageView
+                    android:id="@+id/resultImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="220sp"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="centerCrop" />
+
+                <RelativeLayout
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20sp">
+
+                    <ImageView
+                        android:id="@+id/originalImage"
+                        android:layout_width="180dp"
+                        android:layout_height="180dp"/>
+                    <ImageView
+                        android:id="@+id/editImage"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:padding="8sp"
+                        android:visibility="gone"
+                        android:layout_marginBottom="45sp"
+                        android:layout_marginRight="30sp"
+                        android:background="@drawable/round_blue"
+                        android:src="@drawable/camera" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Balaji SB"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:layout_alignParentBottom="true"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Personal Information"
+                android:padding="5dp"
+                android:layout_marginLeft="5sp"
+                android:layout_marginTop="10sp"
+                android:textSize="16sp"
+                android:textColor="@color/upviolet"
+                android:textStyle="bold"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="0.5"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="First Name"
+                        android:padding="5dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/textblack"
+                        android:textStyle="bold"
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5sp"
+                        android:minHeight="40sp"
+                        android:layout_marginTop="5sp"
+                        android:background="@drawable/curved_gray"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="0.5"
+                    android:layout_marginLeft="10dp"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Last Name"
+                        android:padding="5dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/textblack"
+                        android:textStyle="bold"
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5sp"
+                        android:minHeight="40sp"
+                        android:layout_marginTop="5sp"
+                        android:background="@drawable/curved_gray"
+                        />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="0.5"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Phone"
+                    android:padding="5dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/textblack"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5sp"
+                    android:minHeight="40sp"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/curved_gray"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your Location"
+                    android:padding="5dp"
+                    android:layout_marginTop="10sp"
+                    android:textSize="16sp"
+                    android:textColor="@color/upviolet"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Location"
+                    android:padding="5dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/textblack"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5sp"
+                    android:minHeight="40sp"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/curved_gray"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:padding="5dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/textblack"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5sp"
+                    android:minHeight="40sp"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/curved_gray"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="City"
+                    android:padding="5dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/textblack"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5sp"
+                    android:minHeight="40sp"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/curved_gray"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="State/Region"
+                    android:padding="5dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/textblack"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5sp"
+                    android:minHeight="40sp"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/curved_gray"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Postal/Zip Code"
+                    android:padding="5dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/textblack"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5sp"
+                    android:minHeight="40sp"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/curved_gray"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Country"
+                    android:padding="5dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/textblack"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5sp"
+                    android:minHeight="40sp"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/curved_gray"
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="45sp"
+                    android:text="Update"
+                    android:textSize="16sp"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginLeft="45sp"
+                    android:layout_marginRight="45sp"
+                    android:layout_marginBottom="15sp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/border_white"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
