@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ScrollView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40sp"
+            android:scrollbars="none"
+            >
+
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/priceHeadLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#68930493"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/priceTagImg"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5sp"
+                        android:padding="5sp"
+                        android:src="@drawable/price_tag_inr"
+                        android:tint="@color/upviolet" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="5sp"
+                        android:paddingLeft="5sp"
+                        android:paddingRight="5sp"
+                        android:text="Price"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.75sp"
+                        android:background="@color/upviolet" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/locationHeadLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/locationImg"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5sp"
+                        android:padding="5sp"
+                        android:src="@drawable/location_filter"
+                        android:tint="@color/upviolet" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="5sp"
+                        android:paddingLeft="5sp"
+                        android:paddingRight="5sp"
+                        android:text="Location"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.75sp"
+                        android:background="@color/upviolet" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bedroomHeadLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/bedroomImg"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5sp"
+                        android:padding="5sp"
+                        android:src="@drawable/bedroom"
+                        android:tint="@color/upviolet" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="5sp"
+                        android:paddingLeft="5sp"
+                        android:paddingRight="5sp"
+                        android:text="Bedroom"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.75sp"
+                        android:background="@color/upviolet" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bathroomHeadLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/bathroomImg"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5sp"
+                        android:padding="5sp"
+                        android:src="@drawable/bathroom"
+                        android:tint="@color/upviolet" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="5sp"
+                        android:paddingLeft="5sp"
+                        android:paddingRight="5sp"
+                        android:text="Bathroom"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.75sp"
+                        android:background="@color/upviolet" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/typeHeadLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/typeImg"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5sp"
+                        android:padding="5sp"
+                        android:src="@drawable/type_filter"
+                        android:tint="@color/upviolet" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="5sp"
+                        android:paddingLeft="5sp"
+                        android:paddingRight="5sp"
+                        android:text="Type"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.75sp"
+                        android:background="@color/upviolet" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/buisnessTypeHeadLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/buisnessTypeImg"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5sp"
+                        android:padding="5sp"
+                        android:src="@drawable/buisness_type"
+                        android:tint="@color/upviolet" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="5sp"
+                        android:paddingLeft="5sp"
+                        android:paddingRight="5sp"
+                        android:text="Buisness Type"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.75sp"
+                        android:background="@color/upviolet" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/areaHeadLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/areaImg"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5sp"
+                        android:padding="5sp"
+                        android:src="@drawable/area_location"
+                        android:tint="@color/centerviolet" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="5sp"
+                        android:paddingLeft="5sp"
+                        android:paddingRight="5sp"
+                        android:text="Area From"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.75sp"
+                        android:background="@color/upviolet" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <View
+            android:layout_width="0.75sp"
+            android:layout_height="match_parent"
+            android:background="@color/upviolet" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:background="@color/white"
+            android:layout_marginBottom="40sp"
+            android:layout_weight="0.75">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/priceLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5sp"
+                        android:layout_marginTop="10sp"
+                        android:text="Select Min and Max Price"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp"
+                        android:padding="5dp"
+                        android:text="Min Price"
+                        android:textColor="@color/textblack"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="45sp"
+                        android:layout_marginTop="10sp"
+                        android:background="@drawable/curved_gray"
+                        android:inputType="numberDecimal"
+                        android:minHeight="40sp"
+                        android:padding="5sp" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp"
+                        android:padding="5dp"
+                        android:text="Max Price"
+                        android:textColor="@color/textblack"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="45sp"
+                        android:layout_marginTop="10sp"
+                        android:background="@drawable/curved_gray"
+                        android:inputType="numberDecimal"
+                        android:minHeight="40sp"
+                        android:padding="5sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bedroomLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginRight="20sp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp"
+                        android:text="Select Bedroom"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp">
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="1"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="2"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="3"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="4"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="5"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="6"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="7"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="8"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="9"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="9+"
+                            android:textSize="16sp" />
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bathroomLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginRight="20sp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp"
+                        android:text="Select Bathrooms"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp">
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="1"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="2"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="3"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="4"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="5"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="6"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="7"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="8"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="9"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="9+"
+                            android:textSize="16sp" />
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/typeLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginRight="20sp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp"
+                        android:text="Select Type"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp">
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Bedspace"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Room"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Home"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Villa"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Plat House"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Office"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Luxury House"
+                            android:textSize="16sp" />
+
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/buisnessTypeLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginRight="20sp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp"
+                        android:text="Select Buisness Type"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp">
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Rent"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Sales"
+                            android:textSize="16sp" />
+
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/locationLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginRight="20sp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp"
+                        android:text="Select Location"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp">
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Malaysia"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Singapore"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Bahrain"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Iraq"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:buttonTint="@color/centerviolet"
+                            android:checked="false"
+                            android:paddingLeft="20sp"
+                            android:text="Kuwait"
+                            android:textSize="16sp" />
+
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/areaLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5sp"
+                        android:layout_marginTop="10sp"
+                        android:text="Select Area"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp"
+                        android:padding="5dp"
+                        android:text="Area From"
+                        android:textColor="@color/textblack"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="45sp"
+                        android:layout_marginTop="10sp"
+                        android:background="@drawable/curved_gray"
+                        android:inputType="numberDecimal"
+                        android:minHeight="40sp"
+                        android:padding="5sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/centerviolet"
+        android:text="@string/apply_filters"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+</RelativeLayout>

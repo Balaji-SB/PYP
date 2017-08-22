@@ -6,17 +6,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.android.pyp.R;
-import com.android.pyp.utils.Utils;
 import com.android.pyp.utils.BlurBuilder;
+import com.android.pyp.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
@@ -36,6 +39,11 @@ public class MyProfileFragment extends Fragment {
     private ImageView editImage;
     private Bitmap bmp;
 
+    private EditText firstName, lastName, phone, email, address, city, state, postalCode, country;
+    private AutoCompleteTextView location;
+    private FloatingActionButton myProfileFAB;
+    private boolean isEditable = false;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,10 +53,36 @@ public class MyProfileFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_myprofile, null, false);
         utils = new Utils(mContext);
         initVariables();
-        // Bitmap resultBmp = BlurBuilder.blur(mContext, BitmapFactory.decodeResource(getResources(), R.drawable.slide_bg));
-        // resultImage.setImageBitmap(resultBmp);
-
-        //Picasso.with(mContext).load("https://i.pinimg.com/originals/d1/f7/91/d1f791c5b7eee66f0cd27104a14e41b0.jpg").into(resultImage);
+        myProfileFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isEditable) {
+                    isEditable = true;
+                    myProfileFAB.setImageResource(R.drawable.completed);
+                    firstName.setEnabled(true);
+                    lastName.setEnabled(true);
+                    phone.setEnabled(true);
+                    email.setEnabled(true);
+                    address.setEnabled(true);
+                    city.setEnabled(true);
+                    state.setEnabled(true);
+                    postalCode.setEnabled(true);
+                    country.setEnabled(true);
+                } else {
+                    isEditable = false;
+                    myProfileFAB.setImageResource(R.drawable.edit);
+                    firstName.setEnabled(false);
+                    lastName.setEnabled(false);
+                    phone.setEnabled(false);
+                    email.setEnabled(false);
+                    address.setEnabled(false);
+                    city.setEnabled(false);
+                    state.setEnabled(false);
+                    postalCode.setEnabled(false);
+                    country.setEnabled(false);
+                }
+            }
+        });
         return mView;
     }
 
@@ -56,6 +90,18 @@ public class MyProfileFragment extends Fragment {
         resultImage = (ImageView) mView.findViewById(R.id.resultImage);
         originalImage = (ImageView) mView.findViewById(R.id.originalImage);
         editImage = (ImageView) mView.findViewById(R.id.editImage);
+        myProfileFAB = (FloatingActionButton) mView.findViewById(R.id.myProfileFAB);
+        location = (AutoCompleteTextView) mView.findViewById(R.id.location);
+        firstName = (EditText) mView.findViewById(R.id.firstName);
+        lastName = (EditText) mView.findViewById(R.id.lastName);
+        phone = (EditText) mView.findViewById(R.id.phone);
+        email = (EditText) mView.findViewById(R.id.email);
+        address = (EditText) mView.findViewById(R.id.address);
+        city = (EditText) mView.findViewById(R.id.city);
+        state = (EditText) mView.findViewById(R.id.state);
+        postalCode = (EditText) mView.findViewById(R.id.postalCode);
+        country = (EditText) mView.findViewById(R.id.country);
+        getActivity().setTitle("My Profile");
     }
 
     @Override
@@ -80,7 +126,7 @@ public class MyProfileFragment extends Fragment {
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
             resultImage.setImageBitmap(bitmap);
-            if(bmp!=null) {
+            if (bmp != null) {
                 Glide.with(mContext).load(bitmapToByte(bmp)).asBitmap().into(new BitmapImageViewTarget(originalImage) {
                     @Override
                     protected void setResource(Bitmap resource) {

@@ -45,13 +45,15 @@
                     android:src="@drawable/password" />
 
                 <TextView
+                    android:id="@+id/changePwdTxt"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:padding="5dp"
                     android:text="Change Password"
-                    android:textAllCaps="false"
+                    
                     android:textColor="@color/black" />
 
                 <ImageView
@@ -89,13 +91,14 @@
                     android:src="@drawable/language_google" />
 
                 <TextView
+                    android:id="@+id/changeLangTxt"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:padding="5dp"
                     android:text="Change Language"
-                    android:textAllCaps="false"
                     android:textColor="@color/black" />
 
                 <ImageView
@@ -133,13 +136,14 @@
                     android:src="@drawable/about_us" />
 
                 <TextView
+                    android:id="@+id/aboutUsTxt"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:padding="5dp"
                     android:text="About Us"
-                    android:textAllCaps="false"
                     android:textColor="@color/black" />
 
                 <ImageView
@@ -177,13 +181,15 @@
                     android:src="@drawable/contact_us" />
 
                 <TextView
+                    android:id="@+id/contactUsTxt"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:padding="5dp"
                     android:text="Contact Us"
-                    android:textAllCaps="false"
+                    
                     android:textColor="@color/black" />
 
                 <ImageView

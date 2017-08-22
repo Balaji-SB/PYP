@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
     <ScrollView
@@ -106,9 +107,13 @@
                         />
 
                     <EditText
+                        android:id="@+id/firstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5sp"
+                        android:enabled="false"
+                        android:text="Balaji"
+                        android:textSize="14sp"
                         android:minHeight="40sp"
                         android:layout_marginTop="5sp"
                         android:background="@drawable/curved_gray"
@@ -134,9 +139,13 @@
                         />
 
                     <EditText
+                        android:id="@+id/lastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5sp"
+                        android:text="SB"
+                        android:enabled="false"
+                        android:textSize="14sp"
                         android:minHeight="40sp"
                         android:layout_marginTop="5sp"
                         android:background="@drawable/curved_gray"
@@ -167,10 +176,35 @@
                     />
 
                 <EditText
+                    android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5sp"
                     android:minHeight="40sp"
+                    android:enabled="false"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/curved_gray"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:padding="5dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/textblack"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5sp"
+                    android:minHeight="40sp"
+                    android:enabled="false"
+                    android:textSize="14sp"
                     android:layout_marginTop="5sp"
                     android:background="@drawable/curved_gray"
                     />
@@ -196,10 +230,13 @@
                     android:textStyle="bold"
                     />
 
-                <EditText
+                <AutoCompleteTextView
+                    android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5sp"
+                    android:enabled="false"
+                    android:textSize="14sp"
                     android:minHeight="40sp"
                     android:layout_marginTop="5sp"
                     android:background="@drawable/curved_gray"
@@ -216,10 +253,13 @@
                     />
 
                 <EditText
+                    android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5sp"
                     android:minHeight="40sp"
+                    android:enabled="false"
+                    android:textSize="14sp"
                     android:layout_marginTop="5sp"
                     android:background="@drawable/curved_gray"
                     />
@@ -235,10 +275,13 @@
                     />
 
                 <EditText
+                    android:id="@+id/city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5sp"
                     android:minHeight="40sp"
+                    android:enabled="false"
+                    android:textSize="14sp"
                     android:layout_marginTop="5sp"
                     android:background="@drawable/curved_gray"
                     />
@@ -254,10 +297,13 @@
                     />
 
                 <EditText
+                    android:id="@+id/state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5sp"
                     android:minHeight="40sp"
+                    android:enabled="false"
+                    android:textSize="14sp"
                     android:layout_marginTop="5sp"
                     android:background="@drawable/curved_gray"
                     />
@@ -273,10 +319,13 @@
                     />
 
                 <EditText
+                    android:id="@+id/postalCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5sp"
                     android:minHeight="40sp"
+                    android:enabled="false"
+                    android:textSize="14sp"
                     android:layout_marginTop="5sp"
                     android:background="@drawable/curved_gray"
                     />
@@ -292,30 +341,34 @@
                     />
 
                 <EditText
+                    android:id="@+id/country"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5sp"
                     android:minHeight="40sp"
+                    android:enabled="false"
+                    android:textSize="14sp"
                     android:layout_marginTop="5sp"
                     android:background="@drawable/curved_gray"
                     />
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="45sp"
-                    android:text="Update"
-                    android:textSize="16sp"
-                    android:layout_marginTop="20sp"
-                    android:layout_marginLeft="45sp"
-                    android:layout_marginRight="45sp"
-                    android:layout_marginBottom="15sp"
-                    android:textColor="@color/white"
-                    android:background="@drawable/border_white"
-                    />
+
             </LinearLayout>
 
 
         </LinearLayout>
     </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/myProfileFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        app:backgroundTint="@color/upviolet"
+        android:src="@drawable/edit"
+        android:tint="@color/white"
+        />
 
 </RelativeLayout>

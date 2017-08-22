@@ -6,8 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:colorControlActivated">@color/white</item>
-        <item name="android:colorControlNormal">@color/white</item>
+
         <item name="android:typeface">serif</item>
     </style>
 
