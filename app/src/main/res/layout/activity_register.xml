@@ -24,7 +24,7 @@
                 android:layout_height="100sp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/logo" />
 
 
             <LinearLayout

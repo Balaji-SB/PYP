@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20sp"
+                app:cardElevation="8sp"
+                app:cardCornerRadius="5sp"
+                app:cardBackgroundColor="@color/white"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_height="wrap_content"
+                        android:text="Name"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:padding="5sp"
+                        />
+
+                    <EditText
+                        android:id="@+id/supName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10sp"
+                        android:minHeight="40sp"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:paddingTop="5sp"
+                        android:paddingRight="5sp"
+                        android:paddingBottom="5sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_marginTop="5sp"
+                        android:hint="Enter your name"
+                        android:textSize="14sp"
+                        android:background="@drawable/curved_gray"
+                        />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_height="wrap_content"
+                        android:text="Email"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:padding="5sp"
+                        />
+
+                    <EditText
+                        android:id="@+id/supEmail"
+                        android:minHeight="40sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:paddingTop="5sp"
+                        android:paddingRight="5sp"
+                        android:paddingBottom="5sp"
+                        android:maxLines="1"
+                        android:paddingLeft="10sp"
+                        android:background="@drawable/curved_gray"
+                        android:hint="Enter your email"
+                        android:textSize="14sp"
+                        android:inputType="textEmailAddress"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_height="wrap_content"
+                        android:text="Subject"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:padding="5sp"
+                        />
+
+                    <EditText
+                        android:id="@+id/supSub"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:paddingTop="5sp"
+                        android:paddingRight="5sp"
+                        android:paddingBottom="5sp"
+                        android:maxLines="1"
+                        android:paddingLeft="10sp"
+                        android:background="@drawable/curved_gray"
+                        android:minHeight="40sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:hint="Enter your subject "
+                        android:textSize="14sp"
+                        />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_height="wrap_content"
+                        android:text="Message"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:padding="5sp"
+                        />
+
+                    <EditText
+                        android:id="@+id/subMsg"
+                        android:layout_width="match_parent"
+                        android:layout_height="70sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:paddingLeft="10sp"
+                        android:paddingTop="5sp"
+                        android:paddingRight="5sp"
+                        android:paddingBottom="5sp"
+                        android:background="@drawable/curved_gray"
+                        android:gravity="top"
+                        android:hint="Enter your message"
+
+                        android:textSize="14sp" />
+
+
+                    <Button
+                        android:id="@+id/supBtnSubmit"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="45sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginRight="20sp"
+                        android:layout_marginBottom="20sp"
+                        android:layout_marginTop="20sp"
+                        android:background="@drawable/border_violet"
+                        android:text="Submit"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

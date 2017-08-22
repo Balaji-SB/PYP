@@ -61,6 +61,9 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Object result) {
                             Log.e("Success result is",result.toString());
+                            if(result.toString().trim().equalsIgnoreCase("success")){
+
+                            }
                         }
 
                         @Override
