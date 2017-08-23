@@ -9,7 +9,7 @@ public class URLConstants {
 
     private static String TESTURL = "http://www.pickyourplaces.com/";
 
-    public static String BASEURL = TESTURL + "/Mobileuser/";
+    public static String BASEURL = TESTURL + "Mobileuser/";
 
     public static String urlLogin = BASEURL + "logincheck";
 

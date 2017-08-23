@@ -85,7 +85,7 @@ public class PYPApplication extends Application {
         request.setRetryPolicy(new RetryPolicy() {
             @Override
             public int getCurrentTimeout() {
-                return 50000;
+                return 500000;
             }
 
             @Override

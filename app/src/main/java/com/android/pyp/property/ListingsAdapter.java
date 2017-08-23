@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.pyp.R;
+import com.android.pyp.utils.URLConstants;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -23,7 +25,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
 
     private Context mContext;
     private List<PropertyData> myDataList;
-    private int lastPosition=-1;
+    private int lastPosition = -1;
 
     public ListingsAdapter(Context mContext, List<PropertyData> myDataList) {
         this.mContext = mContext;
@@ -32,8 +34,8 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
 
     @Override
     public ListingsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(mContext).inflate(R.layout.child_listings,null,false);
-        ListingsViewHolder holder=new ListingsViewHolder(view);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.child_listings, null, false);
+        ListingsViewHolder holder = new ListingsViewHolder(view);
         return holder;
     }
 
@@ -59,12 +61,26 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
             lastPosition = position;
         }
 
-        Glide.with(mContext).load(R.drawable.slide_bg).centerCrop().into(holder.propImage);
+        Glide.with(mContext).load(URLConstants.urlImage + myDataList.get(position).getImageName()).centerCrop().into(holder.propImage);
+
+        String location = "";
+        if (myDataList.get(position).getCity() != "" || myDataList.get(position).getCity() != "null" || myDataList.get(position).getCity() != null) {
+            location += myDataList.get(position).getCity() + ", ";
+        }
+        if (myDataList.get(position).getState() != "" || myDataList.get(position).getState() != "null" || myDataList.get(position).getState() != null) {
+            location += myDataList.get(position).getState() + ", ";
+        }
+        if (myDataList.get(position).getCountry() != "" || myDataList.get(position).getCountry() != "null" || myDataList.get(position).getCountry() != null) {
+            location += myDataList.get(position).getCountry() + ", ";
+        }
+        holder.address.setText(location);
+        holder.priceCurrency.setText(myDataList.get(position).getPrice() + " " + myDataList.get(position).getCurrency());
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(mContext,DetailsActivity.class);
+                Intent intent = new Intent(mContext, DetailsActivity.class);
                 mContext.startActivity(intent);
             }
         });
@@ -76,11 +92,17 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
     }
 }
 
-class ListingsViewHolder extends RecyclerView.ViewHolder{
+class ListingsViewHolder extends RecyclerView.ViewHolder {
 
-    protected ImageView propImage;
+    protected ImageView propImage, favoriteImg;
+    protected TextView priceCurrency, address, amentyName;
+
     public ListingsViewHolder(View itemView) {
         super(itemView);
-        propImage=(ImageView)itemView.findViewById(R.id.propImage);
+        propImage = (ImageView) itemView.findViewById(R.id.propImage);
+        favoriteImg = (ImageView) itemView.findViewById(R.id.favoriteImg);
+        priceCurrency = (TextView) itemView.findViewById(R.id.priceCurrency);
+        address = (TextView) itemView.findViewById(R.id.address);
+        amentyName = (TextView) itemView.findViewById(R.id.amentyName);
     }
 }
