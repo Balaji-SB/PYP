@@ -11,16 +11,19 @@ import com.android.pyp.R;
 import com.android.pyp.cms.SettingsFragment;
 import com.android.pyp.property.ListingsFragment;
 import com.android.pyp.usermodule.MyProfileFragment;
+import com.android.pyp.utils.SessionManager;
+import com.android.pyp.utils.Utils;
 
 public class HomeActivity extends AppCompatActivity {
 
     private BottomNavigationView navigation;
+    private SessionManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        manager= Utils.manager;
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.menuhome);
@@ -50,8 +53,10 @@ public class HomeActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.menumyProfile:
-                    Fragment fragment1=new MyProfileFragment();
-                    updateDisplay(fragment1);
+                    if(manager.checkLogin()) {
+                        Fragment fragment1 = new MyProfileFragment();
+                        updateDisplay(fragment1);
+                    }
                     return true;
                 case R.id.menufavorite:
                     return true;

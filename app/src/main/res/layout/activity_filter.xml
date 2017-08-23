@@ -303,6 +303,7 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/minPrice"
                         android:layout_width="match_parent"
                         android:layout_height="45sp"
                         android:layout_marginTop="10sp"
@@ -323,6 +324,7 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/maxPrice"
                         android:layout_width="match_parent"
                         android:layout_height="45sp"
                         android:layout_marginTop="10sp"
@@ -352,11 +354,13 @@
 
 
                     <RadioGroup
+                        android:id="@+id/bedroomRadioGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10sp">
 
                         <RadioButton
+                            android:id="@+id/oneRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/centerviolet"
@@ -366,6 +370,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/twoRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -376,6 +381,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/threeRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -386,6 +392,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/fourRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -396,6 +403,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/fiveRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -406,6 +414,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/sixRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -416,6 +425,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/sevenRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -426,6 +436,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/eightRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -436,6 +447,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/nineRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -446,6 +458,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/tenRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -477,11 +490,13 @@
 
 
                     <RadioGroup
+                        android:id="@+id/bathroomRadioGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10sp">
 
                         <RadioButton
+                            android:id="@+id/oneBathRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/centerviolet"
@@ -491,6 +506,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/twoBathRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -501,6 +517,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/threeBathRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -511,6 +528,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/fourBathRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -521,6 +539,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/fiveBathRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -531,6 +550,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/sixBathRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -541,6 +561,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/sevenBathRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -551,6 +572,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/eightBathRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -561,6 +583,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/nineBathRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -571,6 +594,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/tenBathRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -602,11 +626,13 @@
 
 
                     <RadioGroup
+                        android:id="@+id/typeRadioGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10sp">
 
                         <RadioButton
+                            android:id="@+id/bedspaceRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/centerviolet"
@@ -616,6 +642,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/roomRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -626,6 +653,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/homeRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -636,6 +664,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/villaRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -646,6 +675,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/platHouseRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -656,6 +686,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/officeRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -666,6 +697,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/luxuryHouseRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -699,11 +731,13 @@
 
 
                     <RadioGroup
+                        android:id="@+id/buisnessTypeRadioGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10sp">
 
                         <RadioButton
+                            android:id="@+id/rentRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/centerviolet"
@@ -713,6 +747,7 @@
                             android:textSize="16sp" />
 
                         <RadioButton
+                            android:id="@+id/salesRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10sp"
@@ -746,6 +781,7 @@
 
 
                     <RadioGroup
+                        android:id="@+id/locationRadioGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10sp">

@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.usermodule.ChangePasswordActivity;
+import com.android.pyp.utils.SessionManager;
+import com.android.pyp.utils.Utils;
 
 /**
  * Created by devel-73 on 17/8/17.
@@ -21,18 +23,31 @@ public class SettingsFragment extends Fragment {
 
     private View mView;
     private Context mContext;
-    private TextView contactUsTxt,aboutUsTxt,changeLangTxt,changePwdTxt;
+    private TextView contactUsTxt, aboutUsTxt, changeLangTxt, changePwdTxt;
+    private SessionManager manager;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mContext=getActivity();
+        mContext = getActivity();
         mView = inflater.inflate(R.layout.fragment_settings, null, false);
         initVariables();
+        if(manager.isLoggedIn()){
+            changePwdTxt.setVisibility(View.VISIBLE);
+        }else{
+            changePwdTxt.setVisibility(View.GONE);
+        }
         changePwdTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(mContext, ChangePasswordActivity.class);
+                Intent intent = new Intent(mContext, ChangePasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+        contactUsTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ContactUsActivity.class);
                 startActivity(intent);
             }
         });
@@ -40,11 +55,12 @@ public class SettingsFragment extends Fragment {
     }
 
     private void initVariables() {
-        changePwdTxt=(TextView)mView.findViewById(R.id.changePwdTxt);
-        contactUsTxt=(TextView)mView.findViewById(R.id.contactUsTxt);
-        aboutUsTxt=(TextView)mView.findViewById(R.id.aboutUsTxt);
-        changeLangTxt=(TextView)mView.findViewById(R.id.changeLangTxt);
+        changePwdTxt = (TextView) mView.findViewById(R.id.changePwdTxt);
+        contactUsTxt = (TextView) mView.findViewById(R.id.contactUsTxt);
+        aboutUsTxt = (TextView) mView.findViewById(R.id.aboutUsTxt);
+        changeLangTxt = (TextView) mView.findViewById(R.id.changeLangTxt);
         getActivity().setTitle("Settings");
+        manager= Utils.manager;
     }
 
 

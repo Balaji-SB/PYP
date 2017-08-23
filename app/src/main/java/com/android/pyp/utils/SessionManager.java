@@ -46,17 +46,14 @@ public class SessionManager {
         StrictMode.setThreadPolicy(policy);
     }
 
-    public void createLoginSession(String userId, String email, String username,
-                                   String password, String randomcode, String contactno, String profilePic, String token) {
+    public void createLoginSession(String userId, String email, String username, String password, String contactno, String profilePic) {
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_USERID, userId);
         editor.putString(KEY_USERNAME, username);
         editor.putString(KEY_EMAIL, email);
         editor.putString(KEY_PASSWORD, password);
-        editor.putString(KEY_RANDOMCODE, randomcode);
         editor.putString(KEY_CONTACTNO, contactno);
         editor.putString(KEY_PROFILEPIC, profilePic);
-        editor.putString(KEY_TOKEN, token);
         editor.commit();
     }
 

@@ -32,23 +32,23 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".home.HomeActivity"
+            android:name=".usermodule.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".usermodule.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".property.DetailsActivity" />
         <activity android:name=".property.DetailsMapActivity" />
         <activity android:name=".property.FilterActivity" />
         <activity android:name=".usermodule.ChangePasswordActivity" />
+        <activity android:name=".cms.ContactUsActivity" />
+        <activity android:name=".home.HomeActivity" />
     </application>
 
 </manifest>
