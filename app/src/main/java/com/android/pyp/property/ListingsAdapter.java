@@ -40,7 +40,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ListingsViewHolder holder, int position) {
+    public void onBindViewHolder(ListingsViewHolder holder, final int position) {
         //holder.setIsRecyclable(true);
         if (position > lastPosition) {
             /*RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -61,17 +61,22 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
             lastPosition = position;
         }
 
-        Glide.with(mContext).load(URLConstants.urlImage + myDataList.get(position).getImageName()).centerCrop().into(holder.propImage);
+        if (myDataList.get(position).getImageName().equalsIgnoreCase(null) || myDataList.get(position).getImageName().equalsIgnoreCase("null")) {
+            Glide.with(mContext).load(URLConstants.urlImage + "default_home.png").centerCrop().into(holder.propImage);
+        } else {
+            Glide.with(mContext).load(URLConstants.urlImage + myDataList.get(position).getImageName()).centerCrop().into(holder.propImage);
+        }
+
 
         String location = "";
-        if (myDataList.get(position).getCity() != "" || myDataList.get(position).getCity() != "null" || myDataList.get(position).getCity() != null) {
+        if (myDataList.get(position).getCity() != "" || myDataList.get(position).getCity().equalsIgnoreCase("null") || myDataList.get(position).getCity().equalsIgnoreCase(null)) {
             location += myDataList.get(position).getCity() + ", ";
         }
-        if (myDataList.get(position).getState() != "" || myDataList.get(position).getState() != "null" || myDataList.get(position).getState() != null) {
+        if (myDataList.get(position).getState() != "" || myDataList.get(position).getState().equalsIgnoreCase("null") || myDataList.get(position).getState().equalsIgnoreCase(null)) {
             location += myDataList.get(position).getState() + ", ";
         }
-        if (myDataList.get(position).getCountry() != "" || myDataList.get(position).getCountry() != "null" || myDataList.get(position).getCountry() != null) {
-            location += myDataList.get(position).getCountry() + ", ";
+        if (myDataList.get(position).getCountry() != "" || myDataList.get(position).getCountry().equalsIgnoreCase("null") || myDataList.get(position).getCountry().equalsIgnoreCase(null)) {
+            location += myDataList.get(position).getCountry();
         }
         holder.address.setText(location);
         holder.priceCurrency.setText(myDataList.get(position).getPrice() + " " + myDataList.get(position).getCurrency());
@@ -81,6 +86,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, DetailsActivity.class);
+                intent.putExtra("property_id",myDataList.get(position).getPropertyId());
                 mContext.startActivity(intent);
             }
         });

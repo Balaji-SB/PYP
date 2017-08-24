@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import com.android.pyp.R;
 import com.android.pyp.cms.SettingsFragment;
 import com.android.pyp.property.ListingsFragment;
+import com.android.pyp.property.MyFavoriteProperty;
+import com.android.pyp.property.MyProperty;
 import com.android.pyp.usermodule.MyProfileFragment;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.Utils;
@@ -27,7 +29,7 @@ public class HomeActivity extends AppCompatActivity {
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.menuhome);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
 
 
     }
@@ -59,8 +61,16 @@ public class HomeActivity extends AppCompatActivity {
                     }
                     return true;
                 case R.id.menufavorite:
+                    if(manager.checkLogin()){
+                        Fragment fragment2=new MyFavoriteProperty();
+                        updateDisplay(fragment2);
+                    }
                     return true;
                 case R.id.menumyProperty:
+                    if(manager.checkLogin()){
+                        Fragment fragment3=new MyProperty();
+                        updateDisplay(fragment3);
+                    }
                     return true;
                 case R.id.menusettings:
                     Fragment fragment4=new SettingsFragment();

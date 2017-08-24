@@ -32,9 +32,9 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".usermodule.LoginActivity"
+            android:name=".home.SplashScreenActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
