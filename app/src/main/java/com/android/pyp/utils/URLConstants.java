@@ -42,4 +42,6 @@ public class URLConstants {
     public static String urlAmenty=TESTURL+"uploads/amenities/";
 
     public static String urlRule=TESTURL+"uploads/rules/";
+
+    public static String urlImageUpload=BASEURL+"pro_img_upload";
 }

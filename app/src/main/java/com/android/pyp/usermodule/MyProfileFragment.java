@@ -1,10 +1,14 @@
 package com.android.pyp.usermodule;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -18,13 +22,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.BlurBuilder;
 import com.android.pyp.utils.DataCallback;
+import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.URLConstants;
+import com.android.pyp.utils.UploadFileToServer;
 import com.android.pyp.utils.Utils;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
@@ -36,6 +43,8 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by devel-73 on 17/8/17.
@@ -57,6 +66,8 @@ public class MyProfileFragment extends Fragment {
     private FloatingActionButton myProfileFAB;
     private boolean isEditable = false;
     private String site_user_id = "";
+    private String imgPath = "";
+    private String oldImage = "";
 
     @Nullable
     @Override
@@ -95,6 +106,15 @@ public class MyProfileFragment extends Fragment {
                     postalCode.setEnabled(false);
                     country.setEnabled(false);
                 }
+            }
+        });
+
+        editImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/*");
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
             }
         });
         return mView;
@@ -138,7 +158,7 @@ public class MyProfileFragment extends Fragment {
 
         @Override
         protected Bitmap doInBackground(String... strings) {
-            Log.e("URL",URLConstants.urlUserImage + image);
+            Log.e("URL", URLConstants.urlUserImage + image);
             bmp = utils.getBitmapFromURL(URLConstants.urlUserImage + image);
             Bitmap resultBmp = BlurBuilder.blur(mContext, bmp);
             return resultBmp;
@@ -203,7 +223,6 @@ public class MyProfileFragment extends Fragment {
                         e.printStackTrace();
                     }
 
-
                 } else {
 
                 }
@@ -227,8 +246,38 @@ public class MyProfileFragment extends Fragment {
         state.setText(data.getState());
         country.setText(data.getCountry());
         postalCode.setText(data.getPostalCode());
+        oldImage = data.getImage();
         new LoadImage(data.getImage()).execute();
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imgPath = "";
+            try {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = mContext.getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                imgPath = cursor.getString(columnIndex);
+                Log.e("imgPath", imgPath + " ");
+                int size = imgPath.split("/").length;
+
+                if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+                    new UploadFileToServer(mView, mContext, imgPath, oldImage).execute();
+                } else {
+                    Toast.makeText(mContext, "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
