@@ -37,8 +37,6 @@ public class PYPApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Utils.getSessionManager(getApplicationContext());
-        Utils.getSharedPreferences(getApplicationContext());
 
 //        FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/Raleway-Medium.ttf");
         TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/EBGaramond-Regular.ttf");

@@ -57,8 +57,8 @@ public class MyFavoriteProperty extends Fragment {
 
     private void initVariables() {
         propertyDataList = new ArrayList<>();
-        manager = Utils.manager;
-        preferences = Utils.preferences;
+        manager = Utils.getSessionManager(mContext);
+        preferences = Utils.getSharedPreferences(mContext);
         site_user_id = preferences.getString(SessionManager.KEY_USERID, "1");
         pypApplication = new PYPApplication(mContext);
         mypropertyRecycler = (RecyclerView) mView.findViewById(R.id.mypropertyRecycler);

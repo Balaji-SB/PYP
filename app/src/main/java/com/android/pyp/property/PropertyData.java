@@ -1,10 +1,15 @@
 package com.android.pyp.property;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.List;
+
 /**
  * Created by devel-73 on 19/8/17.
  */
 
-public class PropertyData {
+public class PropertyData implements Parcelable {
 
     private String propertyId;
     private String ownerId;
@@ -26,6 +31,159 @@ public class PropertyData {
     private double longitude;
     private String adminVerify;
     private String imageName;
+    private String propertyType;
+    private List<PropertyData> amentiesList;
+    private List<PropertyData> rulesList;
+    private String amentyName;
+    private String amentyImg;
+    private String rulesName;
+    private String rulesImg;
+    private String shareLink;
+
+    public String getShareLink() {
+        return shareLink;
+    }
+
+    public void setShareLink(String shareLink) {
+        this.shareLink = shareLink;
+    }
+
+    public PropertyData() {
+    }
+
+    protected PropertyData(Parcel in) {
+        propertyId = in.readString();
+        ownerId = in.readString();
+        nationality = in.readString();
+        gender = in.readString();
+        price = in.readString();
+        bhk = in.readString();
+        sqft = in.readString();
+        currency = in.readString();
+        address = in.readString();
+        landmark = in.readString();
+        description = in.readString();
+        contactNum = in.readString();
+        amenties = in.readString();
+        city = in.readString();
+        state = in.readString();
+        country = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        adminVerify = in.readString();
+        imageName = in.readString();
+        propertyType = in.readString();
+        amentiesList = in.createTypedArrayList(PropertyData.CREATOR);
+        rulesList = in.createTypedArrayList(PropertyData.CREATOR);
+        amentyName = in.readString();
+        amentyImg = in.readString();
+        rulesName = in.readString();
+        rulesImg = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(propertyId);
+        dest.writeString(ownerId);
+        dest.writeString(nationality);
+        dest.writeString(gender);
+        dest.writeString(price);
+        dest.writeString(bhk);
+        dest.writeString(sqft);
+        dest.writeString(currency);
+        dest.writeString(address);
+        dest.writeString(landmark);
+        dest.writeString(description);
+        dest.writeString(contactNum);
+        dest.writeString(amenties);
+        dest.writeString(city);
+        dest.writeString(state);
+        dest.writeString(country);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeString(adminVerify);
+        dest.writeString(imageName);
+        dest.writeString(propertyType);
+        dest.writeTypedList(amentiesList);
+        dest.writeTypedList(rulesList);
+        dest.writeString(amentyName);
+        dest.writeString(amentyImg);
+        dest.writeString(rulesName);
+        dest.writeString(rulesImg);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<PropertyData> CREATOR = new Creator<PropertyData>() {
+        @Override
+        public PropertyData createFromParcel(Parcel in) {
+            return new PropertyData(in);
+        }
+
+        @Override
+        public PropertyData[] newArray(int size) {
+            return new PropertyData[size];
+        }
+    };
+
+    public String getAmentyName() {
+        return amentyName;
+    }
+
+    public void setAmentyName(String amentyName) {
+        this.amentyName = amentyName;
+    }
+
+    public String getAmentyImg() {
+        return amentyImg;
+    }
+
+    public void setAmentyImg(String amentyImg) {
+        this.amentyImg = amentyImg;
+    }
+
+    public String getRulesName() {
+        return rulesName;
+    }
+
+    public void setRulesName(String rulesName) {
+        this.rulesName = rulesName;
+    }
+
+    public String getRulesImg() {
+        return rulesImg;
+    }
+
+    public void setRulesImg(String rulesImg) {
+        this.rulesImg = rulesImg;
+    }
+
+    public String getPropertyType() {
+        return propertyType;
+    }
+
+    public void setPropertyType(String propertyType) {
+        this.propertyType = propertyType;
+    }
+
+    public List<PropertyData> getAmentiesList() {
+        return amentiesList;
+    }
+
+    public void setAmentiesList(List<PropertyData> amentiesList) {
+        this.amentiesList = amentiesList;
+    }
+
+    public List<PropertyData> getRulesList() {
+        return rulesList;
+    }
+
+    public void setRulesList(List<PropertyData> rulesList) {
+        this.rulesList = rulesList;
+    }
 
     public String getPropertyId() {
         return propertyId;
@@ -186,4 +344,5 @@ public class PropertyData {
     public void setImageName(String imageName) {
         this.imageName = imageName;
     }
+
 }

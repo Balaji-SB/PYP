@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +38,7 @@ public class ContactUsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mContext = ContactUsActivity.this;
         mView = LayoutInflater.from(mContext).inflate(R.layout.activity_cms_contactus, null, false);
+        setContentView(mView);
         initVariables();
         supBtnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +72,8 @@ public class ContactUsActivity extends AppCompatActivity {
         supSub = (EditText) mView.findViewById(R.id.supSub);
         subMsg = (EditText) mView.findViewById(R.id.subMsg);
         supBtnSubmit = (Button) mView.findViewById(R.id.supBtnSubmit);
+        getSupportActionBar().setTitle("Contact Us");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         clearUI();
     }
 
@@ -109,5 +113,13 @@ public class ContactUsActivity extends AppCompatActivity {
         supName.setText("");
         supSub.setText("");
         subMsg.setText("");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

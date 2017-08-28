@@ -118,7 +118,7 @@ public class MyProfileFragment extends Fragment {
         country = (EditText) mView.findViewById(R.id.country);
         profileName = (TextView) mView.findViewById(R.id.profileName);
         getActivity().setTitle("My Profile");
-        site_user_id = Utils.preferences.getString(SessionManager.KEY_USERID, "1");
+        site_user_id = Utils.getSharedPreferences(mContext).getString(SessionManager.KEY_USERID, "1");
     }
 
     @Override

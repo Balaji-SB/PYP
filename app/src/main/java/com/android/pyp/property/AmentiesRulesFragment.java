@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,8 @@ public class AmentiesRulesFragment extends Fragment {
     private Context mContext;
     private RecyclerView amentiesRecycler;
     private AmentiesRulesAdapter amentiesRulesAdapter;
-    private List<String> amentyList;
+    private List<PropertyData> amentyList;
+    private String position="";
 
     @Nullable
     @Override
@@ -33,13 +35,31 @@ public class AmentiesRulesFragment extends Fragment {
         mContext=getActivity();
         mView = inflater.inflate(R.layout.fragment_rules_amenties, container, false);
         initVariables();
-
-        for(int i=0;i<10;i++){
-            amentyList.add("12");
+        if(getArguments()!=null){
+            position=getArguments().getString("position");
+            Log.e("Position is",position+"ad");
+            if(position.equalsIgnoreCase("1")){
+                amentyList=getArguments().getParcelableArrayList("property_list");
+                amentyList=amentyList.get(0).getAmentiesList();
+            }else{
+                amentyList=getArguments().getParcelableArrayList("property_list");
+                amentyList=amentyList.get(0).getRulesList();
+            }
+            updateUI(amentyList);
         }
-        amentiesRulesAdapter=new AmentiesRulesAdapter(mContext,amentyList);
-        amentiesRecycler.setAdapter(amentiesRulesAdapter);
+
+
         return mView;
+    }
+
+    private void updateUI(final List<PropertyData> amentyList) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                amentiesRulesAdapter=new AmentiesRulesAdapter(mContext,amentyList,position);
+                amentiesRecycler.setAdapter(amentiesRulesAdapter);
+            }
+        });
     }
 
     private void initVariables() {

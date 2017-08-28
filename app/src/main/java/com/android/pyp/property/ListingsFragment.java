@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -40,6 +41,7 @@ public class ListingsFragment extends Fragment {
 
     private View mView;
     private Context mContext;
+    private FragmentActivity activity;
     private ListingsAdapter listingsAdapter;
     private RecyclerView propertyListings;
     private List<PropertyData> myDataList;
@@ -53,6 +55,7 @@ public class ListingsFragment extends Fragment {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         mContext = getActivity();
+        activity= getActivity();
         mView = inflater.inflate(R.layout.fragment_listings, container, false);
         initVariables();
         this.setHasOptionsMenu(true);
@@ -165,7 +168,7 @@ public class ListingsFragment extends Fragment {
 
 
     private void updateUI(final List<PropertyData> myDataList) {
-     getActivity().runOnUiThread(new Runnable() {
+        activity.runOnUiThread(new Runnable() {
          @Override
          public void run() {
              listingsAdapter = new ListingsAdapter(mContext, myDataList);

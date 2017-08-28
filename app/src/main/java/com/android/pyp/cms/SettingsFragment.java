@@ -60,7 +60,7 @@ public class SettingsFragment extends Fragment {
         aboutUsTxt = (TextView) mView.findViewById(R.id.aboutUsTxt);
         changeLangTxt = (TextView) mView.findViewById(R.id.changeLangTxt);
         getActivity().setTitle("Settings");
-        manager= Utils.manager;
+        manager= Utils.getSessionManager(mContext);
     }
 
 

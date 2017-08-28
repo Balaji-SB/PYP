@@ -100,8 +100,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initVariables() {
         pypApplication = new PYPApplication(mContext);
-        manager = Utils.manager;
-        preferences = Utils.preferences;
+        manager = Utils.getSessionManager(mContext);
+        preferences = Utils.getSharedPreferences(mContext);
         fbImg = (ImageView) mView.findViewById(R.id.fbImg);
         gplusImg = (ImageView) mView.findViewById(R.id.gplusImg);
         inImg = (ImageView) mView.findViewById(R.id.inImg);

@@ -24,12 +24,15 @@ public class DetailsMapActivity extends AppCompatActivity implements OnMapReadyC
 
     private MapView mapView;
     private GoogleMap map;
+    private double latitude=0,longitude=0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         initVariables(savedInstanceState);
+        latitude=Double.parseDouble(getIntent().getStringExtra("latitude"));
+        longitude=Double.parseDouble(getIntent().getStringExtra("longitude"));
     }
 
     private void initVariables(Bundle savedInstanceState) {
@@ -48,8 +51,9 @@ public class DetailsMapActivity extends AppCompatActivity implements OnMapReadyC
         map.getUiSettings().setMyLocationButtonEnabled(false);
         MapsInitializer.initialize(this);
 
+
         // Updates the location and zoom of the MapView
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(43.1, -87.9), 10);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 10);
         map.animateCamera(cameraUpdate);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling

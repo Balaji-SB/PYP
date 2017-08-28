@@ -39,4 +39,7 @@ public class URLConstants {
 
     public static String urlUserImage=TESTURL+"uploads/user/";
 
+    public static String urlAmenty=TESTURL+"uploads/amenities/";
+
+    public static String urlRule=TESTURL+"uploads/rules/";
 }
