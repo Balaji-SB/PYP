@@ -11,10 +11,11 @@ import com.android.pyp.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 /**
  * Created by devel-73 on 21/8/17.
@@ -22,8 +23,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class DetailsMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private MapView mapView;
     private GoogleMap map;
+    private Marker mPerth;
     private double latitude=0,longitude=0;
 
     @Override
@@ -33,15 +34,16 @@ public class DetailsMapActivity extends AppCompatActivity implements OnMapReadyC
         initVariables(savedInstanceState);
         latitude=Double.parseDouble(getIntent().getStringExtra("latitude"));
         longitude=Double.parseDouble(getIntent().getStringExtra("longitude"));
+
     }
 
     private void initVariables(Bundle savedInstanceState) {
         // Gets the MapView from the XML layout and creates it
-        mapView = (MapView) findViewById(R.id.mapView);
-        mapView.onCreate(savedInstanceState);
 
         // Gets to GoogleMap from the MapView and does initialization stuff
-        mapView.getMapAsync(this);
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
     }
 

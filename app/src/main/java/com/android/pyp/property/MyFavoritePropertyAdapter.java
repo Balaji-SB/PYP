@@ -1,7 +1,10 @@
 package com.android.pyp.property;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +12,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.pyp.R;
+import com.android.pyp.utils.DataCallback;
+import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
+import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by devel-73 on 24/8/17.
@@ -23,9 +34,12 @@ public class MyFavoritePropertyAdapter extends RecyclerView.Adapter<MyFavoritePr
     private Context mContext;
     private List<PropertyData> propertyDataList;
     private int type = -1;
+    private PYPApplication pypApplication;
+
 
     public MyFavoritePropertyAdapter(Context mContext, List<PropertyData> propertyDataList, int type) {
         this.mContext = mContext;
+        pypApplication = new PYPApplication(mContext);
         this.type = type;
         this.propertyDataList = propertyDataList;
     }
@@ -38,7 +52,7 @@ public class MyFavoritePropertyAdapter extends RecyclerView.Adapter<MyFavoritePr
     }
 
     @Override
-    public void onBindViewHolder(MyFavoritePropertyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyFavoritePropertyViewHolder holder, final int position) {
         if (type == 1) {
             holder.favImage.setVisibility(View.VISIBLE);
         } else if (type == 2) {
@@ -52,6 +66,35 @@ public class MyFavoritePropertyAdapter extends RecyclerView.Adapter<MyFavoritePr
         }
 
 
+        String location = "";
+        if (!propertyDataList.get(position).getCity().equalsIgnoreCase("null") || !propertyDataList.get(position).getCity().equalsIgnoreCase(null)) {
+            location += propertyDataList.get(position).getCity() + ", ";
+        }
+        if (!propertyDataList.get(position).getState().equalsIgnoreCase("null") || !propertyDataList.get(position).getState().equalsIgnoreCase(null)) {
+            location += propertyDataList.get(position).getState() + ", ";
+        }
+        if (!propertyDataList.get(position).getCountry().equalsIgnoreCase("null") || !propertyDataList.get(position).getCountry().equalsIgnoreCase(null)) {
+            location += propertyDataList.get(position).getCountry();
+        }
+        holder.propertyLocation.setText(location);
+        holder.propPrice.setText(propertyDataList.get(position).getPrice() + " " + propertyDataList.get(position).getCurrency());
+
+
+        holder.favImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addOrRemoveFav(position, propertyDataList.get(position).getPropertyId(), propertyDataList.get(position).getfId());
+            }
+        });
+
+        holder.cardMyProp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, DetailsActivity.class);
+                intent.putExtra("property_id", propertyDataList.get(position).getPropertyId());
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 
@@ -59,12 +102,48 @@ public class MyFavoritePropertyAdapter extends RecyclerView.Adapter<MyFavoritePr
     public int getItemCount() {
         return propertyDataList.size();
     }
+
+
+    private void addOrRemoveFav(final int position, String propId, String favId) {
+        String url;
+        Map<String, String> map = new HashMap<>();
+        url = URLConstants.urlRemoveFromFav;
+        map.put("f_id", favId);
+        Log.e("Map is", map.toString());
+        pypApplication.customStringRequest(url, map, new DataCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                Log.e("Result", result.toString());
+                //
+                try {
+                    JSONObject jsonObject = new JSONObject(result.toString());
+                    if (jsonObject.getString("success").trim().equalsIgnoreCase("added")) {
+                        propertyDataList.get(position).setfId(jsonObject.getString("f_id"));
+                        notifyDataSetChanged();
+                    } else {
+                        propertyDataList.remove(position);
+                        notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                Log.e("Error", error.toString());
+            }
+        });
+    }
 }
 
 class MyFavoritePropertyViewHolder extends RecyclerView.ViewHolder {
 
     protected ImageView favImage;
     protected ImageView propertyImg;
+    protected CardView cardMyProp;
     protected TextView propertyTitle, propertyLocation, propPrice;
 
     public MyFavoritePropertyViewHolder(View itemView) {
@@ -74,5 +153,6 @@ class MyFavoritePropertyViewHolder extends RecyclerView.ViewHolder {
         propertyTitle = (TextView) itemView.findViewById(R.id.propertyTitle);
         propertyLocation = (TextView) itemView.findViewById(R.id.propertyLocation);
         propPrice = (TextView) itemView.findViewById(R.id.propPrice);
+        cardMyProp= (CardView) itemView.findViewById(R.id.cardMyProp);
     }
 }

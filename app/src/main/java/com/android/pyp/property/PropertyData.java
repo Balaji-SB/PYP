@@ -39,6 +39,24 @@ public class PropertyData implements Parcelable {
     private String rulesName;
     private String rulesImg;
     private String shareLink;
+    private String title;
+    private String fId;
+
+    public String getfId() {
+        return fId;
+    }
+
+    public void setfId(String fId) {
+        this.fId = fId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getShareLink() {
         return shareLink;

@@ -83,7 +83,7 @@ public class MyProperty extends Fragment {
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject jsonObject = array.getJSONObject(i);
                             PropertyData data = new PropertyData();
-                            data.setPropertyId(jsonObject.getString("property_id"));
+                            data.setPropertyId(jsonObject.getString("p_id"));
                             data.setPrice(jsonObject.getString("price"));
                             data.setCurrency(jsonObject.getString("currency"));
                             data.setImageName(jsonObject.getString("image_name"));
@@ -112,7 +112,7 @@ public class MyProperty extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                myFavoritePropertyAdapter = new MyFavoritePropertyAdapter(mContext, propertyDataList, 1);
+                myFavoritePropertyAdapter = new MyFavoritePropertyAdapter(mContext, propertyDataList, 2);
                 mypropertyRecycler.setAdapter(myFavoritePropertyAdapter);
             }
         });

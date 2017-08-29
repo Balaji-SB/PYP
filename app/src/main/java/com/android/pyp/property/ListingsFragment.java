@@ -142,13 +142,14 @@ public class ListingsFragment extends Fragment {
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject jsonObject = array.getJSONObject(i);
                             PropertyData data = new PropertyData();
-                            data.setPropertyId(jsonObject.getString("property_id"));
+                            data.setPropertyId(jsonObject.getString("prop_id"));
                             data.setPrice(jsonObject.getString("price"));
                             data.setCurrency(jsonObject.getString("currency"));
                             data.setImageName(jsonObject.getString("image_name"));
                             data.setCity(jsonObject.getString("city"));
                             data.setState(jsonObject.getString("state"));
                             data.setCountry(jsonObject.getString("country"));
+                            data.setfId(jsonObject.getString("f_id"));
                             myDataList.add(data);
                         }
                         updateUI(myDataList);

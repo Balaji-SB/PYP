@@ -21,6 +21,8 @@ public class URLConstants {
 
     public static String urlAddtoFav = BASEURL + "add_fav";
 
+    public static String urlRemoveFromFav = BASEURL + "remove_fav";
+
     public static String urlMyFav = BASEURL + "my_fav";
 
     public static String urlMyListings = BASEURL + "mylisting";

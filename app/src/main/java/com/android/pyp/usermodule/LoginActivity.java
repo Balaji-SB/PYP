@@ -96,6 +96,14 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+        fgtPwdTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ForgotPasswordActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void initVariables() {

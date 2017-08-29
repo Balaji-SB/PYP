@@ -13,7 +13,6 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-    <uses-permission android:name="com.example.permission.MAPS_RECEIVE" />
     <application
         android:name=".utils.PYPApplication"
         android:allowBackup="true"
@@ -25,7 +24,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCfWm4JNlJHxz9wWvkDndmSdWXmcf4Jx-g" />
+            android:value="AIzaSyAYscG-vcf5cHVxx4ZjcaMPvazXfKV1CIM" />
 
         <meta-data
             android:name="com.google.android.gms.version"

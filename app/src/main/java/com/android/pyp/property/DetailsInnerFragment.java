@@ -10,10 +10,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.Utils;
@@ -33,6 +35,7 @@ public class DetailsInnerFragment extends Fragment {
     private List<PropertyData> propertyList;
     private PropertyData propertyData;
     private String contactNum = "";
+    private TextView title,description,priceCurrency,bhk,nationality,city,state,country,landmark;
 
 
     @Nullable
@@ -70,6 +73,7 @@ public class DetailsInnerFragment extends Fragment {
         quickCallLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.e("Contact No",propertyData.getContactNum()+"es");
                 if (propertyData.getContactNum() != null || !propertyData.getContactNum().equalsIgnoreCase("null")) {
                     contactNum = propertyData.getContactNum();
                     int permissionCheck = ContextCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE);
@@ -83,10 +87,24 @@ public class DetailsInnerFragment extends Fragment {
                 }
             }
         });
+
+
+        updateUI();
         return mView;
     }
 
+    private void updateUI() {
+        title.setText("Rent for "+propertyData.getTitle());
+        bhk.setText(propertyData.getBhk());
+        priceCurrency.setText(propertyData.getPrice()+" "+propertyData.getCurrency());
+        nationality.setText(propertyData.getNationality());
+        city.setText(propertyData.getCity());
+        state.setText(propertyData.getState());
+        country.setText(propertyData.getCountry());
+        landmark.setText(propertyData.getLandmark());
+        description.setText(propertyData.getDescription());
 
+    }
 
 
     @Override
@@ -111,6 +129,16 @@ public class DetailsInnerFragment extends Fragment {
         mapLinear = (LinearLayout) mView.findViewById(R.id.mapLinear);
         quickCallLinear = (LinearLayout) mView.findViewById(R.id.quickCallLinear);
         shareLinear = (LinearLayout) mView.findViewById(R.id.shareLinear);
+        title = (TextView) mView.findViewById(R.id.title);
+        description = (TextView) mView.findViewById(R.id.description);
+        priceCurrency = (TextView) mView.findViewById(R.id.priceCurrency);
+        bhk = (TextView) mView.findViewById(R.id.bhk);
+        nationality = (TextView) mView.findViewById(R.id.nationality);
+        city = (TextView) mView.findViewById(R.id.city);
+        state = (TextView) mView.findViewById(R.id.state);
+        country = (TextView) mView.findViewById(R.id.country);
+        landmark = (TextView) mView.findViewById(R.id.landmark);
+
     }
 
 }

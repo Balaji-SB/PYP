@@ -49,7 +49,7 @@ public class DetailsActivity extends AppCompatActivity {
     private SessionManager manager;
     private SharedPreferences preferences;
     private List<PropertyData> propertyDataList;
-    private String propertyLink="";
+    private String propertyLink = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,7 +87,6 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         detailsViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(detailsTabLayout));
-
 
 
         mapFAB.setOnClickListener(new View.OnClickListener() {
@@ -136,8 +135,13 @@ public class DetailsActivity extends AppCompatActivity {
                     if (object.has("image")) {
                         JSONArray array = object.getJSONArray("image");
                         for (int i = 0; i < array.length(); i++) {
-                            JSONObject jsonObject = array.getJSONObject(i);
-                            imagesList.add(jsonObject.getString("image_name"));
+                            if (array.get(i) instanceof String) {
+                                imagesList.add(array.getString(i));
+                            } else {
+                                JSONObject jsonObject = array.getJSONObject(i);
+                                imagesList.add(jsonObject.getString("image_name"));
+                            }
+
                         }
 
                         JSONObject object1 = object.getJSONObject("details");
@@ -162,7 +166,9 @@ public class DetailsActivity extends AppCompatActivity {
                             data.setAddress(object1.getString("address"));
                             data.setAdminVerify(object1.getString("admin_verifi"));
                             data.setSqft(object1.getString("sqft"));
+                            data.setBhk(object1.getString("bhk"));
                             data.setShareLink(object.getString("link"));
+                            data.setTitle(object1.getString("name"));
                             JSONArray array1 = object.getJSONArray("amenity");
                             for (int ij = 0; ij < array1.length(); ij++) {
                                 JSONObject object2 = array1.getJSONObject(ij);
@@ -172,19 +178,24 @@ public class DetailsActivity extends AppCompatActivity {
                                 amentyList.add(data1);
                             }
                             data.setAmentiesList(amentyList);
-                            JSONArray array2 = object.getJSONArray("rules");
 
-                            for (int ij = 0; ij < array2.length(); ij++) {
-                                JSONObject object2 = array2.getJSONObject(ij);
-                                PropertyData data1 = new PropertyData();
-                                data1.setRulesName(object2.getString("rule_name"));
-                                data1.setRulesImg(object2.getString("image"));
-                                rulesList.add(data1);
+                            if (object.get("rules") instanceof JSONArray) {
+                                JSONArray array2 = object.getJSONArray("rules");
+
+                                for (int ij = 0; ij < array2.length(); ij++) {
+                                    JSONObject object2 = array2.getJSONObject(ij);
+                                    PropertyData data1 = new PropertyData();
+                                    data1.setRulesName(object2.getString("rule_name"));
+                                    data1.setRulesImg(object2.getString("image"));
+                                    rulesList.add(data1);
+                                }
+                                data.setRulesList(rulesList);
+                            } else {
+                                rulesList = new ArrayList<PropertyData>();
+                                data.setRulesList(rulesList);
                             }
-                            data.setRulesList(rulesList);
                             propertyDataList.add(data);
                         }
-
 
                         updateImages(imagesList);
                         updateUI(propertyDataList);
@@ -208,7 +219,7 @@ public class DetailsActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                exchangeFragmentAdapter = new DetailsTabsAdapter(getSupportFragmentManager(), detailsTabLayout,propertyDataList);
+                exchangeFragmentAdapter = new DetailsTabsAdapter(getSupportFragmentManager(), detailsTabLayout, propertyDataList);
                 detailsViewPager.setAdapter(exchangeFragmentAdapter);
             }
         });

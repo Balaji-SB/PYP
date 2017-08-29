@@ -350,6 +350,7 @@
                     android:enabled="false"
                     android:textSize="14sp"
                     android:layout_marginTop="5sp"
+                    android:layout_marginBottom="10sp"
                     android:background="@drawable/curved_gray"
                     />
 

@@ -14,6 +14,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="15sp"
+            android:layout_marginBottom="10dp"
             >
 
             <TextView
@@ -42,7 +43,7 @@
                     android:layout_margin="5dp"
                     android:padding="3dp"
                     android:tint="@color/downviolet"
-                    android:src="@drawable/password" />
+                    android:src="@drawable/key" />
 
                 <TextView
                     android:id="@+id/changePwdTxt"
@@ -57,10 +58,9 @@
                     android:textColor="@color/black" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:padding="5dp"
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:layout_marginRight="10sp"
                     android:src="@mipmap/ic_next" />
 
             </LinearLayout>
@@ -102,10 +102,9 @@
                     android:textColor="@color/black" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:padding="5dp"
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:layout_marginRight="10sp"
                     android:src="@mipmap/ic_next" />
 
             </LinearLayout>
@@ -147,10 +146,9 @@
                     android:textColor="@color/black" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:padding="5dp"
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:layout_marginRight="10sp"
                     android:src="@mipmap/ic_next" />
 
             </LinearLayout>
@@ -193,10 +191,9 @@
                     android:textColor="@color/black" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:padding="5dp"
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:layout_marginRight="10sp"
                     android:src="@mipmap/ic_next" />
 
             </LinearLayout>
@@ -239,10 +236,9 @@
                     android:textColor="@color/black" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:padding="5dp"
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:layout_marginRight="10sp"
                     android:src="@mipmap/ic_next" />
 
             </LinearLayout>
@@ -285,10 +281,9 @@
                     android:textColor="@color/black" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:padding="5dp"
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:layout_marginRight="10sp"
                     android:src="@mipmap/ic_next" />
 
             </LinearLayout>

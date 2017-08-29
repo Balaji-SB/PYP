@@ -76,22 +76,32 @@ public class MyFavoriteProperty extends Fragment {
                 propertyDataList = new ArrayList<>();
 
                 try {
-                    JSONArray array = new JSONArray(result.toString());
+                    JSONObject object = new JSONObject(result.toString());
+
+                    JSONArray array = object.getJSONArray("result");
                     if (array.length() > 0) {
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject jsonObject = array.getJSONObject(i);
                             PropertyData data = new PropertyData();
                             data.setPropertyId(jsonObject.getString("p_id"));
+                            data.setfId(jsonObject.getString("f_id"));
                             data.setPrice(jsonObject.getString("price"));
                             data.setCurrency(jsonObject.getString("currency"));
-                            data.setImageName(jsonObject.getString("image_name"));
                             data.setCity(jsonObject.getString("city"));
                             data.setState(jsonObject.getString("state"));
                             data.setCountry(jsonObject.getString("country"));
                             propertyDataList.add(data);
                         }
-                        updateUI(propertyDataList);
+
                     }
+                    JSONArray array1 = object.getJSONArray("image");
+                    if (array1.length() > 0) {
+                        for (int i = 0; i < array1.length(); i++) {
+                            propertyDataList.get(i).setImageName(array1.getString(i));
+                        }
+                    }
+
+                    updateUI(propertyDataList);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
