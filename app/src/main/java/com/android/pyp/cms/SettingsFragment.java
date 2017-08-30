@@ -51,6 +51,14 @@ public class SettingsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        contactUsTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ContactUsActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return mView;
     }
 

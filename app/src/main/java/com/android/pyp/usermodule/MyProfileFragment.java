@@ -1,6 +1,7 @@
 package com.android.pyp.usermodule;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -83,8 +84,8 @@ public class MyProfileFragment extends Fragment {
     private String imgPath = "";
     private String oldImage = "";
     private String tempImage = "";
-    private double latitude=0;
-    private double longitude=0;
+    private double latitude = 0;
+    private double longitude = 0;
 
     @Nullable
     @Override
@@ -174,6 +175,16 @@ public class MyProfileFragment extends Fragment {
             this.image = image;
         }
 
+        ProgressDialog dialog = new ProgressDialog(mContext);
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.setMessage("Uploading..");
+            dialog.show();
+        }
+
         @Override
         protected Bitmap doInBackground(String... strings) {
             Log.e("URL", URLConstants.urlUserImage + image);
@@ -198,6 +209,7 @@ public class MyProfileFragment extends Fragment {
                 });
             }
             editImage.setVisibility(View.VISIBLE);
+            dialog.dismiss();
         }
 
 
@@ -331,13 +343,13 @@ public class MyProfileFragment extends Fragment {
         public void setImageName(String imageName) {
             this.imageName = imageName;
         }
-
+        ProgressDialog dialog1;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new Dialog(mContext);
-            dialog.setTitle("Uploading...");
-            dialog.show();
+            dialog1 = new ProgressDialog(mContext);
+            dialog1.setMessage("Loading...");
+            dialog1.show();
 
         }
 
@@ -390,7 +402,7 @@ public class MyProfileFragment extends Fragment {
             JSONObject object;
             try {
                 Log.e("Result is=========", result);
-                dialog.dismiss();
+                dialog1.dismiss();
                 oldImage = tempImage;
                 object = new JSONObject(result);
                 if (Integer.parseInt(object.getString("success").trim()) == 1) {
@@ -415,27 +427,27 @@ public class MyProfileFragment extends Fragment {
 
 
     private void updateProfile() {
-        if(validateComponents()){
-            Map<String,String> map=new HashMap<>();
-            map.put("fname",firstName.getText().toString().trim());
-            map.put("lname",lastName.getText().toString().trim());
-            map.put("phone",phone.getText().toString().trim());
-            map.put("address",address.getText().toString().trim());
-            map.put("locality",city.getText().toString().trim());
-            map.put("administrative_area_level_1",state.getText().toString().trim());
-            map.put("country",country.getText().toString().trim());
-            map.put("image",oldImage);
-            map.put("lat",latitude+"");
-            map.put("lng",longitude+"");
+        if (validateComponents()) {
+            Map<String, String> map = new HashMap<>();
+            map.put("fname", firstName.getText().toString().trim());
+            map.put("lname", lastName.getText().toString().trim());
+            map.put("phone", phone.getText().toString().trim());
+            map.put("address", address.getText().toString().trim());
+            map.put("locality", city.getText().toString().trim());
+            map.put("administrative_area_level_1", state.getText().toString().trim());
+            map.put("country", country.getText().toString().trim());
+            map.put("image", oldImage);
+            map.put("lat", latitude + "");
+            map.put("lng", longitude + "");
             pypApplication.customStringRequest(URLConstants.urlUpdateUserProfile, map, new DataCallback() {
                 @Override
                 public void onSuccess(Object result) {
-                    Log.e("Result is",result.toString());
+                    Log.e("Result is", result.toString());
                 }
 
                 @Override
                 public void onError(VolleyError error) {
-                    Log.e("Error is",error.toString());
+                    Log.e("Error is", error.toString());
                 }
             });
         }
