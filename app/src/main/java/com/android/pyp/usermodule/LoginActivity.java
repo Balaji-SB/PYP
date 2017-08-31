@@ -23,10 +23,24 @@ import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.URLConstants;
 import com.android.pyp.utils.Utils;
 import com.android.volley.VolleyError;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +59,14 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private SessionManager manager;
     private PYPApplication pypApplication;
+    private AccessTokenTracker accessTokenTracker;
+    private CallbackManager callbackManager;
+    private AccessToken accessToken;
+
+    private ProfileTracker profileTracker;
+    private LoginManager loginManager;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,6 +126,86 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        FacebookSdk.sdkInitialize(LoginActivity.this);
+        AppEventsLogger.activateApp(this);
+        callbackManager = CallbackManager.Factory.create();
+        loginManager = LoginManager.getInstance();
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+            }
+        };
+        accessToken = AccessToken.getCurrentAccessToken();
+
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+            }
+        };
+
+        fbImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (AccessToken.getCurrentAccessToken() != null) {
+                    loginManager.logOut();
+                } else {
+                    loginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList(
+                            "public_profile", "email", "user_birthday", "user_friends"));
+                    loginManager.registerCallback(callbackManager, callback);
+                }
+            }
+        });
+
+        callback = new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                AccessToken accessToken = loginResult.getAccessToken();
+                Profile profile = Profile.getCurrentProfile();
+
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.e("FBREesponse", response.toString());
+                                // Application code
+                                try {
+                                    String email = object.getString("email");
+                                    String name = object.getString("name");
+                                    String firstname = object.getString("first_name");
+                                    String lastname = object.getString("last_name");
+                                    String uniqueId = object.getString("id");
+
+                                    Log.e("email", email);
+                                    Log.e("name", name);
+                                    //executeSociallogin(queue, name, email);
+                                  //  executeSocialLogin(email, name, firstname, lastname, uniqueId, view);
+
+                                } catch (Exception exception) {
+                                    Log.e("Exc", exception.toString());
+                                }
+                            }
+
+
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender,birthday,first_name,last_name,location,picture");
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        };
     }
 
     private void initVariables() {
@@ -143,4 +245,30 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+
+    private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            Profile profile = Profile.getCurrentProfile();
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+
+        @Override
+        public void onError(FacebookException error) {
+
+        }
+    };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+
+    }
 }
