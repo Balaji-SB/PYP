@@ -33,6 +33,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by devel-73 on 17/8/17.
  */
@@ -46,7 +48,7 @@ public class ListingsFragment extends Fragment {
     private RecyclerView propertyListings;
     private List<PropertyData> myDataList;
     private PYPApplication pypApplication;
-    String gender_type = "", property_type = "", amenties = "", country = "", state = "", city = "";
+    private String gender_type = "", property_type = "", amenties = "", country = "", state = "", city = "";
 
 
     @Nullable
@@ -55,7 +57,7 @@ public class ListingsFragment extends Fragment {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         mContext = getActivity();
-        activity= getActivity();
+        activity = getActivity();
         mView = inflater.inflate(R.layout.fragment_listings, container, false);
         initVariables();
         this.setHasOptionsMenu(true);
@@ -170,11 +172,26 @@ public class ListingsFragment extends Fragment {
 
     private void updateUI(final List<PropertyData> myDataList) {
         activity.runOnUiThread(new Runnable() {
-         @Override
-         public void run() {
-             listingsAdapter = new ListingsAdapter(mContext, myDataList);
-             propertyListings.setAdapter(listingsAdapter);
-         }
-     });
+            @Override
+            public void run() {
+                listingsAdapter = new ListingsAdapter(mContext, myDataList);
+                propertyListings.setAdapter(listingsAdapter);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Log.e("Data is", data.getData() + "");
+            gender_type = data.getStringExtra("gender_type");
+            property_type = data.getStringExtra("property_type");
+            amenties = data.getStringExtra("amenties");
+            country = data.getStringExtra("country");
+            state = data.getStringExtra("state");
+            city = data.getStringExtra("state");
+            propertyListings();
+        }
     }
 }

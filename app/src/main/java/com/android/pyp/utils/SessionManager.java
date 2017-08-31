@@ -7,7 +7,6 @@ import android.content.SharedPreferences.Editor;
 import android.os.StrictMode;
 import android.widget.Toast;
 
-import com.android.pyp.home.HomeActivity;
 import com.android.pyp.usermodule.LoginActivity;
 
 import java.util.HashMap;
@@ -87,7 +86,7 @@ public class SessionManager {
         editor.clear();
         editor.commit();
         Toast.makeText(_context, "User Logged out Successfully", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(_context, HomeActivity.class);
+        Intent intent = new Intent(_context, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_NEW_TASK);
         _context.startActivity(intent);

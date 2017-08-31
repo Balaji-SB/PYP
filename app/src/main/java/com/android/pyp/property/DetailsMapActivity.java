@@ -24,16 +24,17 @@ import com.google.android.gms.maps.model.Marker;
 public class DetailsMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap map;
-    private Marker mPerth;
-    private double latitude=0,longitude=0;
+    private Marker marker;
+    private double latitude = 0, longitude = 0;
+    private String title = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         initVariables(savedInstanceState);
-        latitude=Double.parseDouble(getIntent().getStringExtra("latitude"));
-        longitude=Double.parseDouble(getIntent().getStringExtra("longitude"));
+        latitude = Double.parseDouble(getIntent().getStringExtra("latitude"));
+        longitude = Double.parseDouble(getIntent().getStringExtra("longitude"));
 
     }
 
@@ -53,7 +54,7 @@ public class DetailsMapActivity extends AppCompatActivity implements OnMapReadyC
         map.getUiSettings().setMyLocationButtonEnabled(false);
         MapsInitializer.initialize(this);
 
-
+        //marker = map.addMarker(new MarkerOptions().title(title).position(new LatLng(latitude, longitude)));
         // Updates the location and zoom of the MapView
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 10);
         map.animateCamera(cameraUpdate);

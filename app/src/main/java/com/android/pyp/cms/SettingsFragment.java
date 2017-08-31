@@ -23,7 +23,7 @@ public class SettingsFragment extends Fragment {
 
     private View mView;
     private Context mContext;
-    private TextView contactUsTxt, aboutUsTxt, changeLangTxt, changePwdTxt;
+    private TextView contactUsTxt, aboutUsTxt, changeLangTxt, changePwdTxt, logoutTxt;
     private SessionManager manager;
 
     @Nullable
@@ -32,9 +32,9 @@ public class SettingsFragment extends Fragment {
         mContext = getActivity();
         mView = inflater.inflate(R.layout.fragment_settings, null, false);
         initVariables();
-        if(manager.isLoggedIn()){
+        if (manager.isLoggedIn()) {
             changePwdTxt.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             changePwdTxt.setVisibility(View.GONE);
         }
         changePwdTxt.setOnClickListener(new View.OnClickListener() {
@@ -51,11 +51,10 @@ public class SettingsFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        contactUsTxt.setOnClickListener(new View.OnClickListener() {
+        logoutTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, ContactUsActivity.class);
-                startActivity(intent);
+               manager.logoutUser();
             }
         });
 
@@ -66,9 +65,10 @@ public class SettingsFragment extends Fragment {
         changePwdTxt = (TextView) mView.findViewById(R.id.changePwdTxt);
         contactUsTxt = (TextView) mView.findViewById(R.id.contactUsTxt);
         aboutUsTxt = (TextView) mView.findViewById(R.id.aboutUsTxt);
+        logoutTxt = (TextView) mView.findViewById(R.id.logoutTxt);
         changeLangTxt = (TextView) mView.findViewById(R.id.changeLangTxt);
         getActivity().setTitle("Settings");
-        manager= Utils.getSessionManager(mContext);
+        manager = Utils.getSessionManager(mContext);
     }
 
 

@@ -342,7 +342,7 @@
                     android:layout_marginLeft="20sp"
                     android:layout_marginRight="20sp"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -478,7 +478,7 @@
                     android:layout_marginLeft="20sp"
                     android:layout_marginRight="20sp"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -614,7 +614,7 @@
                     android:layout_marginLeft="20sp"
                     android:layout_marginRight="20sp"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -719,7 +719,7 @@
                     android:layout_marginLeft="20sp"
                     android:layout_marginRight="20sp"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -769,7 +769,7 @@
                     android:layout_marginLeft="20sp"
                     android:layout_marginRight="20sp"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -848,7 +848,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -871,6 +871,7 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/areaFrom"
                         android:layout_width="match_parent"
                         android:layout_height="45sp"
                         android:layout_marginTop="10sp"
@@ -886,6 +887,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btnApplyFilter"
         android:layout_width="match_parent"
         android:layout_height="40sp"
         android:layout_alignParentBottom="true"

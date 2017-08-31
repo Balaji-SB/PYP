@@ -5,12 +5,23 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 
 import com.android.pyp.R;
+import com.android.pyp.utils.DataCallback;
+import com.android.pyp.utils.PYPApplication;
+import com.android.pyp.utils.URLConstants;
+import com.android.volley.VolleyError;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by devel-73 on 22/8/17.
@@ -20,8 +31,12 @@ public class FilterActivity extends AppCompatActivity {
 
     private View mView;
     private Context mContext;
+    private PYPApplication pypApplication;
     private LinearLayout priceHeadLinear, locationHeadLinear, bedroomHeadLinear, bathroomHeadLinear, typeHeadLinear, buisnessTypeHeadLinear, areaHeadLinear;
     private LinearLayout priceLinear, locationLinear, bedroomLinear, bathroomLinear, typeLinear, buisnessTypeLinear, areaLinear;
+    private EditText minPrice, maxPrice, areaFrom;
+    private RadioGroup bedroomRadioGroup, bathroomRadioGroup, typeRadioGroup, buisnessTypeRadioGroup, locationRadioGroup;
+    private Button btnApplyFilter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -172,9 +187,23 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
 
+
+        //private String gender_type = "", property_type = "", amenties = "", country = "", state = "", city = "";
+
+
     }
 
     private void initVariables() {
+        pypApplication = new PYPApplication();
+        btnApplyFilter = (Button) mView.findViewById(R.id.btnApplyFilter);
+        minPrice = (EditText) mView.findViewById(R.id.minPrice);
+        maxPrice = (EditText) mView.findViewById(R.id.maxPrice);
+        areaFrom = (EditText) mView.findViewById(R.id.areaFrom);
+        bedroomRadioGroup = (RadioGroup) mView.findViewById(R.id.bedroomRadioGroup);
+        bathroomRadioGroup = (RadioGroup) mView.findViewById(R.id.bathroomRadioGroup);
+        typeRadioGroup = (RadioGroup) mView.findViewById(R.id.typeRadioGroup);
+        buisnessTypeRadioGroup = (RadioGroup) mView.findViewById(R.id.buisnessTypeRadioGroup);
+        locationRadioGroup = (RadioGroup) mView.findViewById(R.id.locationRadioGroup);
         priceHeadLinear = (LinearLayout) mView.findViewById(R.id.priceHeadLinear);
         locationHeadLinear = (LinearLayout) mView.findViewById(R.id.locationHeadLinear);
         bedroomHeadLinear = (LinearLayout) mView.findViewById(R.id.bedroomHeadLinear);
@@ -190,7 +219,7 @@ public class FilterActivity extends AppCompatActivity {
         buisnessTypeLinear = (LinearLayout) mView.findViewById(R.id.buisnessTypeLinear);
         areaLinear = (LinearLayout) mView.findViewById(R.id.areaLinear);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getFilters();
     }
 
     @Override
@@ -201,4 +230,21 @@ public class FilterActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void getFilters() {
+        Map<String, String> map = new HashMap<>();
+        pypApplication.customStringRequest(URLConstants.urlFitler, map, new DataCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                Log.e("Result", result.toString());
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                Log.e("Error", error.toString());
+            }
+        });
+
+    }
+
 }
