@@ -35,7 +35,7 @@ public class DetailsInnerFragment extends Fragment {
     private List<PropertyData> propertyList;
     private PropertyData propertyData;
     private String contactNum = "";
-    private TextView title,description,priceCurrency,bhk,nationality,city,state,country,landmark;
+    private TextView title, description, priceCurrency, bhk, nationality, city, state, country, landmark;
 
 
     @Nullable
@@ -66,6 +66,7 @@ public class DetailsInnerFragment extends Fragment {
                 Intent intent = new Intent(mContext, DetailsMapActivity.class);
                 intent.putExtra("latitude", propertyData.getLatitude() + "");
                 intent.putExtra("longitude", propertyData.getLongitude() + "");
+                intent.putExtra("address", propertyData.getAddress() + "");
                 startActivity(intent);
             }
         });
@@ -73,8 +74,8 @@ public class DetailsInnerFragment extends Fragment {
         quickCallLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("Contact No",propertyData.getContactNum()+"es");
-                if (propertyData.getContactNum() != null || !propertyData.getContactNum().equalsIgnoreCase("null")) {
+                Log.e("Contact No", propertyData.getContactNum() + "es");
+                if (!propertyData.getContactNum().equalsIgnoreCase("null") || !propertyData.getContactNum().equalsIgnoreCase(null)) {
                     contactNum = propertyData.getContactNum();
                     int permissionCheck = ContextCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE);
                     if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
@@ -94,9 +95,9 @@ public class DetailsInnerFragment extends Fragment {
     }
 
     private void updateUI() {
-        title.setText("Rent for "+propertyData.getTitle());
+        title.setText("Rent for " + propertyData.getTitle());
         bhk.setText(propertyData.getBhk());
-        priceCurrency.setText(propertyData.getPrice()+" "+propertyData.getCurrency());
+        priceCurrency.setText(propertyData.getPrice() + " " + propertyData.getCurrency());
         nationality.setText(propertyData.getNationality());
         city.setText(propertyData.getCity());
         state.setText(propertyData.getState());

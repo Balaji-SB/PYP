@@ -96,7 +96,7 @@ public class ListingsFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.menuFilter) {
             Intent intent = new Intent(mContext, FilterActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,1);
         }
         return true;
     }
@@ -190,7 +190,7 @@ public class ListingsFragment extends Fragment {
             amenties = data.getStringExtra("amenties");
             country = data.getStringExtra("country");
             state = data.getStringExtra("state");
-            city = data.getStringExtra("state");
+            city = data.getStringExtra("city");
             propertyListings();
         }
     }

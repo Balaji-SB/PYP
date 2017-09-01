@@ -14,8 +14,7 @@
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="40sp"
-            android:scrollbars="none"
-            >
+            android:scrollbars="none">
 
 
             <LinearLayout
@@ -231,7 +230,7 @@
                         android:layout_marginTop="5sp"
                         android:padding="5sp"
                         android:src="@drawable/area_location"
-                        android:tint="@color/centerviolet" />
+                        android:tint="@color/upviolet" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -240,7 +239,7 @@
                         android:paddingBottom="5sp"
                         android:paddingLeft="5sp"
                         android:paddingRight="5sp"
-                        android:text="Area From"
+                        android:text="Gender"
                         android:textColor="@color/black" />
 
                     <View
@@ -261,10 +260,10 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:background="@color/white"
             android:layout_marginBottom="40sp"
-            android:layout_weight="0.75">
+            android:layout_weight="0.75"
+            android:background="@color/white"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -624,91 +623,22 @@
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
-
-                    <RadioGroup
-                        android:id="@+id/typeRadioGroup"
+                    <LinearLayout
+                        android:id="@+id/typeLinearRadio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10sp">
 
-                        <RadioButton
-                            android:id="@+id/bedspaceRadio"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <RadioGroup
+                            android:id="@+id/typeRadioGroup"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:buttonTint="@color/centerviolet"
-                            android:checked="false"
-                            android:paddingLeft="20sp"
-                            android:text="Bedspace"
-                            android:textSize="16sp" />
+                            android:layout_marginTop="10sp">
 
-                        <RadioButton
-                            android:id="@+id/roomRadio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
-                            android:buttonTint="@color/centerviolet"
-                            android:checked="false"
-                            android:paddingLeft="20sp"
-                            android:text="Room"
-                            android:textSize="16sp" />
-
-                        <RadioButton
-                            android:id="@+id/homeRadio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
-                            android:buttonTint="@color/centerviolet"
-                            android:checked="false"
-                            android:paddingLeft="20sp"
-                            android:text="Home"
-                            android:textSize="16sp" />
-
-                        <RadioButton
-                            android:id="@+id/villaRadio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
-                            android:buttonTint="@color/centerviolet"
-                            android:checked="false"
-                            android:paddingLeft="20sp"
-                            android:text="Villa"
-                            android:textSize="16sp" />
-
-                        <RadioButton
-                            android:id="@+id/platHouseRadio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
-                            android:buttonTint="@color/centerviolet"
-                            android:checked="false"
-                            android:paddingLeft="20sp"
-                            android:text="Plat House"
-                            android:textSize="16sp" />
-
-                        <RadioButton
-                            android:id="@+id/officeRadio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
-                            android:buttonTint="@color/centerviolet"
-                            android:checked="false"
-                            android:paddingLeft="20sp"
-                            android:text="Office"
-                            android:textSize="16sp" />
-
-                        <RadioButton
-                            android:id="@+id/luxuryHouseRadio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
-                            android:buttonTint="@color/centerviolet"
-                            android:checked="false"
-                            android:paddingLeft="20sp"
-                            android:text="Luxury House"
-                            android:textSize="16sp" />
-
-
-                    </RadioGroup>
+                        </RadioGroup>
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -779,69 +709,26 @@
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
-
-                    <RadioGroup
-                        android:id="@+id/locationRadioGroup"
+                    <LinearLayout
+                        android:id="@+id/locationLinearRadio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10sp">
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
-                        <RadioButton
+                        <RadioGroup
+                            android:id="@+id/locationRadioGroup"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:buttonTint="@color/centerviolet"
-                            android:checked="false"
-                            android:paddingLeft="20sp"
-                            android:text="Malaysia"
-                            android:textSize="16sp" />
-
-                        <RadioButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
-                            android:buttonTint="@color/centerviolet"
-                            android:checked="false"
-                            android:paddingLeft="20sp"
-                            android:text="Singapore"
-                            android:textSize="16sp" />
-
-                        <RadioButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
-                            android:buttonTint="@color/centerviolet"
-                            android:checked="false"
-                            android:paddingLeft="20sp"
-                            android:text="Bahrain"
-                            android:textSize="16sp" />
-
-                        <RadioButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
-                            android:buttonTint="@color/centerviolet"
-                            android:checked="false"
-                            android:paddingLeft="20sp"
-                            android:text="Iraq"
-                            android:textSize="16sp" />
-
-                        <RadioButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
-                            android:buttonTint="@color/centerviolet"
-                            android:checked="false"
-                            android:paddingLeft="20sp"
-                            android:text="Kuwait"
-                            android:textSize="16sp" />
+                            android:layout_marginTop="10sp">
 
 
-                    </RadioGroup>
-
+                        </RadioGroup>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/areaLinear"
+                    android:id="@+id/genderLinear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -855,30 +742,38 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5sp"
                         android:layout_marginTop="10sp"
-                        android:text="Select Area"
+                        android:text="Select Gender"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
+                    <RadioGroup
+                        android:id="@+id/genderRadioGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp">
 
+                    <RadioButton
+                        android:id="@+id/maleRadio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/centerviolet"
+                        android:checked="false"
+                        android:paddingLeft="20sp"
+                        android:text="Male"
+                        android:textSize="16sp" />
 
-                    <TextView
+                    <RadioButton
+                        android:id="@+id/femaleRadio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10sp"
-                        android:padding="5dp"
-                        android:text="Area From"
-                        android:textColor="@color/textblack"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:buttonTint="@color/centerviolet"
+                        android:checked="false"
+                        android:paddingLeft="20sp"
+                        android:text="Female"
+                        android:textSize="16sp" />
+                    </RadioGroup>
 
-                    <EditText
-                        android:id="@+id/areaFrom"
-                        android:layout_width="match_parent"
-                        android:layout_height="45sp"
-                        android:layout_marginTop="10sp"
-                        android:background="@drawable/curved_gray"
-                        android:inputType="numberDecimal"
-                        android:minHeight="40sp"
-                        android:padding="5sp" />
+
                 </LinearLayout>
 
             </LinearLayout>
