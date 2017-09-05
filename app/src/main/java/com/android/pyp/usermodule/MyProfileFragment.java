@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,8 +24,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +40,7 @@ import com.android.pyp.utils.BlurBuilder;
 import com.android.pyp.utils.DataCallback;
 import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
+import com.android.pyp.utils.PlaceApi;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.URLConstants;
 import com.android.pyp.utils.Utils;
@@ -56,7 +63,9 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
@@ -96,11 +105,22 @@ public class MyProfileFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_myprofile, null, false);
         utils = new Utils(mContext);
         initVariables();
+
+        location.setAdapter(new AutoCompleteAdapter(mContext,
+                android.R.layout.simple_list_item_1));
+        location.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String loc = (String) parent.getItemAtPosition(position);
+                new GeocoderTask().execute(loc);
+            }
+        });
+
         myProfileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!isEditable) {
-                    updateProfile();
+
                     isEditable = true;
                     myProfileFAB.setImageResource(R.drawable.completed);
                     firstName.setEnabled(true);
@@ -112,10 +132,13 @@ public class MyProfileFragment extends Fragment {
                     state.setEnabled(true);
                     postalCode.setEnabled(true);
                     country.setEnabled(true);
+                    location.setEnabled(true);
                 } else {
+                    updateProfile();
                     isEditable = false;
                     myProfileFAB.setImageResource(R.drawable.edit);
                     firstName.setEnabled(false);
+                    location.setEnabled(false);
                     lastName.setEnabled(false);
                     phone.setEnabled(false);
                     email.setEnabled(false);
@@ -175,14 +198,11 @@ public class MyProfileFragment extends Fragment {
             this.image = image;
         }
 
-        ProgressDialog dialog = new ProgressDialog(mContext);
-
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage("Uploading..");
-            dialog.show();
+
         }
 
         @Override
@@ -209,7 +229,6 @@ public class MyProfileFragment extends Fragment {
                 });
             }
             editImage.setVisibility(View.VISIBLE);
-            dialog.dismiss();
         }
 
 
@@ -343,14 +362,11 @@ public class MyProfileFragment extends Fragment {
         public void setImageName(String imageName) {
             this.imageName = imageName;
         }
-        ProgressDialog dialog1;
+
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog1 = new ProgressDialog(mContext);
-            dialog1.setMessage("Loading...");
-            dialog1.show();
-
         }
 
         @Override
@@ -402,7 +418,6 @@ public class MyProfileFragment extends Fragment {
             JSONObject object;
             try {
                 Log.e("Result is=========", result);
-                dialog1.dismiss();
                 oldImage = tempImage;
                 object = new JSONObject(result);
                 if (Integer.parseInt(object.getString("success").trim()) == 1) {
@@ -436,13 +451,15 @@ public class MyProfileFragment extends Fragment {
             map.put("locality", city.getText().toString().trim());
             map.put("administrative_area_level_1", state.getText().toString().trim());
             map.put("country", country.getText().toString().trim());
-            map.put("image", oldImage);
+            map.put("img_hidden", oldImage);
             map.put("lat", latitude + "");
             map.put("lng", longitude + "");
+            Log.e("Map", map.toString());
             pypApplication.customStringRequest(URLConstants.urlUpdateUserProfile, map, new DataCallback() {
                 @Override
                 public void onSuccess(Object result) {
                     Log.e("Result is", result.toString());
+                    Utils.presentSnackBar(mView, result.toString(), 0);
                 }
 
                 @Override
@@ -515,5 +532,131 @@ public class MyProfileFragment extends Fragment {
         }
 
 
+    }
+
+    class AutoCompleteAdapter extends ArrayAdapter<Object> implements
+            Filterable {
+
+        Context mContext;
+        int mResource;
+        PlaceApi api = new PlaceApi();
+        private ArrayList<String> resultList;
+
+        public AutoCompleteAdapter(Context context, int resource) {
+            super(context, resource);
+            this.mContext = context;
+            this.mResource = resource;
+        }
+
+        @Override
+        public int getCount() {
+            return resultList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return resultList.get(position);
+        }
+
+
+        @Override
+        public Filter getFilter() {
+            Filter filter = new Filter() {
+
+                @Override
+                protected FilterResults performFiltering(CharSequence arg0) {
+                    // TODO Auto-generated method stub
+
+                    FilterResults filterResults = new FilterResults();
+
+                    if (arg0 != null) {
+                        // Retrieve the autocomplete results.
+                        resultList = api.autocomplete(arg0.toString());
+
+                        // Assign the data to the FilterResults
+
+                        filterResults.values = resultList;
+                        filterResults.count = resultList.size();
+
+                    }
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence arg0,
+                                              FilterResults arg1) {
+                    // TODO Auto-generated method stub
+
+                    if (arg1 != null && arg1.count > 0) {
+                        notifyDataSetChanged();
+                    } else {
+                        notifyDataSetInvalidated();
+                    }
+
+                }
+
+            };
+            return filter;
+
+        }
+
+    }
+
+    private class GeocoderTask extends AsyncTask<String, Void, List<Address>> {
+        ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected List<Address> doInBackground(String... locationName) {
+            // Creating an instance of Geocoder class
+            Geocoder geocoder = new Geocoder(mContext);
+            List<Address> addresses = null;
+            try {
+                // Getting a maximum of 3 Address that matches the input text
+                addresses = geocoder.getFromLocationName(locationName[0], 1);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return addresses;
+        }
+
+        @Override
+        protected void onPostExecute(List<Address> addresses) {
+//            dialog.dismiss();
+            if (addresses == null || addresses.size() == 0) {
+                Toast.makeText(mContext, "No Location found",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            // Adding Markers on Google Map for each matching address
+            for (int i = 0; i < addresses.size(); i++) {
+
+                Address address = (Address) addresses.get(i);
+
+                // Creating an instance of GeoPoint, to display in Google Map
+
+                String addressText = String.format(
+                        "%s, %s",
+                        address.getMaxAddressLineIndex() > 0 ? address
+                                .getAddressLine(0) : "", address
+                                .getCountryName());
+                latitude = address.getLatitude();
+                longitude = address.getLongitude();
+                // manager.initializelocation(address.getLatitude()+"",
+                // address.getLongitude()+"");
+                Log.e("Address is", address.getAddressLine(0).toString());
+/*                Log.e("City is",address.getLocality().toString());
+                Log.e("Country is",address.getCountryName().toString());*/
+                Log.e("State is", address.getAdminArea());
+                Log.e("ZipCode is", address.getPostalCode());
+                Log.e("Country is", address.getAddressLine(5).toString());
+
+            }
+        }
     }
 }
