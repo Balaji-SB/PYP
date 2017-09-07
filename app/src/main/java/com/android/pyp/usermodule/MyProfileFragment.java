@@ -85,7 +85,7 @@ public class MyProfileFragment extends Fragment {
     private Bitmap bmp;
     private TextView profileName;
     private PYPApplication pypApplication;
-    private EditText firstName, lastName, phone, email, address, city, state, postalCode, country;
+    private EditText firstName, lastName, phone, email, addressEdt, city, state, postalCode, country;
     private AutoCompleteTextView location;
     private FloatingActionButton myProfileFAB;
     private boolean isEditable = false;
@@ -127,7 +127,7 @@ public class MyProfileFragment extends Fragment {
                     lastName.setEnabled(true);
                     phone.setEnabled(true);
                     email.setEnabled(true);
-                    address.setEnabled(true);
+                    addressEdt.setEnabled(true);
                     city.setEnabled(true);
                     state.setEnabled(true);
                     postalCode.setEnabled(true);
@@ -142,7 +142,7 @@ public class MyProfileFragment extends Fragment {
                     lastName.setEnabled(false);
                     phone.setEnabled(false);
                     email.setEnabled(false);
-                    address.setEnabled(false);
+                    addressEdt.setEnabled(false);
                     city.setEnabled(false);
                     state.setEnabled(false);
                     postalCode.setEnabled(false);
@@ -173,7 +173,7 @@ public class MyProfileFragment extends Fragment {
         lastName = (EditText) mView.findViewById(R.id.lastName);
         phone = (EditText) mView.findViewById(R.id.phone);
         email = (EditText) mView.findViewById(R.id.email);
-        address = (EditText) mView.findViewById(R.id.address);
+        addressEdt = (EditText) mView.findViewById(R.id.address);
         city = (EditText) mView.findViewById(R.id.city);
         state = (EditText) mView.findViewById(R.id.state);
         postalCode = (EditText) mView.findViewById(R.id.postalCode);
@@ -209,7 +209,10 @@ public class MyProfileFragment extends Fragment {
         protected Bitmap doInBackground(String... strings) {
             Log.e("URL", URLConstants.urlUserImage + image);
             bmp = utils.getBitmapFromURL(URLConstants.urlUserImage + image);
-            Bitmap resultBmp = BlurBuilder.blur(mContext, bmp);
+            Bitmap resultBmp = null;
+            if (bmp != null) {
+                resultBmp = BlurBuilder.blur(mContext, bmp);
+            }
             return resultBmp;
         }
 
@@ -258,7 +261,7 @@ public class MyProfileFragment extends Fragment {
                         data.setEmail(jsonObject.getString("key_email"));
                         data.setPassword(jsonObject.getString("key_pass"));
                         data.setPhone(jsonObject.getString("phone"));
-                        data.setAddress(jsonObject.getString("address"));
+                        data.setAddress(jsonObject.getString("addressEdt"));
                         data.setCity(jsonObject.getString("city"));
                         data.setState(jsonObject.getString("state"));
                         data.setCountry(jsonObject.getString("country"));
@@ -290,7 +293,7 @@ public class MyProfileFragment extends Fragment {
         profileName.setText(data.getFirstName() + " " + data.getLastName());
         email.setText(data.getEmail());
         phone.setText(data.getPhone());
-        address.setText(data.getAddress());
+        addressEdt.setText(data.getAddress());
         city.setText(data.getCity());
         state.setText(data.getState());
         country.setText(data.getCountry());
@@ -447,7 +450,7 @@ public class MyProfileFragment extends Fragment {
             map.put("fname", firstName.getText().toString().trim());
             map.put("lname", lastName.getText().toString().trim());
             map.put("phone", phone.getText().toString().trim());
-            map.put("address", address.getText().toString().trim());
+            map.put("addressEdt", addressEdt.getText().toString().trim());
             map.put("locality", city.getText().toString().trim());
             map.put("administrative_area_level_1", state.getText().toString().trim());
             map.put("country", country.getText().toString().trim());
@@ -502,10 +505,10 @@ public class MyProfileFragment extends Fragment {
             email.clearFocus();
             email.requestFocus();
             return false;
-        } else if (TextUtils.isEmpty(address.getText().toString().trim())) {
-            address.setError("Please provide address");
-            address.clearFocus();
-            address.requestFocus();
+        } else if (TextUtils.isEmpty(addressEdt.getText().toString().trim())) {
+            addressEdt.setError("Please provide addressEdt");
+            addressEdt.clearFocus();
+            addressEdt.requestFocus();
             return false;
         } else if (TextUtils.isEmpty(city.getText().toString().trim())) {
             city.setError("Please provide city");
@@ -633,7 +636,7 @@ public class MyProfileFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
 
-            // Adding Markers on Google Map for each matching address
+            // Adding Markers on Google Map for each matching addressEdt
             for (int i = 0; i < addresses.size(); i++) {
 
                 Address address = (Address) addresses.get(i);
@@ -647,15 +650,49 @@ public class MyProfileFragment extends Fragment {
                                 .getCountryName());
                 latitude = address.getLatitude();
                 longitude = address.getLongitude();
-                // manager.initializelocation(address.getLatitude()+"",
-                // address.getLongitude()+"");
-                Log.e("Address is", address.getAddressLine(0).toString());
-/*                Log.e("City is",address.getLocality().toString());
-                Log.e("Country is",address.getCountryName().toString());*/
-                Log.e("State is", address.getAdminArea());
-                Log.e("ZipCode is", address.getPostalCode());
-                Log.e("Country is", address.getAddressLine(5).toString());
+                // manager.initializelocation(addressEdt.getLatitude()+"",
+                // addressEdt.getLongitude()+"");
+                Log.e("Address is", address.getAddressLine(0));
+                Log.e("City is", address.getLocality() + "");
+                Log.e("Lat is", address.getLatitude() + "");
+                Log.e("Lang is", address.getLongitude() + "");
+                Log.e("Country is", address.getCountryName() + "");
+                Log.e("State is", address.getAdminArea() + "");
+                Log.e("ZipCode is", address.getPostalCode() + "");
+                Log.e("Country is", address.getAddressLine(5) + "");
 
+                if (address.getLocality() != null) {
+                    city.setText(address.getLocality());
+                    city.setEnabled(false);
+                } else {
+                    city.setEnabled(true);
+                }
+
+                if (address.getAddressLine(5) != null) {
+                    country.setText(address.getAddressLine(5));
+                    country.setEnabled(false);
+                } else {
+                    country.setEnabled(true);
+                }
+                if (address.getAddressLine(0) != null) {
+                    addressEdt.setText(address.getAddressLine(0));
+                    addressEdt.setEnabled(false);
+                } else {
+                    addressEdt.setEnabled(true);
+                }
+
+                if (address.getAdminArea() != null) {
+                    state.setText(address.getAdminArea());
+                    state.setEnabled(false);
+                } else {
+                    state.setEnabled(true);
+                }
+                if (address.getPostalCode() != null) {
+                    postalCode.setText(address.getPostalCode());
+                    postalCode.setEnabled(false);
+                } else {
+                    postalCode.setEnabled(true);
+                }
             }
         }
     }
