@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.android.pyp.R;
+import com.android.pyp.home.HomeActivity;
 import com.android.pyp.utils.DataCallback;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
@@ -78,14 +79,14 @@ public class FilterActivity extends AppCompatActivity {
                 String gender = "";
                 int genderId = genderRadioGroup.getCheckedRadioButtonId();
                 if (genderId != -1) {
-                    View radioButton = genderRadioGroup.findViewById(countryId);
+                    View radioButton = genderRadioGroup.findViewById(genderId);
                     int idx = genderRadioGroup.indexOfChild(radioButton);
                     gender = ((RadioButton) genderRadioGroup.getChildAt(idx)).getText().toString().trim();
                 }
-                Intent intent = new Intent(mContext, ListingsFragment.class);
-                intent.putExtra("property_type", propertyType);
-                intent.putExtra("country", country);
-                intent.putExtra("gender_type", gender);
+                Intent intent = new Intent(mContext, HomeActivity.class);
+                intent.putExtra("property_type", "propertyType");
+                intent.putExtra("country", "country");
+                intent.putExtra("gender_type", "gender");
                 setResult(1, intent);
                 finish();
             }

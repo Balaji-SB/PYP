@@ -86,7 +86,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Utils.presentToast(this,"HOme toast",1);
+        Log.e("Data home is", data.getData() + "");
         if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Log.e("Data is", data.getData() + "");
 

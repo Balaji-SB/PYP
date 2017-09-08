@@ -22,7 +22,6 @@ import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
-import com.android.pyp.utils.Utils;
 import com.android.volley.VolleyError;
 
 import org.json.JSONArray;
@@ -184,7 +183,8 @@ public class ListingsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Utils.presentToast(mContext,"Listing toast",1);
+//        Utils.presentToast(mContext,"Listing toast",1);
+        Log.e("Data is", data.getData() + "");
         if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Log.e("Data is", data.getData() + "");
             gender_type = data.getStringExtra("gender_type");

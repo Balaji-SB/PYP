@@ -652,6 +652,7 @@ public class MyProfileFragment extends Fragment {
                 longitude = address.getLongitude();
                 // manager.initializelocation(addressEdt.getLatitude()+"",
                 // addressEdt.getLongitude()+"");
+                Log.e("OVerall Address is", address.toString());
                 Log.e("Address is", address.getAddressLine(0));
                 Log.e("City is", address.getLocality() + "");
                 Log.e("Lat is", address.getLatitude() + "");
@@ -670,6 +671,12 @@ public class MyProfileFragment extends Fragment {
 
                 if (address.getAddressLine(5) != null) {
                     country.setText(address.getAddressLine(5));
+                    country.setEnabled(false);
+                } else {
+                    country.setEnabled(true);
+                }
+                if (address.getCountryName() != null) {
+                    country.setText(address.getCountryName());
                     country.setEnabled(false);
                 } else {
                     country.setEnabled(true);

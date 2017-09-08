@@ -40,6 +40,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.common.ConnectionResult;
@@ -98,6 +99,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mContext = LoginActivity.this;
         mView = LayoutInflater.from(mContext).inflate(R.layout.activity_login, null, false);
         FacebookSdk.sdkInitialize(this);
+        AppEventsLogger.activateApp(mContext);
         buidNewGoogleApiClient();
 
         setContentView(mView);
@@ -176,8 +178,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 //  nextActivity(newProfile);
             }
         };
-        accessTokenTracker.startTracking();
-        profileTracker.startTracking();
+//        accessTokenTracker.startTracking();
+//        profileTracker.startTracking();
 
 
         callback = new FacebookCallback<LoginResult>() {
@@ -229,9 +231,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         fbImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginManager.logInWithReadPermissions(LoginActivity.this,Arrays.asList(
-                        "public_profile", "email", "user_birthday", "user_friends"));
-                loginManager.registerCallback(callbackManager, callback);
+                if(AccessToken.getCurrentAccessToken()!=null){
+                    loginManager.logOut();
+                }else {
+                    loginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList(
+                            "public_profile", "email", "user_birthday", "user_friends"));
+                    loginManager.registerCallback(callbackManager, callback);
+                }
             }
         });
 
@@ -368,9 +374,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onStart() {
         super.onStart();
         google_api_client.connect();
-        if (FacebookSdk.isInitialized()) {
-            LoginManager.getInstance().logOut();
-        }
+
 
     }
 
