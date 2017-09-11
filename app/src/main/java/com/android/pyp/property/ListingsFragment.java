@@ -22,6 +22,7 @@ import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
+import com.android.pyp.utils.Utils;
 import com.android.volley.VolleyError;
 
 import org.json.JSONArray;
@@ -32,8 +33,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by devel-73 on 17/8/17.
@@ -183,16 +182,24 @@ public class ListingsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        Utils.presentToast(mContext,"Listing toast",1);
-        Log.e("Data is", data.getData() + "");
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Log.e("Data is", data.getData() + "");
+        Utils.presentToast(mContext,"Listing toast",1);
+        Log.e("Data is", data+ "");
+        Log.e("resultCode is", resultCode + "12");
+        Log.e("requestCode is", requestCode + "12");
+        if (requestCode == 1) {
+
             gender_type = data.getStringExtra("gender_type");
             property_type = data.getStringExtra("property_type");
             amenties = data.getStringExtra("amenties");
             country = data.getStringExtra("country");
             state = data.getStringExtra("state");
             city = data.getStringExtra("city");
+            Log.e("Gender_type",gender_type+"");
+            Log.e("amenties",amenties+"");
+            Log.e("property_type",property_type+"");
+            Log.e("country",country+"");
+            Log.e("state",state+"");
+            Log.e("city",city+"");
             propertyListings();
         }
     }

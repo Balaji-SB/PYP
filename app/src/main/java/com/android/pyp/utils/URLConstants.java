@@ -13,6 +13,8 @@ public class URLConstants {
 
     public static String urlLogin = BASEURL + "logincheck";
 
+    public static String urlSocialLogin = BASEURL + "soical_register";
+
     public static String urlRegister = BASEURL + "join_user";
 
     public static String urlChangePassword = BASEURL + "change_password";

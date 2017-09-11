@@ -669,14 +669,16 @@ public class MyProfileFragment extends Fragment {
                     city.setEnabled(true);
                 }
 
-                if (address.getAddressLine(5) != null) {
-                    country.setText(address.getAddressLine(5));
+                if (address.getCountryName() != null) {
+                    country.setText(address.getCountryName());
                     country.setEnabled(false);
                 } else {
                     country.setEnabled(true);
                 }
-                if (address.getCountryName() != null) {
-                    country.setText(address.getCountryName());
+
+
+                if (address.getAddressLine(5) != null) {
+                    country.setText(address.getAddressLine(5));
                     country.setEnabled(false);
                 } else {
                     country.setEnabled(true);

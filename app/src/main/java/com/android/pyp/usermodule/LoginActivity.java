@@ -124,6 +124,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     Intent intent = new Intent(mContext, HomeActivity.class);
                                     startActivity(intent);
                                     finish();
+                                }else{
+                                    Utils.presentSnackBar(mView,jsonObject.getString("result"),1);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -200,6 +202,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     String name = object.getString("name");
                                     Log.e("email", email);
                                     Log.e("name", name);
+                                    updateSocialLogin(name,email);
 //                                    loadSocialLogin(queue, name, email);
                                     //        new SignUpExecute(name, email, "1").execute();
 //                                    String url=urlSignUp+"?first_name="+name+"&email="+email;
@@ -356,7 +359,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     return;
                 }
                 Log.e("Email", Plus.AccountApi.getAccountName(google_api_client) + " is");
-
+                updateSocialLogin(currentPerson.getDisplayName(),Plus.AccountApi.getAccountName(google_api_client));
 //                loadSocialLogin(queue, currentPerson.getDisplayName().toString(), Plus.AccountApi.getAccountName(google_api_client).toString());
                 //      new SignUpExecute(currentPerson.getDisplayName(), Plus.AccountApi.getAccountName(google_api_client), "2").execute();
             } else {
@@ -463,5 +466,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
+
+    private void updateSocialLogin(String username,String email){
+        String url=URLConstants.urlSocialLogin+"/"+username+","+email;
+        pypApplication.customStringRequest(url, null, new DataCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                Log.e("Success",result.toString());
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                Log.e("error",error.toString());
+            }
+        });
+    }
 
 }
