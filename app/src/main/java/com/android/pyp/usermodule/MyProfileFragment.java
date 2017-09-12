@@ -95,7 +95,7 @@ public class MyProfileFragment extends Fragment {
     private String tempImage = "";
     private double latitude = 0;
     private double longitude = 0;
-
+    private Dialog dialog;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -164,6 +164,7 @@ public class MyProfileFragment extends Fragment {
 
     public void initVariables() {
         pypApplication = new PYPApplication(mContext);
+        dialog=pypApplication.getProgressDialog(mContext);
         resultImage = (ImageView) mView.findViewById(R.id.resultImage);
         originalImage = (ImageView) mView.findViewById(R.id.originalImage);
         editImage = (ImageView) mView.findViewById(R.id.editImage);
@@ -220,6 +221,7 @@ public class MyProfileFragment extends Fragment {
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
             resultImage.setImageBitmap(bitmap);
+            dialog.dismiss();
             if (bmp != null) {
                 Glide.with(mContext).load(bitmapToByte(bmp)).asBitmap().into(new BitmapImageViewTarget(originalImage) {
                     @Override
@@ -247,6 +249,7 @@ public class MyProfileFragment extends Fragment {
     private void viewUserProfile() {
         Map<String, String> map = new HashMap<>();
         map.put("site_user_id", site_user_id);
+        dialog.show();
         pypApplication.customStringRequest(URLConstants.urlViewUserProfile, map, new DataCallback() {
             @Override
             public void onSuccess(Object result) {
@@ -256,17 +259,17 @@ public class MyProfileFragment extends Fragment {
                     try {
                         JSONObject jsonObject = new JSONObject(result.toString());
                         ProfileData data = new ProfileData();
-                        data.setFirstName(jsonObject.getString("first_name"));
-                        data.setLastName(jsonObject.getString("last_name"));
-                        data.setEmail(jsonObject.getString("key_email"));
-                        data.setPassword(jsonObject.getString("key_pass"));
-                        data.setPhone(jsonObject.getString("phone"));
-                        data.setAddress(jsonObject.getString("addressEdt"));
-                        data.setCity(jsonObject.getString("city"));
-                        data.setState(jsonObject.getString("state"));
-                        data.setCountry(jsonObject.getString("country"));
-                        data.setPostalCode(jsonObject.getString("postel_codes"));
-                        data.setImage(jsonObject.getString("image"));
+                        data.setFirstName(jsonObject.optString("first_name"));
+                        data.setLastName(jsonObject.optString("last_name"));
+                        data.setEmail(jsonObject.optString("key_email"));
+                        data.setPassword(jsonObject.optString("key_pass"));
+                        data.setPhone(jsonObject.optString("phone"));
+                        data.setAddress(jsonObject.optString("addressEdt"));
+                        data.setCity(jsonObject.optString("city"));
+                        data.setState(jsonObject.optString("state"));
+                        data.setCountry(jsonObject.optString("country"));
+                        data.setPostalCode(jsonObject.optString("postel_codes"));
+                        data.setImage(jsonObject.optString("image"));
                         data.setLatitude(jsonObject.getDouble("latitude"));
                         data.setLongitude(jsonObject.getDouble("longitude"));
                         updateUI(data);
@@ -454,7 +457,7 @@ public class MyProfileFragment extends Fragment {
             map.put("locality", city.getText().toString().trim());
             map.put("administrative_area_level_1", state.getText().toString().trim());
             map.put("country", country.getText().toString().trim());
-            map.put("img_hidden", oldImage);
+//            map.put("img_hidden", oldImage);
             map.put("lat", latitude + "");
             map.put("lng", longitude + "");
             Log.e("Map", map.toString());

@@ -1,5 +1,6 @@
 package com.android.pyp.property;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class MyFavoriteProperty extends Fragment {
     private String site_user_id = "";
     private SessionManager manager;
     private SharedPreferences preferences;
+    private Dialog dialog;
 
     @Nullable
     @Override
@@ -61,6 +63,7 @@ public class MyFavoriteProperty extends Fragment {
         preferences = Utils.getSharedPreferences(mContext);
         site_user_id = preferences.getString(SessionManager.KEY_USERID, "1");
         pypApplication = new PYPApplication(mContext);
+        dialog=pypApplication.getProgressDialog(mContext);
         mypropertyRecycler = (RecyclerView) mView.findViewById(R.id.mypropertyRecycler);
         mypropertyRecycler.setLayoutManager(new LinearLayoutManager(mContext));
     }
@@ -69,11 +72,13 @@ public class MyFavoriteProperty extends Fragment {
         Map<String, String> map = new HashMap<>();
         map.put("site_user_id", site_user_id);
         Log.e("Map is", map.toString());
+        dialog.show();
         pypApplication.customStringRequest(URLConstants.urlMyFav, map, new DataCallback() {
             @Override
             public void onSuccess(Object result) {
                 Log.e("Result is", result.toString());
                 propertyDataList = new ArrayList<>();
+                dialog.dismiss();
 
                 try {
                     JSONObject object = new JSONObject(result.toString());
@@ -104,6 +109,7 @@ public class MyFavoriteProperty extends Fragment {
                     updateUI(propertyDataList);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    dialog.dismiss();
                 }
 
             }
@@ -111,6 +117,7 @@ public class MyFavoriteProperty extends Fragment {
             @Override
             public void onError(VolleyError error) {
                 Log.e("Error is", error.toString());
+                dialog.dismiss();
             }
         });
     }

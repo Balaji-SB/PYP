@@ -215,7 +215,7 @@
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.6"
+                                android:layout_weight="0.4"
                                 android:gravity="start"
                                 android:padding="5sp"
                                 android:text="BHK"
@@ -228,8 +228,8 @@
                                 android:id="@+id/bhk"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.5"
-                                android:gravity="start"
+                                android:layout_weight="0.6"
+                                android:gravity="end"
                                 android:padding="5sp"
                                 android:text="2"
                                 android:textColor="@color/textblack"
@@ -237,38 +237,39 @@
                                 android:textStyle="normal" />
                         </LinearLayout>
 
-                        <LinearLayout
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:layout_weight="0.5">
+
+
+                        <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10sp"
-                            android:layout_weight="0.5">
+                            android:layout_weight="0.4"
+                            android:gravity="start"
+                            android:padding="5sp"
+                            android:text="Nationality"
+                            android:textColor="@color/textblack"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.6"
-                                android:gravity="start"
-                                android:padding="5sp"
-                                android:text="Nationality"
-                                android:textColor="@color/textblack"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-
-                            <TextView
-                                android:id="@+id/nationality"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.5"
-                                android:gravity="start"
-                                android:padding="5sp"
-                                android:text="2"
-                                android:textColor="@color/textblack"
-                                android:textSize="14sp"
-                                android:textStyle="normal" />
-                        </LinearLayout>
-
+                        <TextView
+                            android:id="@+id/nationality"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:gravity="end"
+                            android:padding="5sp"
+                            android:text="2"
+                            android:textColor="@color/textblack"
+                            android:textSize="14sp"
+                            android:textStyle="normal" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -287,7 +288,7 @@
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.6"
+                                android:layout_weight="0.4"
                                 android:gravity="start"
                                 android:padding="5sp"
                                 android:text="City"
@@ -300,8 +301,8 @@
                                 android:id="@+id/city"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.5"
-                                android:gravity="start"
+                                android:layout_weight="0.6"
+                                android:gravity="end"
                                 android:padding="5sp"
                                 android:text="2"
                                 android:textColor="@color/textblack"
@@ -309,38 +310,40 @@
                                 android:textStyle="normal" />
                         </LinearLayout>
 
-                        <LinearLayout
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:layout_weight="0.5">
+
+
+                        <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10sp"
-                            android:layout_weight="0.5">
+                            android:layout_weight="0.4"
+                            android:gravity="start"
+                            android:padding="5sp"
+                            android:text="State"
+                            android:textColor="@color/textblack"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.6"
-                                android:gravity="start"
-                                android:padding="5sp"
-                                android:text="State"
-                                android:textColor="@color/textblack"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-
-                            <TextView
-                                android:id="@+id/state"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.5"
-                                android:gravity="start"
-                                android:padding="5sp"
-                                android:text="2"
-                                android:textColor="@color/textblack"
-                                android:textSize="14sp"
-                                android:textStyle="normal" />
-                        </LinearLayout>
-
+                        <TextView
+                            android:id="@+id/state"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:gravity="end"
+                            android:padding="5sp"
+                            android:text="2"
+                            android:textColor="@color/textblack"
+                            android:textSize="14sp"
+                            android:textStyle="normal" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -360,7 +363,7 @@
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.6"
+                                android:layout_weight="0.4"
                                 android:gravity="start"
                                 android:padding="5sp"
                                 android:text="Country"
@@ -373,8 +376,8 @@
                                 android:id="@+id/country"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.5"
-                                android:gravity="start"
+                                android:layout_weight="0.6"
+                                android:gravity="end"
                                 android:padding="5sp"
                                 android:text="2"
                                 android:textColor="@color/textblack"
@@ -382,38 +385,41 @@
                                 android:textStyle="normal" />
                         </LinearLayout>
 
-                        <LinearLayout
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:layout_weight="0.5">
+
+
+                        <TextView
+                            android:id="@+id/textView3"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10sp"
-                            android:layout_weight="0.5">
+                            android:layout_weight="0.4"
+                            android:gravity="start"
+                            android:padding="5sp"
+                            android:layout_marginBottom="10sp"
+                            android:text="Landmark"
+                            android:textColor="@color/textblack"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-
-                            <TextView
-                                android:id="@+id/textView3"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.6"
-                                android:gravity="start"
-                                android:padding="5sp"
-                                android:text="Landmark"
-                                android:textColor="@color/textblack"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/landmark"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.5"
-                                android:gravity="start"
-                                android:padding="5sp"
-                                android:text="2"
-                                android:textColor="@color/textblack"
-                                android:textSize="14sp"
-                                android:textStyle="normal" />
-                        </LinearLayout>
-
+                        <TextView
+                            android:id="@+id/landmark"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:gravity="end"
+                            android:padding="5sp"
+                            android:layout_marginBottom="10sp"
+                            android:text="2"
+                            android:textColor="@color/textblack"
+                            android:textSize="14sp"
+                            android:textStyle="normal" />
                     </LinearLayout>
 
                 </LinearLayout>

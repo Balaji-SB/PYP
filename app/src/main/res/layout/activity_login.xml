@@ -60,7 +60,7 @@
 
                 <ImageView
                     android:id="@+id/gplusImg"
-                    android:layout_width="45sp"
+                    android:layout_width="40sp"
                     android:layout_height="45sp"
                     android:layout_marginLeft="30sp"
                     android:src="@drawable/gplus"
@@ -72,6 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30sp"
                     android:src="@drawable/linkedin"
+                    android:visibility="gone"
                     android:tint="@color/white" />
             </LinearLayout>
 

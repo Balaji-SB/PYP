@@ -1,6 +1,7 @@
 package com.android.pyp.usermodule;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -64,7 +65,7 @@ import java.util.Map;
  * Created by devel-73 on 17/8/17.
  */
 
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, ResultCallback<People.LoadPeopleResult>{
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, ResultCallback<People.LoadPeopleResult> {
 
     private ImageView fbImg, gplusImg, inImg;
     private TextInputEditText emailEdt, passwordEdt;
@@ -91,6 +92,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private boolean is_intent_inprogress;
     private boolean is_signInBtn_clicked;
     private int request_code;
+    private Dialog dialog;
 
 
     @Override
@@ -112,9 +114,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     Map<String, String> map = new HashMap<>();
                     map.put("email", emailEdt.getText().toString().trim());
                     map.put("password", passwordEdt.getText().toString().trim());
+                    dialog.show();
                     pypApplication.customStringRequest(URLConstants.urlLogin, map, new DataCallback() {
                         @Override
                         public void onSuccess(Object result) {
+                            dialog.dismiss();
                             Log.e("Success result is", result.toString());
                             try {
                                 JSONObject jsonObject = new JSONObject(result.toString());
@@ -124,17 +128,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     Intent intent = new Intent(mContext, HomeActivity.class);
                                     startActivity(intent);
                                     finish();
-                                }else{
-                                    Utils.presentSnackBar(mView,jsonObject.getString("result"),1);
+                                } else {
+                                    Utils.presentSnackBar(mView, jsonObject.getString("result"), 1);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                dialog.dismiss();
                             }
                         }
 
                         @Override
                         public void onError(VolleyError error) {
                             Log.e("Error result is", error.toString());
+                            dialog.dismiss();
                         }
                     });
                 }
@@ -163,6 +169,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                if (google_api_client.isConnected()) {
+                    google_api_client.disconnect();
+                }
                 gPlusSignIn();
             }
         });
@@ -202,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     String name = object.getString("name");
                                     Log.e("email", email);
                                     Log.e("name", name);
-                                    updateSocialLogin(name,email);
+                                    updateSocialLogin(name, email);
 //                                    loadSocialLogin(queue, name, email);
                                     //        new SignUpExecute(name, email, "1").execute();
 //                                    String url=urlSignUp+"?first_name="+name+"&email="+email;
@@ -234,19 +243,21 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         fbImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(AccessToken.getCurrentAccessToken()!=null){
-                    loginManager.logOut();
-                }else {
+                dialog.show();
+                LoginManager.getInstance().logOut();
+                loginManager.unregisterCallback(callbackManager);
+//                Utils.presentToast(mContext,"FB logged out 1",0);;
+                if (AccessToken.getCurrentAccessToken() != null) {
+//                    LoginManager.getInstance().logOut();
+//                    loginManager.unregisterCallback(callbackManager);
+//                    Utils.presentToast(mContext,"FB logged out 1",0);;
+                } else {
                     loginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList(
                             "public_profile", "email", "user_birthday", "user_friends"));
                     loginManager.registerCallback(callbackManager, callback);
                 }
             }
         });
-
-
-
-
 
     }
 
@@ -289,7 +300,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.e("Connected", "Connected");
+        Log.e("Connected", "Connected " + is_signInBtn_clicked);
         if (is_signInBtn_clicked) {
             is_signInBtn_clicked = false;
             getProfileInfo();
@@ -341,7 +352,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (google_api_client.isConnected()) {
             Plus.AccountApi.clearDefaultAccount(google_api_client);
             google_api_client.disconnect();
-            google_api_client.connect();
+
         }
     }
 
@@ -359,7 +370,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     return;
                 }
                 Log.e("Email", Plus.AccountApi.getAccountName(google_api_client) + " is");
-                updateSocialLogin(currentPerson.getDisplayName(),Plus.AccountApi.getAccountName(google_api_client));
+                updateSocialLogin(currentPerson.getDisplayName(), Plus.AccountApi.getAccountName(google_api_client));
 //                loadSocialLogin(queue, currentPerson.getDisplayName().toString(), Plus.AccountApi.getAccountName(google_api_client).toString());
                 //      new SignUpExecute(currentPerson.getDisplayName(), Plus.AccountApi.getAccountName(google_api_client), "2").execute();
             } else {
@@ -376,7 +387,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onStart() {
         super.onStart();
-        google_api_client.connect();
+//        google_api_client.connect();
+        if (AccessToken.getCurrentAccessToken() != null) {
+            LoginManager.getInstance().logOut();
+            Utils.presentToast(mContext, "FB logged out", 0);
+            ;
+        }
 
 
     }
@@ -395,11 +411,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
 
         if (!is_intent_inprogress) {
-
             connection_result = connectionResult;
-
             if (is_signInBtn_clicked) {
-
                 resolveSignInError();
             }
         }
@@ -431,6 +444,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void initVariables() {
         pypApplication = new PYPApplication(mContext);
+        dialog = pypApplication.getProgressDialog(mContext);
         manager = Utils.getSessionManager(mContext);
         loginManager = LoginManager.getInstance();
         preferences = Utils.getSharedPreferences(mContext);
@@ -467,19 +481,31 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
 
-    private void updateSocialLogin(String username,String email){
-        String url=URLConstants.urlSocialLogin+"/"+username+","+email;
-        pypApplication.customStringRequest(url, null, new DataCallback() {
+    private void updateSocialLogin(String username, String email) {
+//        String url=URLConstants.urlSocialLogin+"/"+username+"/"+email;
+        Map<String, String> map = new HashMap<>();
+        map.put("email", email + "");
+        map.put("username", username + "");
+        pypApplication.customStringRequest(URLConstants.urlSocialLogin, map, new DataCallback() {
             @Override
             public void onSuccess(Object result) {
-                Log.e("Success",result.toString());
+                Log.e("Success", result.toString());
+                dialog.dismiss();
+                try {
+                    JSONObject object = new JSONObject(result.toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onError(VolleyError error) {
-                Log.e("error",error.toString());
+                Log.e("error", error.toString());
+                dialog.dismiss();
             }
         });
     }
+
 
 }

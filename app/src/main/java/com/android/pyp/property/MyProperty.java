@@ -1,5 +1,6 @@
 package com.android.pyp.property;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class MyProperty extends Fragment {
     private String site_user_id="";
     private SessionManager manager;
     private SharedPreferences preferences;
+    private Dialog dialog;
 
     @Nullable
     @Override
@@ -61,6 +63,7 @@ public class MyProperty extends Fragment {
         preferences=Utils.getSharedPreferences(mContext);
         site_user_id=preferences.getString(SessionManager.KEY_USERID,"1");
         pypApplication = new PYPApplication(mContext);
+        dialog=pypApplication.getProgressDialog(mContext);
         mypropertyRecycler = (RecyclerView) mView.findViewById(R.id.mypropertyRecycler);
         mypropertyRecycler.setLayoutManager(new LinearLayoutManager(mContext));
     }
@@ -69,6 +72,7 @@ public class MyProperty extends Fragment {
         Map<String, String> map = new HashMap<>();
         map.put("site_user_id", site_user_id);
         Log.e("Map is", map.toString());
+        dialog.show();
         pypApplication.customStringRequest(URLConstants.urlMyListings, map, new DataCallback() {
             @Override
             public void onSuccess(Object result) {
@@ -96,6 +100,7 @@ public class MyProperty extends Fragment {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    dialog.dismiss();
                 }
 
             }
@@ -103,6 +108,7 @@ public class MyProperty extends Fragment {
             @Override
             public void onError(VolleyError error) {
                 Log.e("Error is", error.toString());
+                dialog.dismiss();
             }
         });
     }

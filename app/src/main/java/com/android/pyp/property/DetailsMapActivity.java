@@ -3,6 +3,7 @@ package com.android.pyp.property;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.android.pyp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,12 +40,19 @@ public class DetailsMapActivity extends AppCompatActivity implements OnMapReadyC
 
     private void initVariables(Bundle savedInstanceState) {
         // Gets the MapView from the XML layout and creates it
-
         // Gets to GoogleMap from the MapView and does initialization stuff
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -1,9 +1,14 @@
 package com.android.pyp.utils;
 
 import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.Window;
 
+import com.android.pyp.R;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,6 +43,8 @@ public class PYPApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fresco.initialize(this);
+//        MultiDex.install(this);
 
 //        FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/Raleway-Medium.ttf");
         TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/EBGaramond-Regular.ttf");
@@ -97,5 +105,15 @@ public class PYPApplication extends Application {
             }
         });
         mRequestQueue.add(request);
+    }
+
+    public Dialog getProgressDialog(Context mContext) {
+        Dialog progressDialog = new Dialog(mContext);
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setContentView(R.layout.content_loading);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.getWindow().setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        return progressDialog;
     }
 }

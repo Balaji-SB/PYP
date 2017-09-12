@@ -10,6 +10,17 @@
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="true" />
 
+    <TextView
+        android:id="@+id/nopropertyTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:padding="5sp"
+        android:text="No Property found"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

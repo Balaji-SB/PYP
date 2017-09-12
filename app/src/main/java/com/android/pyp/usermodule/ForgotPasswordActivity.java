@@ -1,5 +1,6 @@
 package com.android.pyp.usermodule;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,7 +36,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private Context mContext;
     private View mView;
     private PYPApplication pypApplication;
-
+    private Dialog dialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +53,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     map.put("email", email.getText().toString());
                     Log.e("params is", map + "");
                     Log.e("params is", map + "");
+                    dialog.show();
                     pypApplication.customStringRequest(URLConstants.urlForgotPassword, map, new DataCallback() {
                         @Override
                         public void onSuccess(Object result) {
+                            dialog.dismiss();
                             Utils.presentSnackBar(mView, result.toString(), 0);
                             clearUI();
                         }
@@ -62,6 +65,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         @Override
                         public void onError(VolleyError error) {
                             Utils.presentSnackBar(mView, error.toString(), 0);
+                            dialog.dismiss();
                         }
                     });
                 }
@@ -79,6 +83,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private void initVariables() {
         pypApplication = new PYPApplication(mContext);
+        dialog=pypApplication.getProgressDialog(mContext);
         email = (TextInputEditText) mView.findViewById(R.id.email);
         resetPwdBtn = (Button) mView.findViewById(R.id.resetPwdBtn);
         backToLogin = (TextView) mView.findViewById(R.id.backToLogin);

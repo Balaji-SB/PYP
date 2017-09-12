@@ -75,7 +75,7 @@ public class DetailsInnerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.e("Contact No", propertyData.getContactNum() + "es");
-                if (!propertyData.getContactNum().equalsIgnoreCase("null") || !propertyData.getContactNum().equalsIgnoreCase(null)) {
+                if (!propertyData.getContactNum().equalsIgnoreCase("null") && !propertyData.getContactNum().equalsIgnoreCase(null)) {
                     contactNum = propertyData.getContactNum();
                     int permissionCheck = ContextCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE);
                     if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
@@ -84,7 +84,7 @@ public class DetailsInnerFragment extends Fragment {
                         callPhone();
                     }
                 } else {
-                    Utils.presentToast(mContext, "This user doesn't have contact number", 0);
+                    Utils.presentToast(mContext, "This user doesn't provide contact number", 0);
                 }
             }
         });
@@ -103,7 +103,7 @@ public class DetailsInnerFragment extends Fragment {
         state.setText(propertyData.getState());
         country.setText(propertyData.getCountry());
         landmark.setText(propertyData.getLandmark());
-        description.setText(propertyData.getDescription());
+        description.setText(propertyData.getDescription().equalsIgnoreCase(null)?propertyData.getDescription():"");
 
     }
 

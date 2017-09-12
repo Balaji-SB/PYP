@@ -119,6 +119,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
                 mContext.startActivity(intent);
             }
         });
+        holder.amentyName.setText("Rent for "+myDataList.get(position).getAmentyName());
     }
 
     @Override

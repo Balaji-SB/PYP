@@ -1,5 +1,6 @@
 package com.android.pyp.property;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
@@ -50,6 +52,10 @@ public class DetailsActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private List<PropertyData> propertyDataList;
     private String propertyLink = "";
+    private Dialog dialog;
+    private ImageView galleryPrevious, galleryNext;
+    private int currentPage = 0;
+    private int NUM_PAGES = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,7 +101,27 @@ public class DetailsActivity extends AppCompatActivity {
 
             }
         });
-
+        galleryNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NUM_PAGES = imagesList.size();
+                if (detailsViewPager.getCurrentItem() == NUM_PAGES) {
+                    detailsViewPager.setCurrentItem(detailsViewPager.getCurrentItem());
+                } else {
+                    detailsViewPager.setCurrentItem(detailsViewPager.getCurrentItem() + 1);
+                }
+            }
+        });
+        galleryPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (detailsViewPager.getCurrentItem() == 0) {
+                    detailsViewPager.setCurrentItem(detailsViewPager.getCurrentItem());
+                } else {
+                    detailsViewPager.setCurrentItem(detailsViewPager.getCurrentItem() - 1);
+                }
+            }
+        });
         loadPropertyDetails();
     }
 
@@ -105,9 +131,12 @@ public class DetailsActivity extends AppCompatActivity {
         manager = Utils.getSessionManager(mContext);
         preferences = Utils.getSharedPreferences(mContext);
         pypApplication = new PYPApplication(mContext);
+        dialog = pypApplication.getProgressDialog(mContext);
         detailsTabLayout = (TabLayout) mView.findViewById(R.id.detailsTabLayout);
         propertyImagesPager = (ViewPager) mView.findViewById(R.id.propertyImagesPager);
         detailsViewPager = (ViewPager) mView.findViewById(R.id.detailsViewPager);
+        galleryPrevious = (ImageView) mView.findViewById(R.id.galleryPrevious);
+        galleryNext = (ImageView) mView.findViewById(R.id.galleryNext);
         mapFAB = (FloatingActionButton) mView.findViewById(R.id.mapFAB);
         detailsViewPager.setOffscreenPageLimit(1);
         propertyImagesPager.setOffscreenPageLimit(1);
@@ -126,9 +155,12 @@ public class DetailsActivity extends AppCompatActivity {
         Map<String, String> map = new HashMap<>();
         map.put("site_user_id", site_user_id);
         map.put("property_id", property_id);
+        Log.e("Map", map + "");
+        dialog.show();
         pypApplication.customStringRequest(URLConstants.urlPropertyDetails, map, new DataCallback() {
             @Override
             public void onSuccess(Object result) {
+                dialog.dismiss();
                 Log.e("Result", result.toString());
                 try {
                     JSONObject object = new JSONObject(result.toString());
@@ -202,6 +234,7 @@ public class DetailsActivity extends AppCompatActivity {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    dialog.dismiss();
                 }
 
 
@@ -211,6 +244,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError error) {
                 Log.e("Error", error.toString());
+                dialog.dismiss();
             }
         });
     }

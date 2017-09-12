@@ -1,5 +1,6 @@
 package com.android.pyp.property;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
@@ -47,6 +49,8 @@ public class ListingsFragment extends Fragment {
     private RecyclerView propertyListings;
     private List<PropertyData> myDataList;
     private PYPApplication pypApplication;
+    private Dialog dialog;
+    private TextView nopropertyTxt;
     private String gender_type = "", property_type = "", amenties = "", country = "", state = "", city = "";
 
 
@@ -79,7 +83,9 @@ public class ListingsFragment extends Fragment {
     private void initVariables() {
         myDataList = new ArrayList<>();
         pypApplication = new PYPApplication(mContext);
+        dialog = pypApplication.getProgressDialog(mContext);
         propertyListings = (RecyclerView) mView.findViewById(R.id.propertyListings);
+        nopropertyTxt = (TextView) mView.findViewById(R.id.nopropertyTxt);
         propertyListings.setLayoutManager(new LinearLayoutManager(mContext));
         getActivity().setTitle("Properties");
     }
@@ -95,7 +101,7 @@ public class ListingsFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.menuFilter) {
             Intent intent = new Intent(mContext, FilterActivity.class);
-            startActivityForResult(intent,1);
+            startActivityForResult(intent, 1);
         }
         return true;
     }
@@ -131,39 +137,52 @@ public class ListingsFragment extends Fragment {
         map.put("state", state);
         map.put("city", city);
         Log.e("Map is", map.toString());
+        dialog.show();
         pypApplication.customStringRequest(URLConstants.urlPropertyListings, map, new DataCallback() {
             @Override
             public void onSuccess(Object result) {
                 Log.e("Result is", result.toString());
                 myDataList = new ArrayList<>();
-
+                dialog.dismiss();
                 try {
+
                     JSONArray array = new JSONArray(result.toString());
                     if (array.length() > 0) {
                         for (int i = 0; i < array.length(); i++) {
-                            JSONObject jsonObject = array.getJSONObject(i);
-                            PropertyData data = new PropertyData();
-                            data.setPropertyId(jsonObject.getString("prop_id"));
-                            data.setPrice(jsonObject.getString("price"));
-                            data.setCurrency(jsonObject.getString("currency"));
-                            data.setImageName(jsonObject.getString("image_name"));
-                            data.setCity(jsonObject.getString("city"));
-                            data.setState(jsonObject.getString("state"));
-                            data.setCountry(jsonObject.getString("country"));
-                            data.setfId(jsonObject.getString("f_id"));
-                            myDataList.add(data);
+                            if (array.get(i) instanceof String) {
+                                nopropertyTxt.setVisibility(View.VISIBLE);
+                            } else {
+                                nopropertyTxt.setVisibility(View.GONE);
+                                JSONObject jsonObject = array.optJSONObject(i);
+                                PropertyData data = new PropertyData();
+                                data.setPropertyId(jsonObject.getString("prop_id"));
+                                data.setPrice(jsonObject.getString("price"));
+                                data.setCurrency(jsonObject.getString("currency"));
+                                data.setImageName(jsonObject.getString("image_name"));
+                                data.setCity(jsonObject.getString("city"));
+                                data.setState(jsonObject.getString("state"));
+                                data.setCountry(jsonObject.getString("country"));
+                                data.setfId(jsonObject.getString("f_id"));
+                                data.setAmentyName(jsonObject.getString("name"));
+                                myDataList.add(data);
+
+                            }
                         }
                         updateUI(myDataList);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    dialog.dismiss();
+                    nopropertyTxt.setVisibility(View.VISIBLE);
                 }
 
             }
 
             @Override
             public void onError(VolleyError error) {
+                dialog.dismiss();
                 Log.e("Error is", error.toString());
+                nopropertyTxt.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -182,10 +201,8 @@ public class ListingsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Utils.presentToast(mContext,"Listing toast",1);
-        Log.e("Data is", data+ "");
-        Log.e("resultCode is", resultCode + "12");
-        Log.e("requestCode is", requestCode + "12");
+        Utils.presentToast(mContext, "Listing toast", 1);
+
         if (requestCode == 1) {
 
             gender_type = data.getStringExtra("gender_type");
@@ -194,12 +211,12 @@ public class ListingsFragment extends Fragment {
             country = data.getStringExtra("country");
             state = data.getStringExtra("state");
             city = data.getStringExtra("city");
-            Log.e("Gender_type",gender_type+"");
-            Log.e("amenties",amenties+"");
-            Log.e("property_type",property_type+"");
-            Log.e("country",country+"");
-            Log.e("state",state+"");
-            Log.e("city",city+"");
+            Log.e("Gender_type", gender_type + "");
+            Log.e("amenties", amenties + "");
+            Log.e("property_type", property_type + "");
+            Log.e("country", country + "");
+            Log.e("state", state + "");
+            Log.e("city", city + "");
             propertyListings();
         }
     }
