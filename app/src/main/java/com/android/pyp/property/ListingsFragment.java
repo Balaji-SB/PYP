@@ -2,12 +2,15 @@ package com.android.pyp.property;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -22,6 +25,7 @@ import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
+import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
 import com.android.pyp.utils.Utils;
@@ -77,7 +81,9 @@ public class ListingsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        propertyListings();
+
+            propertyListings();
+
     }
 
     private void initVariables() {
@@ -108,83 +114,88 @@ public class ListingsFragment extends Fragment {
 
 
     private void propertyListings() {
-        if (TextUtils.isEmpty(gender_type)) {
-            gender_type = "";
-        }
-        if (TextUtils.isEmpty(property_type)) {
-            property_type = "";
-        }
-        if (TextUtils.isEmpty(gender_type)) {
-            gender_type = "";
-        }
-        if (TextUtils.isEmpty(amenties)) {
-            amenties = "";
-        }
-        if (TextUtils.isEmpty(country)) {
-            country = "";
-        }
-        if (TextUtils.isEmpty(state)) {
-            state = "";
-        }
-        if (TextUtils.isEmpty(city)) {
-            city = "";
-        }
-        Map<String, String> map = new HashMap<>();
-        map.put("gender_type", gender_type);
-        map.put("property_type", property_type);
-        map.put("amenties", amenties);
-        map.put("country", country);
-        map.put("state", state);
-        map.put("city", city);
-        Log.e("Map is", map.toString());
-        dialog.show();
-        pypApplication.customStringRequest(URLConstants.urlPropertyListings, map, new DataCallback() {
-            @Override
-            public void onSuccess(Object result) {
-                Log.e("Result is", result.toString());
-                myDataList = new ArrayList<>();
-                dialog.dismiss();
-                try {
-
-                    JSONArray array = new JSONArray(result.toString());
-                    if (array.length() > 0) {
-                        for (int i = 0; i < array.length(); i++) {
-                            if (array.get(i) instanceof String) {
-                                nopropertyTxt.setVisibility(View.VISIBLE);
-                            } else {
-                                nopropertyTxt.setVisibility(View.GONE);
-                                JSONObject jsonObject = array.optJSONObject(i);
-                                PropertyData data = new PropertyData();
-                                data.setPropertyId(jsonObject.getString("prop_id"));
-                                data.setPrice(jsonObject.getString("price"));
-                                data.setCurrency(jsonObject.getString("currency"));
-                                data.setImageName(jsonObject.getString("image_name"));
-                                data.setCity(jsonObject.getString("city"));
-                                data.setState(jsonObject.getString("state"));
-                                data.setCountry(jsonObject.getString("country"));
-                                data.setfId(jsonObject.getString("f_id"));
-                                data.setAmentyName(jsonObject.getString("name"));
-                                myDataList.add(data);
-
-                            }
-                        }
-                        updateUI(myDataList);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+            if (TextUtils.isEmpty(gender_type)) {
+                gender_type = "";
+            }
+            if (TextUtils.isEmpty(property_type)) {
+                property_type = "";
+            }
+            if (TextUtils.isEmpty(gender_type)) {
+                gender_type = "";
+            }
+            if (TextUtils.isEmpty(amenties)) {
+                amenties = "";
+            }
+            if (TextUtils.isEmpty(country)) {
+                country = "";
+            }
+            if (TextUtils.isEmpty(state)) {
+                state = "";
+            }
+            if (TextUtils.isEmpty(city)) {
+                city = "";
+            }
+            Map<String, String> map = new HashMap<>();
+            map.put("gender_type", gender_type);
+            map.put("property_type", property_type);
+            map.put("amenties", amenties);
+            map.put("country", country);
+            map.put("state", state);
+            map.put("city", city);
+            Log.e("Map is", map.toString());
+            dialog.show();
+            pypApplication.customStringRequest(URLConstants.urlPropertyListings, map, new DataCallback() {
+                @Override
+                public void onSuccess(Object result) {
+                    Log.e("Result is", result.toString());
+                    myDataList = new ArrayList<>();
                     dialog.dismiss();
-                    nopropertyTxt.setVisibility(View.VISIBLE);
+                    try {
+
+                        JSONArray array = new JSONArray(result.toString());
+                        if (array.length() > 0) {
+                            for (int i = 0; i < array.length(); i++) {
+                                if (array.get(i) instanceof String) {
+                                    nopropertyTxt.setVisibility(View.VISIBLE);
+                                } else {
+                                    nopropertyTxt.setVisibility(View.GONE);
+                                    JSONObject jsonObject = array.optJSONObject(i);
+                                    PropertyData data = new PropertyData();
+                                    data.setPropertyId(jsonObject.getString("prop_id"));
+                                    data.setPrice(jsonObject.getString("price"));
+                                    data.setCurrency(jsonObject.getString("currency"));
+                                    data.setImageName(jsonObject.getString("image_name"));
+                                    data.setCity(jsonObject.getString("city"));
+                                    data.setState(jsonObject.getString("state"));
+                                    data.setCountry(jsonObject.getString("country"));
+                                    data.setfId(jsonObject.getString("f_id"));
+                                    data.setAmentyName(jsonObject.getString("name"));
+                                    myDataList.add(data);
+
+                                }
+                            }
+                            updateUI(myDataList);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        dialog.dismiss();
+                        nopropertyTxt.setVisibility(View.VISIBLE);
+                    }
+
                 }
 
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-                dialog.dismiss();
-                Log.e("Error is", error.toString());
-                nopropertyTxt.setVisibility(View.VISIBLE);
-            }
-        });
+                @Override
+                public void onError(VolleyError error) {
+                    dialog.dismiss();
+                    Log.e("Error is", error.toString());
+                    nopropertyTxt.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+        else{
+            showAlertDialog(mContext);
+        }
     }
 
 
@@ -219,5 +230,28 @@ public class ListingsFragment extends Fragment {
             Log.e("city", city + "");
             propertyListings();
         }
+    }
+
+    public void showAlertDialog(final Context mContext) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("PYP");
+        builder.setMessage("Network error..Check your Internet Connection");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                propertyListings();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Open Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                mContext.startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 }

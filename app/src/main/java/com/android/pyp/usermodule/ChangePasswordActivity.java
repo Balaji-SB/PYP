@@ -2,9 +2,13 @@ package com.android.pyp.usermodule;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,6 +19,7 @@ import android.widget.Button;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
+import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
 import com.android.pyp.utils.Utils;
@@ -48,36 +53,45 @@ public class ChangePasswordActivity extends AppCompatActivity {
         updatePwdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validateComponents()) {
-                    Map<String, String> map = new HashMap<>();
-                    map.put("CurrentPassword", oldPassword.getText().toString());
-                    map.put("NewPassword", newPassword.getText().toString());
-                    map.put("Confirmpass", confirmPassword.getText().toString());
-                    Log.e("params is", map + "");
-                    dialog.show();
-                    pypApplication.customStringRequest(URLConstants.urlChangePassword, map, new DataCallback() {
-                        @Override
-                        public void onSuccess(Object result) {
-                            dialog.dismiss();
-                            Utils.presentSnackBar(mView, result.toString(), 0);
-                            clearUI();
-                        }
+                updateChangePassword();
 
-                        @Override
-                        public void onError(VolleyError error) {
-                            Utils.presentSnackBar(mView, error.toString(), 0);
-                            dialog.dismiss();
-                        }
-                    });
-                }
             }
         });
 
     }
 
+    private void updateChangePassword() {
+        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+            if (validateComponents()) {
+                Map<String, String> map = new HashMap<>();
+                map.put("CurrentPassword", oldPassword.getText().toString());
+                map.put("NewPassword", newPassword.getText().toString());
+                map.put("Confirmpass", confirmPassword.getText().toString());
+                Log.e("params is", map + "");
+                dialog.show();
+                pypApplication.customStringRequest(URLConstants.urlChangePassword, map, new DataCallback() {
+                    @Override
+                    public void onSuccess(Object result) {
+                        dialog.dismiss();
+                        Utils.presentSnackBar(mView, result.toString(), 0);
+                        clearUI();
+                    }
+
+                    @Override
+                    public void onError(VolleyError error) {
+                        Utils.presentSnackBar(mView, error.toString(), 0);
+                        dialog.dismiss();
+                    }
+                });
+            }
+        } else {
+            showAlertDialog(mContext);
+        }
+    }
+
     private void initVariables() {
         pypApplication = new PYPApplication(mContext);
-        dialog=pypApplication.getProgressDialog(mContext);
+        dialog = pypApplication.getProgressDialog(mContext);
         updatePwdBtn = (Button) mView.findViewById(R.id.updatePwdBtn);
         oldPassword = (TextInputEditText) mView.findViewById(R.id.oldPassword);
         newPassword = (TextInputEditText) mView.findViewById(R.id.newPassword);
@@ -136,5 +150,28 @@ public class ChangePasswordActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showAlertDialog(final Context mContext) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("PYP");
+        builder.setMessage("Network error..Check your Internet Connection");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateChangePassword();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Open Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                mContext.startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 }

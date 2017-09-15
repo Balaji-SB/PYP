@@ -1,10 +1,13 @@
 package com.android.pyp.property;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +21,7 @@ import android.widget.RadioGroup;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
+import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
 import com.android.volley.VolleyError;
@@ -275,49 +279,75 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     private void getFilters() {
-        filterTypeList = new ArrayList<>();
-        filterLocationList = new ArrayList<>();
-        Map<String, String> map = new HashMap<>();
-        pypApplication.customStringRequest(URLConstants.urlFitler, map, new DataCallback() {
-            @Override
-            public void onSuccess(Object result) {
-                Log.e("Result", result.toString());
-                try {
-                    JSONObject jsonObject = new JSONObject(result.toString());
+        if(InternetDetector.getInstance(mContext).isOnline(mContext)) {
+            filterTypeList = new ArrayList<>();
+            filterLocationList = new ArrayList<>();
+            Map<String, String> map = new HashMap<>();
+            pypApplication.customStringRequest(URLConstants.urlFitler, map, new DataCallback() {
+                @Override
+                public void onSuccess(Object result) {
+                    Log.e("Result", result.toString());
+                    try {
+                        JSONObject jsonObject = new JSONObject(result.toString());
 
-                    JSONArray array = jsonObject.getJSONArray("type");
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject jsonObject1 = array.getJSONObject(i);
-                        FilterData data = new FilterData();
-                        data.setTypeId(jsonObject1.getString("id"));
-                        data.setTypeName(jsonObject1.getString("name"));
-                        filterTypeList.add(data);
+                        JSONArray array = jsonObject.getJSONArray("type");
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject jsonObject1 = array.getJSONObject(i);
+                            FilterData data = new FilterData();
+                            data.setTypeId(jsonObject1.getString("id"));
+                            data.setTypeName(jsonObject1.getString("name"));
+                            filterTypeList.add(data);
+                        }
+
+                        JSONArray array1 = jsonObject.getJSONArray("site_country");
+                        for (int i = 0; i < array1.length(); i++) {
+                            JSONObject jsonObject1 = array1.getJSONObject(i);
+                            FilterData data = new FilterData();
+                            data.setLocationId(jsonObject1.getString("id"));
+                            data.setLocationName(jsonObject1.getString("country"));
+                            filterLocationList.add(data);
+                        }
+
+                        createRadioButton(filterTypeList);
+                        createLocRadioButton(filterLocationList);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
-                    JSONArray array1 = jsonObject.getJSONArray("site_country");
-                    for (int i = 0; i < array1.length(); i++) {
-                        JSONObject jsonObject1 = array1.getJSONObject(i);
-                        FilterData data = new FilterData();
-                        data.setLocationId(jsonObject1.getString("id"));
-                        data.setLocationName(jsonObject1.getString("country"));
-                        filterLocationList.add(data);
-                    }
-
-                    createRadioButton(filterTypeList);
-                    createLocRadioButton(filterLocationList);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
 
-            }
+                @Override
+                public void onError(VolleyError error) {
+                    Log.e("Error", error.toString());
+                }
+            });
+        }else{
+            showAlertDialog(mContext);
+        }
+    }
 
+    public void showAlertDialog(final Context mContext) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("PYP");
+        builder.setMessage("Network error..Check your Internet Connection");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
             @Override
-            public void onError(VolleyError error) {
-                Log.e("Error", error.toString());
+            public void onClick(DialogInterface dialog, int which) {
+                getFilters();
+                dialog.dismiss();
             }
         });
-
+        builder.setNegativeButton("Open Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                mContext.startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void createRadioButton(List<FilterData> filterTypeList) {

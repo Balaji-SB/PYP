@@ -1,13 +1,17 @@
 package com.android.pyp.home;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.pyp.R;
+import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.Utils;
 import com.facebook.common.util.UriUtil;
@@ -45,6 +49,12 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         myDraweeView.setController(controller);
 
+        retryFunc();
+
+
+    }
+
+    private void retryFunc() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -54,12 +64,16 @@ public class SplashScreenActivity extends AppCompatActivity {
                         try {
                             Thread.sleep(5300);
 //                                animatable.stop();
-                                if (manager.checkLogin()) {
-                                    Intent intent = new Intent(mContext, HomeActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }catch (Exception e) {
+                            if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+
+                                Intent intent = new Intent(mContext, HomeActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                showAlertDialog(mContext);
+                            }
+
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
 
@@ -68,7 +82,28 @@ public class SplashScreenActivity extends AppCompatActivity {
                 }).start();
             }
         });
+    }
 
-
+    public void showAlertDialog(final Context mContext) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("PYP");
+        builder.setMessage("Network error..Check your Internet Connection");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                retryFunc();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Open Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                mContext.startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 }

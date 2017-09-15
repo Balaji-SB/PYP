@@ -1,7 +1,10 @@
 package com.android.pyp.property;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
+import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.URLConstants;
@@ -83,7 +87,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
 
 
         String location = "";
-        if (myDataList.get(position).getCity() != "" || !myDataList.get(position).getCity().equalsIgnoreCase("null") || !myDataList.get(position).getCity().equalsIgnoreCase(null)) {
+        if (!myDataList.get(position).getCity().equalsIgnoreCase("null") || !myDataList.get(position).getCity().equalsIgnoreCase(null)) {
             location += myDataList.get(position).getCity() + ", ";
         }
         if (myDataList.get(position).getState() != "" || !myDataList.get(position).getState().equalsIgnoreCase("null") || !myDataList.get(position).getState().equalsIgnoreCase(null)) {
@@ -107,7 +111,11 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
         holder.favoriteImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addOrRemoveFav(holder,position,myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
+                if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+                    addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
+                } else {
+                    showAlertDialog(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
+                }
             }
         });
 
@@ -119,7 +127,31 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
                 mContext.startActivity(intent);
             }
         });
-        holder.amentyName.setText("Rent for "+myDataList.get(position).getAmentyName());
+        holder.amentyName.setText("Rent for " + myDataList.get(position).getAmentyName());
+    }
+
+    private void showAlertDialog(final ListingsViewHolder holder, final int position, String propertyId, String s) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("PYP");
+        builder.setMessage("Network error..Check your Internet Connection");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Open Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                mContext.startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
     }
 
     @Override
@@ -139,18 +171,18 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
             url = URLConstants.urlRemoveFromFav;
             map.put("f_id", favId);
         }
-        Log.e("Map is",map.toString());
+        Log.e("Map is", map.toString());
         pypApplication.customStringRequest(url, map, new DataCallback() {
             @Override
             public void onSuccess(Object result) {
                 Log.e("Result", result.toString());
                 //
                 try {
-                    JSONObject jsonObject=new JSONObject(result.toString());
-                    if(jsonObject.getString("success").trim().equalsIgnoreCase("added")){
+                    JSONObject jsonObject = new JSONObject(result.toString());
+                    if (jsonObject.getString("success").trim().equalsIgnoreCase("added")) {
                         myDataList.get(position).setfId(jsonObject.getString("f_id"));
                         notifyDataSetChanged();
-                    }else{
+                    } else {
                         myDataList.get(position).setfId(null);
                         notifyDataSetChanged();
                     }
@@ -167,6 +199,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
             }
         });
     }
+
 }
 
 class ListingsViewHolder extends RecyclerView.ViewHolder {

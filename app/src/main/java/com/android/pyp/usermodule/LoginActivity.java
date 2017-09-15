@@ -4,15 +4,18 @@ import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 import com.android.pyp.R;
 import com.android.pyp.home.HomeActivity;
 import com.android.pyp.utils.DataCallback;
+import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.URLConstants;
@@ -110,39 +114,43 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validateComponents()) {
-                    Map<String, String> map = new HashMap<>();
-                    map.put("email", emailEdt.getText().toString().trim());
-                    map.put("password", passwordEdt.getText().toString().trim());
-                    dialog.show();
-                    pypApplication.customStringRequest(URLConstants.urlLogin, map, new DataCallback() {
-                        @Override
-                        public void onSuccess(Object result) {
-                            dialog.dismiss();
-                            Log.e("Success result is", result.toString());
-                            try {
-                                JSONObject jsonObject = new JSONObject(result.toString());
-                                if (jsonObject.getString("result").trim().equalsIgnoreCase("success")) {
-                                    JSONObject object = jsonObject.getJSONObject("userdetails");
-                                    manager.createLoginSession(object.getString("auth_id"), object.getString("key_email"), object.getString("first_name") + " " + object.getString("last_name"), object.getString("key_pass"), object.getString("phone"), object.getString("image"));
-                                    Intent intent = new Intent(mContext, HomeActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    Utils.presentSnackBar(mView, jsonObject.getString("result"), 1);
+                if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+                    if (validateComponents()) {
+                        Map<String, String> map = new HashMap<>();
+                        map.put("email", emailEdt.getText().toString().trim());
+                        map.put("password", passwordEdt.getText().toString().trim());
+                        dialog.show();
+                        pypApplication.customStringRequest(URLConstants.urlLogin, map, new DataCallback() {
+                            @Override
+                            public void onSuccess(Object result) {
+                                dialog.dismiss();
+                                Log.e("Success result is", result.toString());
+                                try {
+                                    JSONObject jsonObject = new JSONObject(result.toString());
+                                    if (jsonObject.getString("result").trim().equalsIgnoreCase("success")) {
+                                        JSONObject object = jsonObject.getJSONObject("userdetails");
+                                        manager.createLoginSession(object.getString("auth_id"), object.getString("key_email"), object.getString("first_name") + " " + object.getString("last_name"), object.getString("key_pass"), object.getString("phone"), object.getString("image"));
+                                        Intent intent = new Intent(mContext, HomeActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Utils.presentSnackBar(mView, jsonObject.getString("result"), 1);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    dialog.dismiss();
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onError(VolleyError error) {
+                                Log.e("Error result is", error.toString());
                                 dialog.dismiss();
                             }
-                        }
-
-                        @Override
-                        public void onError(VolleyError error) {
-                            Log.e("Error result is", error.toString());
-                            dialog.dismiss();
-                        }
-                    });
+                        });
+                    }
+                } else {
+                    showAlertDialog(LoginActivity.this);
                 }
             }
         });
@@ -169,10 +177,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if (google_api_client.isConnected()) {
-                    google_api_client.disconnect();
+                if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+                    if (google_api_client.isConnected()) {
+                        google_api_client.disconnect();
+                    }
+                    gPlusSignIn();
+                } else {
+                    showAlertDialog(LoginActivity.this);
                 }
-                gPlusSignIn();
             }
         });
 
@@ -243,18 +255,24 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         fbImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.show();
-                LoginManager.getInstance().logOut();
-                loginManager.unregisterCallback(callbackManager);
+                if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+
+                    dialog.show();
+                    LoginManager.getInstance().logOut();
+                    loginManager.unregisterCallback(callbackManager);
 //                Utils.presentToast(mContext,"FB logged out 1",0);;
-                if (AccessToken.getCurrentAccessToken() != null) {
+                    if (AccessToken.getCurrentAccessToken() != null) {
 //                    LoginManager.getInstance().logOut();
 //                    loginManager.unregisterCallback(callbackManager);
 //                    Utils.presentToast(mContext,"FB logged out 1",0);;
-                } else {
-                    loginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList(
-                            "public_profile", "email", "user_birthday", "user_friends"));
-                    loginManager.registerCallback(callbackManager, callback);
+                    } else {
+                        loginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList(
+                                "public_profile", "email", "user_birthday", "user_friends"));
+                        loginManager.registerCallback(callbackManager, callback);
+                    }
+                }
+                else{
+                    showAlertDialog(mContext);
                 }
             }
         });
@@ -507,5 +525,27 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
     }
 
+
+    public static void showAlertDialog(final Context mContext) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("PYP");
+        builder.setMessage("Network error..Check your Internet Connection");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Open Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                mContext.startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
 
 }

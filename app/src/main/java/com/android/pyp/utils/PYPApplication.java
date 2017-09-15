@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.support.multidex.MultiDex;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Window;
@@ -44,7 +45,7 @@ public class PYPApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fresco.initialize(this);
-//        MultiDex.install(this);
+        MultiDex.install(this);
 
 //        FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/Raleway-Medium.ttf");
         TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/EBGaramond-Regular.ttf");

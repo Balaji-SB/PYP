@@ -26,7 +26,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        manager= Utils.getSessionManager(this);
+        manager = Utils.getSessionManager(this);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.menuhome);
@@ -36,10 +36,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void updateDisplay(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.homeFrame,fragment).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.homeFrame, fragment).addToBackStack(null).commit();
     }
 
-    public void updateNavItem(int itemId){
+    public void updateNavItem(int itemId) {
         navigation.setSelectedItemId(itemId);
     }
 
@@ -51,30 +51,30 @@ public class HomeActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.menuhome:
-                    Fragment fragment=new ListingsFragment();
+                    Fragment fragment = new ListingsFragment();
                     updateDisplay(fragment);
 
                     return true;
                 case R.id.menumyProfile:
-                    if(manager.checkLogin()) {
+                    if (manager.checkLogin()) {
                         Fragment fragment1 = new MyProfileFragment();
                         updateDisplay(fragment1);
                     }
                     return true;
                 case R.id.menufavorite:
-                    if(manager.checkLogin()){
-                        Fragment fragment2=new MyFavoriteProperty();
+                    if (manager.checkLogin()) {
+                        Fragment fragment2 = new MyFavoriteProperty();
                         updateDisplay(fragment2);
                     }
                     return true;
                 case R.id.menumyProperty:
-                    if(manager.checkLogin()){
-                        Fragment fragment3=new MyProperty();
+                    if (manager.checkLogin()) {
+                        Fragment fragment3 = new MyProperty();
                         updateDisplay(fragment3);
                     }
                     return true;
                 case R.id.menusettings:
-                    Fragment fragment4=new SettingsFragment();
+                    Fragment fragment4 = new SettingsFragment();
                     updateDisplay(fragment4);
                     return true;
             }

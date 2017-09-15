@@ -1,7 +1,10 @@
 package com.android.pyp.property;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
+import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
 import com.android.volley.VolleyError;
@@ -83,7 +87,11 @@ public class MyFavoritePropertyAdapter extends RecyclerView.Adapter<MyFavoritePr
         holder.favImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addOrRemoveFav(position, propertyDataList.get(position).getPropertyId(), propertyDataList.get(position).getfId());
+                if(InternetDetector.getInstance(mContext).isOnline(mContext)) {
+                    addOrRemoveFav(position, propertyDataList.get(position).getPropertyId(), propertyDataList.get(position).getfId());
+                }else{
+                    showAlertDialog(position, propertyDataList.get(position).getPropertyId(), propertyDataList.get(position).getfId());
+                }
             }
         });
 
@@ -136,6 +144,30 @@ public class MyFavoritePropertyAdapter extends RecyclerView.Adapter<MyFavoritePr
                 Log.e("Error", error.toString());
             }
         });
+    }
+
+    private void showAlertDialog(final int position, String propertyId, String s) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("PYP");
+        builder.setMessage("Network error..Check your Internet Connection");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                addOrRemoveFav(position, propertyDataList.get(position).getPropertyId(), propertyDataList.get(position).getfId());
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Open Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                mContext.startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
     }
 }
 

@@ -1,8 +1,12 @@
 package com.android.pyp.cms;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,6 +17,7 @@ import android.widget.EditText;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
+import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
 import com.android.pyp.utils.Utils;
@@ -43,26 +48,57 @@ public class ContactUsActivity extends AppCompatActivity {
         supBtnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validateComponents()) {
-                    Map<String, String> map = new HashMap<>();
-                    map.put("contact_name", supName.getText().toString().trim());
-                    map.put("contact_email", supEmail.getText().toString().trim());
-                    map.put("contact_subject", supSub.getText().toString().trim());
-                    map.put("contact_message", subMsg.getText().toString().trim());
-                    pypApplication.customStringRequest(URLConstants.urlCMSContactUs, map, new DataCallback() {
-                        @Override
-                        public void onSuccess(Object result) {
-                            Utils.presentSnackBar(mView, result.toString(), 0);
-                        }
-
-                        @Override
-                        public void onError(VolleyError error) {
-                            Utils.presentSnackBar(mView, error.toString(), 0);
-                        }
-                    });
-                }
+                submitContactusDetails();
             }
         });
+    }
+
+    private void submitContactusDetails() {
+        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+            if (validateComponents()) {
+                Map<String, String> map = new HashMap<>();
+                map.put("contact_name", supName.getText().toString().trim());
+                map.put("contact_email", supEmail.getText().toString().trim());
+                map.put("contact_subject", supSub.getText().toString().trim());
+                map.put("contact_message", subMsg.getText().toString().trim());
+                pypApplication.customStringRequest(URLConstants.urlCMSContactUs, map, new DataCallback() {
+                    @Override
+                    public void onSuccess(Object result) {
+                        Utils.presentSnackBar(mView, result.toString(), 0);
+                    }
+
+                    @Override
+                    public void onError(VolleyError error) {
+                        Utils.presentSnackBar(mView, error.toString(), 0);
+                    }
+                });
+            }
+        } else {
+            showAlertDialog(mContext);
+        }
+    }
+
+    public void showAlertDialog(final Context mContext) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("PYP");
+        builder.setMessage("Network error..Check your Internet Connection");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                submitContactusDetails();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Open Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                mContext.startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void initVariables() {

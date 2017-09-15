@@ -3,6 +3,7 @@ package com.android.pyp.usermodule;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -14,11 +15,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -96,6 +99,7 @@ public class MyProfileFragment extends Fragment {
     private double latitude = 0;
     private double longitude = 0;
     private Dialog dialog;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -164,7 +168,7 @@ public class MyProfileFragment extends Fragment {
 
     public void initVariables() {
         pypApplication = new PYPApplication(mContext);
-        dialog=pypApplication.getProgressDialog(mContext);
+        dialog = pypApplication.getProgressDialog(mContext);
         resultImage = (ImageView) mView.findViewById(R.id.resultImage);
         originalImage = (ImageView) mView.findViewById(R.id.originalImage);
         editImage = (ImageView) mView.findViewById(R.id.editImage);
@@ -247,47 +251,52 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void viewUserProfile() {
-        Map<String, String> map = new HashMap<>();
-        map.put("site_user_id", site_user_id);
-        dialog.show();
-        pypApplication.customStringRequest(URLConstants.urlViewUserProfile, map, new DataCallback() {
-            @Override
-            public void onSuccess(Object result) {
-                Log.e("Profile Result", result.toString());
-                if (result != null) {
+        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
 
-                    try {
-                        JSONObject jsonObject = new JSONObject(result.toString());
-                        ProfileData data = new ProfileData();
-                        data.setFirstName(jsonObject.optString("first_name"));
-                        data.setLastName(jsonObject.optString("last_name"));
-                        data.setEmail(jsonObject.optString("key_email"));
-                        data.setPassword(jsonObject.optString("key_pass"));
-                        data.setPhone(jsonObject.optString("phone"));
-                        data.setAddress(jsonObject.optString("addressEdt"));
-                        data.setCity(jsonObject.optString("city"));
-                        data.setState(jsonObject.optString("state"));
-                        data.setCountry(jsonObject.optString("country"));
-                        data.setPostalCode(jsonObject.optString("postel_codes"));
-                        data.setImage(jsonObject.optString("image"));
-                        data.setLatitude(jsonObject.getDouble("latitude"));
-                        data.setLongitude(jsonObject.getDouble("longitude"));
-                        updateUI(data);
+            Map<String, String> map = new HashMap<>();
+            map.put("site_user_id", site_user_id);
+            dialog.show();
+            pypApplication.customStringRequest(URLConstants.urlViewUserProfile, map, new DataCallback() {
+                @Override
+                public void onSuccess(Object result) {
+                    Log.e("Profile Result", result.toString());
+                    if (result != null) {
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        try {
+                            JSONObject jsonObject = new JSONObject(result.toString());
+                            ProfileData data = new ProfileData();
+                            data.setFirstName(jsonObject.optString("first_name"));
+                            data.setLastName(jsonObject.optString("last_name"));
+                            data.setEmail(jsonObject.optString("key_email"));
+                            data.setPassword(jsonObject.optString("key_pass"));
+                            data.setPhone(jsonObject.optString("phone"));
+                            data.setAddress(jsonObject.optString("addressEdt"));
+                            data.setCity(jsonObject.optString("city"));
+                            data.setState(jsonObject.optString("state"));
+                            data.setCountry(jsonObject.optString("country"));
+                            data.setPostalCode(jsonObject.optString("postel_codes"));
+                            data.setImage(jsonObject.optString("image"));
+                            data.setLatitude(jsonObject.getDouble("latitude"));
+                            data.setLongitude(jsonObject.getDouble("longitude"));
+                            updateUI(data);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    } else {
+
                     }
-
-                } else {
-
                 }
-            }
 
-            @Override
-            public void onError(VolleyError error) {
-                Log.e("Profile Error Result", error.toString());
-            }
-        });
+                @Override
+                public void onError(VolleyError error) {
+                    Log.e("Profile Error Result", error.toString());
+                }
+            });
+        } else {
+            showAlertDialog(mContext, 1);
+        }
     }
 
     private void updateUI(ProfileData data) {
@@ -326,7 +335,7 @@ public class MyProfileFragment extends Fragment {
                 if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
                     new UploadFileToServer(mView, mContext, imgPath, oldImage).execute();
                 } else {
-                    Toast.makeText(mContext, "Please check your internet connection", Toast.LENGTH_LONG).show();
+                    showAlertDialog(mContext, 3);
                 }
 
             } catch (Exception e) {
@@ -448,31 +457,35 @@ public class MyProfileFragment extends Fragment {
 
 
     private void updateProfile() {
-        if (validateComponents()) {
-            Map<String, String> map = new HashMap<>();
-            map.put("fname", firstName.getText().toString().trim());
-            map.put("lname", lastName.getText().toString().trim());
-            map.put("phone", phone.getText().toString().trim());
-            map.put("addressEdt", addressEdt.getText().toString().trim());
-            map.put("locality", city.getText().toString().trim());
-            map.put("administrative_area_level_1", state.getText().toString().trim());
-            map.put("country", country.getText().toString().trim());
+        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+            if (validateComponents()) {
+                Map<String, String> map = new HashMap<>();
+                map.put("fname", firstName.getText().toString().trim());
+                map.put("lname", lastName.getText().toString().trim());
+                map.put("phone", phone.getText().toString().trim());
+                map.put("addressEdt", addressEdt.getText().toString().trim());
+                map.put("locality", city.getText().toString().trim());
+                map.put("administrative_area_level_1", state.getText().toString().trim());
+                map.put("country", country.getText().toString().trim());
 //            map.put("img_hidden", oldImage);
-            map.put("lat", latitude + "");
-            map.put("lng", longitude + "");
-            Log.e("Map", map.toString());
-            pypApplication.customStringRequest(URLConstants.urlUpdateUserProfile, map, new DataCallback() {
-                @Override
-                public void onSuccess(Object result) {
-                    Log.e("Result is", result.toString());
-                    Utils.presentSnackBar(mView, result.toString(), 0);
-                }
+                map.put("lat", latitude + "");
+                map.put("lng", longitude + "");
+                Log.e("Map", map.toString());
+                pypApplication.customStringRequest(URLConstants.urlUpdateUserProfile, map, new DataCallback() {
+                    @Override
+                    public void onSuccess(Object result) {
+                        Log.e("Result is", result.toString());
+                        Utils.presentSnackBar(mView, result.toString(), 0);
+                    }
 
-                @Override
-                public void onError(VolleyError error) {
-                    Log.e("Error is", error.toString());
-                }
-            });
+                    @Override
+                    public void onError(VolleyError error) {
+                        Log.e("Error is", error.toString());
+                    }
+                });
+            }
+        } else {
+            showAlertDialog(mContext, 2);
         }
 
     }
@@ -707,5 +720,34 @@ public class MyProfileFragment extends Fragment {
                 }
             }
         }
+    }
+
+    public void showAlertDialog(final Context mContext, final int type) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("PYP");
+        builder.setMessage("Network error..Check your Internet Connection");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (type == 1) {
+                    viewUserProfile();
+                } else if (type == 2) {
+                    updateProfile();
+                } else {
+                    new UploadFileToServer(mView, mContext, imgPath, oldImage).execute();
+                }
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Open Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                mContext.startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 }

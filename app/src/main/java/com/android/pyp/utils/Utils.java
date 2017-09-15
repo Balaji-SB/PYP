@@ -3,6 +3,7 @@ package com.android.pyp.utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -190,20 +191,22 @@ public class Utils {
      * To show alert
      */
 
-    public static void showAlertDialog(Context mContext) {
+    public static void showAlertDialog(final Context mContext) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("PYP");
-        builder.setMessage("Are you sure want to exit?");
+        builder.setMessage("Network error..Check your Internet Connection");
         builder.setIcon(R.mipmap.ic_launcher);
-        builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
-        builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Open Settings", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Intent intent=new Intent(Settings.ACTION_SETTINGS);
+                mContext.startActivity(intent);
                 dialog.dismiss();
             }
         });
