@@ -112,7 +112,9 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
             @Override
             public void onClick(View view) {
                 if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
-                    addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
+                    if(Utils.getSessionManager(mContext).checkLogin()) {
+                        addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
+                    }
                 } else {
                     showAlertDialog(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
                 }
@@ -138,7 +140,9 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
         builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
+                if(Utils.getSessionManager(mContext).checkLogin()) {
+                    addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
+                }
                 dialog.dismiss();
             }
         });

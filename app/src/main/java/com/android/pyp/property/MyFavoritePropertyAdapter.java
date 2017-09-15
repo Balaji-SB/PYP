@@ -19,6 +19,7 @@ import com.android.pyp.utils.DataCallback;
 import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
+import com.android.pyp.utils.Utils;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 
@@ -87,9 +88,11 @@ public class MyFavoritePropertyAdapter extends RecyclerView.Adapter<MyFavoritePr
         holder.favImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(InternetDetector.getInstance(mContext).isOnline(mContext)) {
-                    addOrRemoveFav(position, propertyDataList.get(position).getPropertyId(), propertyDataList.get(position).getfId());
-                }else{
+                if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+                    if (Utils.getSessionManager(mContext).checkLogin()) {
+                        addOrRemoveFav(position, propertyDataList.get(position).getPropertyId(), propertyDataList.get(position).getfId());
+                    }
+                } else {
                     showAlertDialog(position, propertyDataList.get(position).getPropertyId(), propertyDataList.get(position).getfId());
                 }
             }
@@ -154,7 +157,9 @@ public class MyFavoritePropertyAdapter extends RecyclerView.Adapter<MyFavoritePr
         builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                addOrRemoveFav(position, propertyDataList.get(position).getPropertyId(), propertyDataList.get(position).getfId());
+                if (Utils.getSessionManager(mContext).checkLogin()) {
+                    addOrRemoveFav(position, propertyDataList.get(position).getPropertyId(), propertyDataList.get(position).getfId());
+                }
                 dialog.dismiss();
             }
         });
@@ -185,6 +190,6 @@ class MyFavoritePropertyViewHolder extends RecyclerView.ViewHolder {
         propertyTitle = (TextView) itemView.findViewById(R.id.propertyTitle);
         propertyLocation = (TextView) itemView.findViewById(R.id.propertyLocation);
         propPrice = (TextView) itemView.findViewById(R.id.propPrice);
-        cardMyProp= (CardView) itemView.findViewById(R.id.cardMyProp);
+        cardMyProp = (CardView) itemView.findViewById(R.id.cardMyProp);
     }
 }

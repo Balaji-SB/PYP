@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
@@ -51,6 +52,7 @@ public class MyProperty extends Fragment {
     private SessionManager manager;
     private SharedPreferences preferences;
     private Dialog dialog;
+    private TextView nopropertyTxt;
 
     @Nullable
     @Override
@@ -66,9 +68,10 @@ public class MyProperty extends Fragment {
         propertyDataList = new ArrayList<>();
         manager = Utils.getSessionManager(mContext);
         preferences = Utils.getSharedPreferences(mContext);
-        site_user_id = preferences.getString(SessionManager.KEY_USERID, "1");
+        site_user_id = preferences.getString(SessionManager.KEY_USERID, "");
         pypApplication = new PYPApplication(mContext);
         dialog = pypApplication.getProgressDialog(mContext);
+        nopropertyTxt = (TextView) mView.findViewById(R.id.nopropertyTxt);
         mypropertyRecycler = (RecyclerView) mView.findViewById(R.id.mypropertyRecycler);
         mypropertyRecycler.setLayoutManager(new LinearLayoutManager(mContext));
     }
@@ -107,12 +110,13 @@ public class MyProperty extends Fragment {
                 public void onSuccess(Object result) {
                     Log.e("Result is", result.toString());
                     propertyDataList = new ArrayList<>();
-
+                    dialog.dismiss();
                     try {
                         JSONObject object = new JSONObject(result.toString());
 
                         JSONArray array = object.getJSONArray("details");
                         if (array.length() > 0) {
+                            nopropertyTxt.setVisibility(View.GONE);
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject jsonObject = array.getJSONObject(i);
                                 PropertyData data = new PropertyData();
@@ -126,9 +130,12 @@ public class MyProperty extends Fragment {
                                 propertyDataList.add(data);
                             }
                             updateUI(propertyDataList);
+                        } else {
+                            nopropertyTxt.setVisibility(View.VISIBLE);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        nopropertyTxt.setVisibility(View.VISIBLE);
                         dialog.dismiss();
                     }
 
@@ -137,6 +144,7 @@ public class MyProperty extends Fragment {
                 @Override
                 public void onError(VolleyError error) {
                     Log.e("Error is", error.toString());
+                    nopropertyTxt.setVisibility(View.VISIBLE);
                     dialog.dismiss();
                 }
             });

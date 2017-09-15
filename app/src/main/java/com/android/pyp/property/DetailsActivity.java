@@ -110,20 +110,20 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 NUM_PAGES = imagesList.size();
-                if (detailsViewPager.getCurrentItem() == NUM_PAGES) {
-                    detailsViewPager.setCurrentItem(detailsViewPager.getCurrentItem());
+                if (propertyImagesPager.getCurrentItem() == NUM_PAGES) {
+                    propertyImagesPager.setCurrentItem(propertyImagesPager.getCurrentItem());
                 } else {
-                    detailsViewPager.setCurrentItem(detailsViewPager.getCurrentItem() + 1);
+                    propertyImagesPager.setCurrentItem(propertyImagesPager.getCurrentItem() + 1);
                 }
             }
         });
         galleryPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (detailsViewPager.getCurrentItem() == 0) {
-                    detailsViewPager.setCurrentItem(detailsViewPager.getCurrentItem());
+                if (propertyImagesPager.getCurrentItem() == 0) {
+                    propertyImagesPager.setCurrentItem(propertyImagesPager.getCurrentItem());
                 } else {
-                    detailsViewPager.setCurrentItem(detailsViewPager.getCurrentItem() - 1);
+                    propertyImagesPager.setCurrentItem(propertyImagesPager.getCurrentItem() - 1);
                 }
             }
         });

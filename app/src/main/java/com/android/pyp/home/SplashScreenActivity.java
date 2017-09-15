@@ -70,7 +70,13 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             } else {
-                                showAlertDialog(mContext);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        showAlertDialog(mContext);
+                                    }
+                                });
+
                             }
 
                         } catch (Exception e) {

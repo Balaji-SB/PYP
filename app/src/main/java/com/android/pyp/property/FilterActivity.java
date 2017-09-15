@@ -273,6 +273,7 @@ public class FilterActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            setResult(2);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -379,4 +380,10 @@ public class FilterActivity extends AppCompatActivity {
         locationLinearRadio.addView(locationRadioGroup);//you add the whole RadioGroup to the layout
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResult(2);
+        finish();
+    }
 }

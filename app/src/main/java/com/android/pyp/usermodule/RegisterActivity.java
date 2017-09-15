@@ -7,18 +7,25 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.pyp.R;
@@ -66,7 +73,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     private ImageView fbImg, gplusImg, inImg;
     private TextInputEditText firstNameEdt, lastNameEdt, emailEdt, passwordEdt, confirmPasswordEdt;
-    private Button loginBtn, registerBtn;
+    private Button registerBtn;
+    private TextView loginBtn;
     private Context mContext;
     private View mView;
     private SharedPreferences preferences;
@@ -446,8 +454,27 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         emailEdt = (TextInputEditText) mView.findViewById(R.id.emailEdt);
         passwordEdt = (TextInputEditText) mView.findViewById(R.id.passwordEdt);
         confirmPasswordEdt = (TextInputEditText) mView.findViewById(R.id.confirmPasswordEdt);
-        loginBtn = (Button) mView.findViewById(R.id.loginBtn);
+        loginBtn = (TextView) mView.findViewById(R.id.loginBtn);
         registerBtn = (Button) mView.findViewById(R.id.registerBtn);
+
+        SpannableString ss = new SpannableString(loginBtn.getText().toString());
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                startActivity(new Intent(mContext, LoginActivity.class));
+                finish();
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(true);
+            }
+        };
+        ss.setSpan(clickableSpan, 25, 32, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        loginBtn.setText(ss);
+        loginBtn.setMovementMethod(LinkMovementMethod.getInstance());
+        loginBtn.setHighlightColor(Color.TRANSPARENT);
     }
 
 

@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
@@ -51,6 +52,7 @@ public class MyFavoriteProperty extends Fragment {
     private SessionManager manager;
     private SharedPreferences preferences;
     private Dialog dialog;
+    private TextView nopropertyTxt;
 
     @Nullable
     @Override
@@ -66,15 +68,16 @@ public class MyFavoriteProperty extends Fragment {
         propertyDataList = new ArrayList<>();
         manager = Utils.getSessionManager(mContext);
         preferences = Utils.getSharedPreferences(mContext);
-        site_user_id = preferences.getString(SessionManager.KEY_USERID, "1");
+        site_user_id = preferences.getString(SessionManager.KEY_USERID, "");
         pypApplication = new PYPApplication(mContext);
-        dialog=pypApplication.getProgressDialog(mContext);
+        dialog = pypApplication.getProgressDialog(mContext);
+        nopropertyTxt = (TextView) mView.findViewById(R.id.nopropertyTxt);
         mypropertyRecycler = (RecyclerView) mView.findViewById(R.id.mypropertyRecycler);
         mypropertyRecycler.setLayoutManager(new LinearLayoutManager(mContext));
     }
 
     private void myFavoriteProperties() {
-        if(InternetDetector.getInstance(mContext).isOnline(mContext)) {
+        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
             Map<String, String> map = new HashMap<>();
             map.put("site_user_id", site_user_id);
             Log.e("Map is", map.toString());
@@ -91,6 +94,7 @@ public class MyFavoriteProperty extends Fragment {
 
                         JSONArray array = object.getJSONArray("result");
                         if (array.length() > 0) {
+                            nopropertyTxt.setVisibility(View.GONE);
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject jsonObject = array.getJSONObject(i);
                                 PropertyData data = new PropertyData();
@@ -104,6 +108,8 @@ public class MyFavoriteProperty extends Fragment {
                                 propertyDataList.add(data);
                             }
 
+                        } else {
+                            nopropertyTxt.setVisibility(View.VISIBLE);
                         }
                         JSONArray array1 = object.getJSONArray("image");
                         if (array1.length() > 0) {
@@ -115,6 +121,7 @@ public class MyFavoriteProperty extends Fragment {
                         updateUI(propertyDataList);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        nopropertyTxt.setVisibility(View.VISIBLE);
                         dialog.dismiss();
                     }
 
@@ -124,10 +131,10 @@ public class MyFavoriteProperty extends Fragment {
                 public void onError(VolleyError error) {
                     Log.e("Error is", error.toString());
                     dialog.dismiss();
+                    nopropertyTxt.setVisibility(View.VISIBLE);
                 }
             });
-        }
-        else{
+        } else {
             showAlertDialog(mContext);
         }
     }

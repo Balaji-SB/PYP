@@ -354,15 +354,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void resolveSignInError() {
-        if (connection_result.hasResolution()) {
-            try {
-                is_intent_inprogress = true;
-                connection_result.startResolutionForResult(this, SIGN_IN_CODE);
-                Log.d("resolve error", "sign in error resolved");
-            } catch (IntentSender.SendIntentException e) {
-                is_intent_inprogress = false;
-                google_api_client.connect();
+        if(connection_result!=null) {
+            if (connection_result.hasResolution()) {
+                try {
+                    is_intent_inprogress = true;
+                    connection_result.startResolutionForResult(this, SIGN_IN_CODE);
+                    Log.d("resolve error", "sign in error resolved");
+                } catch (IntentSender.SendIntentException e) {
+                    is_intent_inprogress = false;
+                    google_api_client.connect();
+                }
             }
+        }else{
+            is_intent_inprogress = false;
+            google_api_client.connect();
         }
     }
 
@@ -510,7 +515,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 Log.e("Success", result.toString());
                 dialog.dismiss();
                 try {
-                    JSONObject object = new JSONObject(result.toString());
+                    JSONObject object1 = new JSONObject(result.toString());
+                    if(object1.optString("result").equalsIgnoreCase("success")){
+                        JSONObject object=object1.getJSONObject("userdetails");
+                        manager.createLoginSession(object.getString("auth_id"), object.getString("key_email"), object.getString("first_name") + " " + object.getString("last_name"), object.getString("key_pass"), object.getString("phone"), object.getString("image"));
+                        Intent intent = new Intent(mContext, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();

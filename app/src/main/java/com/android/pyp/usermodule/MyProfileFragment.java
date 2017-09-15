@@ -35,7 +35,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.AndMultiPartEntity;
@@ -99,6 +98,7 @@ public class MyProfileFragment extends Fragment {
     private double latitude = 0;
     private double longitude = 0;
     private Dialog dialog;
+    private SharedPreferences preferences;
 
     @Nullable
     @Override
@@ -130,7 +130,7 @@ public class MyProfileFragment extends Fragment {
                     firstName.setEnabled(true);
                     lastName.setEnabled(true);
                     phone.setEnabled(true);
-                    email.setEnabled(true);
+//                    email.setEnabled(true);
                     addressEdt.setEnabled(true);
                     city.setEnabled(true);
                     state.setEnabled(true);
@@ -139,7 +139,7 @@ public class MyProfileFragment extends Fragment {
                     location.setEnabled(true);
                 } else {
                     updateProfile();
-                    isEditable = false;
+                   /* isEditable = false;
                     myProfileFAB.setImageResource(R.drawable.edit);
                     firstName.setEnabled(false);
                     location.setEnabled(false);
@@ -150,7 +150,7 @@ public class MyProfileFragment extends Fragment {
                     city.setEnabled(false);
                     state.setEnabled(false);
                     postalCode.setEnabled(false);
-                    country.setEnabled(false);
+                    country.setEnabled(false);*/
                 }
             }
         });
@@ -168,6 +168,7 @@ public class MyProfileFragment extends Fragment {
 
     public void initVariables() {
         pypApplication = new PYPApplication(mContext);
+        preferences=Utils.getSharedPreferences(mContext);
         dialog = pypApplication.getProgressDialog(mContext);
         resultImage = (ImageView) mView.findViewById(R.id.resultImage);
         originalImage = (ImageView) mView.findViewById(R.id.originalImage);
@@ -185,7 +186,7 @@ public class MyProfileFragment extends Fragment {
         country = (EditText) mView.findViewById(R.id.country);
         profileName = (TextView) mView.findViewById(R.id.profileName);
         getActivity().setTitle("My Profile");
-        site_user_id = Utils.getSharedPreferences(mContext).getString(SessionManager.KEY_USERID, "1");
+        site_user_id = Utils.getSharedPreferences(mContext).getString(SessionManager.KEY_USERID, "");
     }
 
     @Override
@@ -270,14 +271,14 @@ public class MyProfileFragment extends Fragment {
                             data.setEmail(jsonObject.optString("key_email"));
                             data.setPassword(jsonObject.optString("key_pass"));
                             data.setPhone(jsonObject.optString("phone"));
-                            data.setAddress(jsonObject.optString("addressEdt"));
+                            data.setAddress(jsonObject.optString("address"));
                             data.setCity(jsonObject.optString("city"));
                             data.setState(jsonObject.optString("state"));
                             data.setCountry(jsonObject.optString("country"));
                             data.setPostalCode(jsonObject.optString("postel_codes"));
                             data.setImage(jsonObject.optString("image"));
-                            data.setLatitude(jsonObject.getDouble("latitude"));
-                            data.setLongitude(jsonObject.getDouble("longitude"));
+                            data.setLatitude(jsonObject.optDouble("latitude"));
+                            data.setLongitude(jsonObject.optDouble("longitude"));
                             updateUI(data);
 
                         } catch (JSONException e) {
@@ -301,15 +302,15 @@ public class MyProfileFragment extends Fragment {
 
     private void updateUI(ProfileData data) {
         firstName.setText(data.getFirstName());
-        lastName.setText(data.getLastName());
+        lastName.setText(data.getLastName().equalsIgnoreCase("null")?"":data.getLastName());
         profileName.setText(data.getFirstName() + " " + data.getLastName());
-        email.setText(data.getEmail());
-        phone.setText(data.getPhone());
-        addressEdt.setText(data.getAddress());
-        city.setText(data.getCity());
-        state.setText(data.getState());
-        country.setText(data.getCountry());
-        postalCode.setText(data.getPostalCode());
+        email.setText(data.getEmail().equalsIgnoreCase("null")?"":data.getEmail());
+        phone.setText(data.getPhone().equalsIgnoreCase("null")?"":data.getPhone());
+        addressEdt.setText(data.getAddress().equalsIgnoreCase("null")?"":data.getAddress());
+        city.setText(data.getCity().equalsIgnoreCase("null")?"":data.getCity());
+        state.setText(data.getState().equalsIgnoreCase("null")?"":data.getState());
+        country.setText(data.getCountry().equalsIgnoreCase("null")?"":data.getCountry());
+        postalCode.setText(data.getPostalCode().equalsIgnoreCase("null")?"":data.getPostalCode());
         oldImage = data.getImage();
         new LoadImage(data.getImage()).execute();
     }
@@ -463,19 +464,33 @@ public class MyProfileFragment extends Fragment {
                 map.put("fname", firstName.getText().toString().trim());
                 map.put("lname", lastName.getText().toString().trim());
                 map.put("phone", phone.getText().toString().trim());
-                map.put("addressEdt", addressEdt.getText().toString().trim());
+                map.put("address", addressEdt.getText().toString().trim());
+                map.put("postal_code", postalCode.getText().toString().trim());
                 map.put("locality", city.getText().toString().trim());
                 map.put("administrative_area_level_1", state.getText().toString().trim());
                 map.put("country", country.getText().toString().trim());
 //            map.put("img_hidden", oldImage);
                 map.put("lat", latitude + "");
                 map.put("lng", longitude + "");
+                map.put("site_user_id", preferences.getString(SessionManager.KEY_USERID,"")+ "");
                 Log.e("Map", map.toString());
                 pypApplication.customStringRequest(URLConstants.urlUpdateUserProfile, map, new DataCallback() {
                     @Override
                     public void onSuccess(Object result) {
                         Log.e("Result is", result.toString());
-                        Utils.presentSnackBar(mView, result.toString(), 0);
+                        Utils.presentSnackBar(mView, result.toString(), 1);
+                        isEditable = false;
+                        myProfileFAB.setImageResource(R.drawable.edit);
+                        firstName.setEnabled(false);
+                        location.setEnabled(false);
+                        lastName.setEnabled(false);
+                        phone.setEnabled(false);
+//                        email.setEnabled(false);
+                        addressEdt.setEnabled(false);
+                        city.setEnabled(false);
+                        state.setEnabled(false);
+                        postalCode.setEnabled(false);
+                        country.setEnabled(false);
                     }
 
                     @Override
@@ -522,7 +537,7 @@ public class MyProfileFragment extends Fragment {
             email.requestFocus();
             return false;
         } else if (TextUtils.isEmpty(addressEdt.getText().toString().trim())) {
-            addressEdt.setError("Please provide addressEdt");
+            addressEdt.setError("Please provide address");
             addressEdt.clearFocus();
             addressEdt.requestFocus();
             return false;
@@ -648,75 +663,76 @@ public class MyProfileFragment extends Fragment {
         protected void onPostExecute(List<Address> addresses) {
 //            dialog.dismiss();
             if (addresses == null || addresses.size() == 0) {
-                Toast.makeText(mContext, "No Location found",
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "No Location found",Toast.LENGTH_SHORT).show();
             }
 
-            // Adding Markers on Google Map for each matching addressEdt
-            for (int i = 0; i < addresses.size(); i++) {
+            if(addresses!=null) {
+                // Adding Markers on Google Map for each matching addressEdt
+                for (int i = 0; i < addresses.size(); i++) {
 
-                Address address = (Address) addresses.get(i);
+                    Address address = (Address) addresses.get(i);
 
-                // Creating an instance of GeoPoint, to display in Google Map
+                    // Creating an instance of GeoPoint, to display in Google Map
 
-                String addressText = String.format(
-                        "%s, %s",
-                        address.getMaxAddressLineIndex() > 0 ? address
-                                .getAddressLine(0) : "", address
-                                .getCountryName());
-                latitude = address.getLatitude();
-                longitude = address.getLongitude();
-                // manager.initializelocation(addressEdt.getLatitude()+"",
-                // addressEdt.getLongitude()+"");
-                Log.e("OVerall Address is", address.toString());
-                Log.e("Address is", address.getAddressLine(0));
-                Log.e("City is", address.getLocality() + "");
-                Log.e("Lat is", address.getLatitude() + "");
-                Log.e("Lang is", address.getLongitude() + "");
-                Log.e("Country is", address.getCountryName() + "");
-                Log.e("State is", address.getAdminArea() + "");
-                Log.e("ZipCode is", address.getPostalCode() + "");
-                Log.e("Country is", address.getAddressLine(5) + "");
+                    String addressText = String.format(
+                            "%s, %s",
+                            address.getMaxAddressLineIndex() > 0 ? address
+                                    .getAddressLine(0) : "", address
+                                    .getCountryName());
+                    latitude = address.getLatitude();
+                    longitude = address.getLongitude();
+                    // manager.initializelocation(addressEdt.getLatitude()+"",
+                    // addressEdt.getLongitude()+"");
+                    Log.e("OVerall Address is", address.toString());
+                    Log.e("Address is", address.getAddressLine(0));
+                    Log.e("City is", address.getLocality() + "");
+                    Log.e("Lat is", address.getLatitude() + "");
+                    Log.e("Lang is", address.getLongitude() + "");
+                    Log.e("Country is", address.getCountryName() + "");
+                    Log.e("State is", address.getAdminArea() + "");
+                    Log.e("ZipCode is", address.getPostalCode() + "");
+                    Log.e("Country is", address.getAddressLine(5) + "");
 
-                if (address.getLocality() != null) {
-                    city.setText(address.getLocality());
-                    city.setEnabled(false);
-                } else {
-                    city.setEnabled(true);
-                }
+                    if (address.getLocality() != null) {
+                        city.setText(address.getLocality());
+                        city.setEnabled(false);
+                    } else {
+                        city.setEnabled(true);
+                    }
 
-                if (address.getCountryName() != null) {
-                    country.setText(address.getCountryName());
-                    country.setEnabled(false);
-                } else {
-                    country.setEnabled(true);
-                }
+                    if (address.getCountryName() != null) {
+                        country.setText(address.getCountryName());
+                        country.setEnabled(false);
+                    } else {
+                        country.setEnabled(true);
+                    }
 
 
-                if (address.getAddressLine(5) != null) {
-                    country.setText(address.getAddressLine(5));
-                    country.setEnabled(false);
-                } else {
-                    country.setEnabled(true);
-                }
-                if (address.getAddressLine(0) != null) {
-                    addressEdt.setText(address.getAddressLine(0));
-                    addressEdt.setEnabled(false);
-                } else {
-                    addressEdt.setEnabled(true);
-                }
+                    if (address.getAddressLine(5) != null) {
+                        country.setText(address.getAddressLine(5));
+                        country.setEnabled(false);
+                    } else {
+                        country.setEnabled(true);
+                    }
+                    if (address.getAddressLine(0) != null) {
+                        addressEdt.setText(address.getAddressLine(0));
+                        addressEdt.setEnabled(false);
+                    } else {
+                        addressEdt.setEnabled(true);
+                    }
 
-                if (address.getAdminArea() != null) {
-                    state.setText(address.getAdminArea());
-                    state.setEnabled(false);
-                } else {
-                    state.setEnabled(true);
-                }
-                if (address.getPostalCode() != null) {
-                    postalCode.setText(address.getPostalCode());
-                    postalCode.setEnabled(false);
-                } else {
-                    postalCode.setEnabled(true);
+                    if (address.getAdminArea() != null) {
+                        state.setText(address.getAdminArea());
+                        state.setEnabled(false);
+                    } else {
+                        state.setEnabled(true);
+                    }
+                    if (address.getPostalCode() != null) {
+                        postalCode.setText(address.getPostalCode());
+                        postalCode.setEnabled(false);
+                    } else {
+                        postalCode.setEnabled(true);
+                    }
                 }
             }
         }
