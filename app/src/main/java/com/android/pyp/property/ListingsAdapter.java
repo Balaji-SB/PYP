@@ -90,10 +90,10 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
         if (!myDataList.get(position).getCity().equalsIgnoreCase("null") || !myDataList.get(position).getCity().equalsIgnoreCase(null)) {
             location += myDataList.get(position).getCity() + ", ";
         }
-        if (myDataList.get(position).getState() != "" || !myDataList.get(position).getState().equalsIgnoreCase("null") || !myDataList.get(position).getState().equalsIgnoreCase(null)) {
+        if ( !myDataList.get(position).getState().equalsIgnoreCase("null") || !myDataList.get(position).getState().equalsIgnoreCase(null)) {
             location += myDataList.get(position).getState() + ", ";
         }
-        if (myDataList.get(position).getCountry() != "" || !myDataList.get(position).getCountry().equalsIgnoreCase("null") || !myDataList.get(position).getCountry().equalsIgnoreCase(null)) {
+        if (!myDataList.get(position).getCountry().equalsIgnoreCase("null") || !myDataList.get(position).getCountry().equalsIgnoreCase(null)) {
             location += myDataList.get(position).getCountry();
         }
         holder.address.setText(location);

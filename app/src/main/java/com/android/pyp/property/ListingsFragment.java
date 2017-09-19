@@ -81,7 +81,7 @@ public class ListingsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-            propertyListings();
+        propertyListings();
 
     }
 
@@ -191,8 +191,7 @@ public class ListingsFragment extends Fragment {
                     nopropertyTxt.setVisibility(View.VISIBLE);
                 }
             });
-        }
-        else{
+        } else {
             showAlertDialog(mContext);
         }
     }
@@ -252,5 +251,11 @@ public class ListingsFragment extends Fragment {
             }
         });
         builder.show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        nopropertyTxt.setVisibility(View.GONE);
     }
 }

@@ -35,6 +35,7 @@ public class DetailsInnerFragment extends Fragment {
     private List<PropertyData> propertyList;
     private PropertyData propertyData;
     private String contactNum = "";
+    private LinearLayout bhkLinear;
     private TextView title, description, priceCurrency, bhk, nationality, city, state, country, landmark;
 
 
@@ -44,6 +45,7 @@ public class DetailsInnerFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_property_details, null, false);
         initVariables();
         mContext = getActivity();
+        getActivity().setTitle("");
         if (getArguments() != null) {
             propertyList = getArguments().getParcelableArrayList("property_list");
             propertyData = propertyList.get(0);
@@ -96,6 +98,12 @@ public class DetailsInnerFragment extends Fragment {
 
     private void updateUI() {
         title.setText("Rent for " + propertyData.getTitle());
+        getActivity().setTitle("Rent for " + propertyData.getTitle());
+        if(propertyData.getTitle().trim().equalsIgnoreCase("bedspace")){
+            bhkLinear.setVisibility(View.GONE);
+        }else{
+            bhkLinear.setVisibility(View.VISIBLE);
+        }
         bhk.setText(propertyData.getBhk());
         priceCurrency.setText(propertyData.getPrice() + " " + propertyData.getCurrency());
         nationality.setText(propertyData.getNationality());
@@ -139,6 +147,7 @@ public class DetailsInnerFragment extends Fragment {
         state = (TextView) mView.findViewById(R.id.state);
         country = (TextView) mView.findViewById(R.id.country);
         landmark = (TextView) mView.findViewById(R.id.landmark);
+        bhkLinear = (LinearLayout) mView.findViewById(R.id.bhkLinear);
 
     }
 

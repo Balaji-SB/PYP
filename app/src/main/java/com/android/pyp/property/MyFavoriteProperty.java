@@ -74,6 +74,7 @@ public class MyFavoriteProperty extends Fragment {
         nopropertyTxt = (TextView) mView.findViewById(R.id.nopropertyTxt);
         mypropertyRecycler = (RecyclerView) mView.findViewById(R.id.mypropertyRecycler);
         mypropertyRecycler.setLayoutManager(new LinearLayoutManager(mContext));
+        getActivity().setTitle("My Favorites");
     }
 
     private void myFavoriteProperties() {

@@ -444,6 +444,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     private void initVariables() {
         pypApplication = new PYPApplication(mContext);
+        dialog=pypApplication.getProgressDialog(mContext);
         manager = Utils.getSessionManager(mContext);
         preferences = Utils.getSharedPreferences(mContext);
         fbImg = (ImageView) mView.findViewById(R.id.fbImg);
