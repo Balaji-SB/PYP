@@ -24,6 +24,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/priceHeadLinear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -89,6 +90,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/bedroomHeadLinear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -121,6 +123,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/bathroomHeadLinear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -185,6 +188,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/buisnessTypeHeadLinear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -279,7 +283,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -341,7 +345,7 @@
                     android:layout_marginLeft="20sp"
                     android:layout_marginRight="20sp"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -477,7 +481,7 @@
                     android:layout_marginLeft="20sp"
                     android:layout_marginRight="20sp"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -613,7 +617,7 @@
                     android:layout_marginLeft="20sp"
                     android:layout_marginRight="20sp"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -649,7 +653,7 @@
                     android:layout_marginLeft="20sp"
                     android:layout_marginRight="20sp"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -735,7 +739,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
