@@ -12,5 +12,6 @@
     <string name="facebook_app_id">129320037601657</string>
     <string name="fb_login_protocol_scheme">fb129320037601657</string>
     <string name="geo_api_key">AIzaSyAYscG-vcf5cHVxx4ZjcaMPvazXfKV1CIM</string>
+    <string name="add_property">Add Property</string>
 
 </resources>

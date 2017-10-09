@@ -63,6 +63,9 @@
             android:name=".cms.ContactUsActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".addproperty.AddPropertyHome"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".usermodule.ForgotPasswordActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />

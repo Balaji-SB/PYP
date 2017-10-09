@@ -1,5 +1,6 @@
 package com.android.pyp.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,9 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.android.pyp.R;
+import com.android.pyp.addproperty.AddPropertyHome;
 import com.android.pyp.cms.SettingsFragment;
 import com.android.pyp.property.ListingsFragment;
-import com.android.pyp.property.MyFavoriteProperty;
 import com.android.pyp.property.MyProperty;
 import com.android.pyp.usermodule.MyProfileFragment;
 import com.android.pyp.utils.SessionManager;
@@ -60,12 +61,16 @@ public class HomeActivity extends AppCompatActivity {
                         updateDisplay(fragment1);
                     }
                     return true;
-                case R.id.menufavorite:
+               /* case R.id.menufavorite:
                     if (manager.checkLogin()) {
                         Fragment fragment2 = new MyFavoriteProperty();
                         updateDisplay(fragment2);
                     }
-                    return true;
+                    return true;*/
+
+                case R.id.addProperty:
+                    Intent intent=new Intent(HomeActivity.this, AddPropertyHome.class);
+                    startActivity(intent);
                 case R.id.menumyProperty:
                     if (manager.checkLogin()) {
                         Fragment fragment3 = new MyProperty();

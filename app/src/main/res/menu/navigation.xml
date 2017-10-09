@@ -7,10 +7,12 @@
         android:icon="@drawable/user"
         android:title="@string/my_profile" />
 
+
+
     <item
-        android:id="@+id/menufavorite"
+        android:id="@+id/addProperty"
         android:icon="@drawable/favorite"
-        android:title="@string/my_favorites" />
+        android:title="@string/add_property" />
 
     <item
         android:id="@+id/menuhome"

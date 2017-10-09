@@ -6,12 +6,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_margin="10sp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10sp"
             android:orientation="vertical">
 
             <TextView
@@ -24,7 +25,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/typeLinearRadio"
+                android:id="@+id/propertyTypeLinear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5sp"
@@ -50,12 +51,12 @@
                 android:textStyle="bold" />
 
             <Spinner
+                android:id="@+id/countrySpinner"
                 android:layout_width="match_parent"
                 android:layout_height="45sp"
                 android:layout_marginTop="5sp"
                 android:background="@drawable/curved_gray"
                 android:overScrollMode="ifContentScrolls"
-
                 android:spinnerMode="dropdown" />
 
             <TextView
@@ -68,6 +69,7 @@
                 android:textStyle="bold" />
 
             <Spinner
+                android:id="@+id/allowNationality"
                 android:layout_width="match_parent"
                 android:layout_height="45sp"
                 android:layout_marginTop="5sp"
@@ -85,6 +87,7 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="70sp"
                 android:layout_marginTop="5sp"
@@ -104,6 +107,7 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/landmark"
                 android:layout_width="match_parent"
                 android:layout_height="70sp"
                 android:layout_marginTop="5sp"
@@ -113,12 +117,16 @@
                 android:textSize="14sp" />
 
             <Button
-                android:layout_width="160sp"
+                android:id="@+id/next"
+                android:layout_width="wrap_content"
                 android:layout_height="40sp"
-                android:layout_gravity="center"
+                android:layout_gravity="end"
                 android:layout_margin="10sp"
                 android:textSize="14sp"
-                android:text="Submit"
+                android:paddingLeft="10sp"
+                android:paddingRight="10sp"
+                android:text="Next"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:background="@drawable/round_blue"
                 />
