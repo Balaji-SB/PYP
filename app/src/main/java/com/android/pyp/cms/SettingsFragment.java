@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.pyp.R;
@@ -25,6 +26,7 @@ public class SettingsFragment extends Fragment {
     private Context mContext;
     private TextView contactUsTxt, aboutUsTxt, changeLangTxt, changePwdTxt, logoutTxt;
     private SessionManager manager;
+    private LinearLayout changePwdLinear;
 
     @Nullable
     @Override
@@ -33,9 +35,9 @@ public class SettingsFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_settings, null, false);
         initVariables();
         if (manager.isLoggedIn()) {
-            changePwdTxt.setVisibility(View.VISIBLE);
+            changePwdLinear.setVisibility(View.VISIBLE);
         } else {
-            changePwdTxt.setVisibility(View.GONE);
+            changePwdLinear.setVisibility(View.GONE);
         }
         changePwdTxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,10 +53,17 @@ public class SettingsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        aboutUsTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, AboutUsActivity.class);
+                startActivity(intent);
+            }
+        });
         logoutTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               manager.logoutUser();
+                manager.logoutUser();
             }
         });
 
@@ -67,6 +76,7 @@ public class SettingsFragment extends Fragment {
         aboutUsTxt = (TextView) mView.findViewById(R.id.aboutUsTxt);
         logoutTxt = (TextView) mView.findViewById(R.id.logoutTxt);
         changeLangTxt = (TextView) mView.findViewById(R.id.changeLangTxt);
+        changePwdLinear = (LinearLayout) mView.findViewById(R.id.changePwdLinear);
         getActivity().setTitle("Settings");
         manager = Utils.getSessionManager(mContext);
     }

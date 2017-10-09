@@ -71,6 +71,7 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.addProperty:
                     Intent intent=new Intent(HomeActivity.this, AddPropertyHome.class);
                     startActivity(intent);
+                    return true;
                 case R.id.menumyProperty:
                     if (manager.checkLogin()) {
                         Fragment fragment3 = new MyProperty();

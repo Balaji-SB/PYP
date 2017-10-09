@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.android.pyp.utils.PYPApplication;
@@ -36,5 +37,14 @@ public class AboutUsActivity extends AppCompatActivity {
         preferences= Utils.getSharedPreferences(mContext);
         manager= Utils.getSessionManager(mContext);
         site_user_id=preferences.getString(SessionManager.KEY_USERID,"");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -23,8 +23,10 @@ public class APLocationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_location, null, false);
-        initVariables();
+       if(mView==null) {
+           mView = inflater.inflate(R.layout.fragment_location, null, false);
+           initVariables();
+       }
         return mView;
     }
 

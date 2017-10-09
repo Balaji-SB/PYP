@@ -28,6 +28,13 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/changePwdLinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+            <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
@@ -71,6 +78,8 @@
                 android:layout_marginLeft="70sp"
                 android:layout_marginRight="20sp"
                 android:background="@color/upviolet" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
