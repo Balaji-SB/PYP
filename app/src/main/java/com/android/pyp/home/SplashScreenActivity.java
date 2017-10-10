@@ -62,7 +62,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Thread.sleep(5300);
+                            Thread.sleep(5500);
 //                                animatable.stop();
                             if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
 

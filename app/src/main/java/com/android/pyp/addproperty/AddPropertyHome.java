@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.android.pyp.R;
+import com.android.pyp.utils.CustomViewPager;
 import com.android.pyp.utils.SessionManager;
 
 /**
@@ -24,7 +25,7 @@ public class AddPropertyHome extends AppCompatActivity {
     private SessionManager manager;
     private SharedPreferences preferences;
     private View mView;
-    private ViewPager pager;
+    private CustomViewPager pager;
     private AddPropertyPagerAdapter addPropertyPagerAdapter;
     private View oneView, twoView, threeView, fourView;
     private ImageView twoImage, threeImage, fourImage, fiveImage;
@@ -38,6 +39,7 @@ public class AddPropertyHome extends AppCompatActivity {
         initVariables();
         addPropertyPagerAdapter = new AddPropertyPagerAdapter(getSupportFragmentManager(), 5);
         pager.setAdapter(addPropertyPagerAdapter);
+
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -105,7 +107,8 @@ public class AddPropertyHome extends AppCompatActivity {
     }
 
     private void initVariables() {
-        pager = (ViewPager) mView.findViewById(R.id.pager);
+        pager = (CustomViewPager) mView.findViewById(R.id.pager);
+        pager.setPagingEnabled(false);
         oneView = (View) mView.findViewById(R.id.oneView);
         twoView = (View) mView.findViewById(R.id.twoView);
         threeView = (View) mView.findViewById(R.id.threeView);
@@ -124,5 +127,9 @@ public class AddPropertyHome extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateViewPager(int position){
+        // pager.setCurrentItem(position);
     }
 }

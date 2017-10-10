@@ -38,4 +38,10 @@ public class APFeaturesFragment extends Fragment {
         }
         return apFeaturesFragment;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AddPropertyHome)mContext).updateViewPager(4);
+    }
 }

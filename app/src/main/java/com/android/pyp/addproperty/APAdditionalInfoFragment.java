@@ -38,4 +38,10 @@ public class APAdditionalInfoFragment extends Fragment {
         }
         return additionalInfoFragment;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AddPropertyHome)mContext).updateViewPager(2);
+    }
 }

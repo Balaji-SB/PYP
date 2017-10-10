@@ -38,4 +38,10 @@ public class APImagesFragment extends Fragment {
         }
         return apImagesFragment;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AddPropertyHome)mContext).updateViewPager(3);
+    }
 }

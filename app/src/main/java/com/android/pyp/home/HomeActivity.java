@@ -52,8 +52,7 @@ public class HomeActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.menuhome:
                     Fragment fragment = new ListingsFragment();
-                    updateDisplay(fragment);
-
+                    Utils.updateHomeDisplay(fragment,HomeActivity.this);
                     return true;
                 case R.id.menumyProfile:
                     if (manager.checkLogin()) {

@@ -219,6 +219,50 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:padding="5dp"
+                    android:tint="@color/downviolet"
+                    android:src="@drawable/favorite" />
+
+                <TextView
+                    android:id="@+id/myFavorites"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:text="My Favorites"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:layout_marginRight="10sp"
+                    android:src="@mipmap/ic_next" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="70sp"
+                android:layout_marginRight="20sp"
+                android:background="@color/upviolet" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="10dp"
                 android:visibility="gone"
                 android:layout_marginRight="3dp"
                 android:layout_marginTop="15dp"
@@ -259,6 +303,13 @@
                 android:layout_marginLeft="70sp"
                 android:layout_marginRight="20sp"
                 android:background="@color/upviolet" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/logoutLinear"
+                >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -304,6 +355,8 @@
                 android:layout_marginLeft="70sp"
                 android:layout_marginRight="20sp"
                 android:background="@color/upviolet" />
+
+            </LinearLayout>
 
 
         </LinearLayout>

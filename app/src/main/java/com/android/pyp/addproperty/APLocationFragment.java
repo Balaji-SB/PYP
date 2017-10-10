@@ -40,4 +40,10 @@ public class APLocationFragment extends Fragment {
         }
         return apLocationFragment;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AddPropertyHome)mContext).updateViewPager(1);
+    }
 }
