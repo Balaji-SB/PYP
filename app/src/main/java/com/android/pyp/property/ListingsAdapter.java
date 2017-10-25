@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,6 +114,11 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
             public void onClick(View view) {
                 if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
                     if(Utils.getSessionManager(mContext).checkLogin()) {
+                        if (myDataList.get(position).getfId().trim().equalsIgnoreCase(null) || myDataList.get(position).getfId().trim().equalsIgnoreCase("null")) {
+                            isFav = true;
+                        } else {
+                            isFav = false;
+                        }
                         addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
                     }
                 } else {
@@ -141,6 +147,11 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(Utils.getSessionManager(mContext).checkLogin()) {
+                    if (TextUtils.isEmpty(myDataList.get(position).getfId())){
+                        isFav = false;
+                    }else{
+                        isFav = true;
+                    }
                     addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
                 }
                 dialog.dismiss();
@@ -175,7 +186,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
             url = URLConstants.urlRemoveFromFav;
             map.put("f_id", favId);
         }
-        Log.e("Map is", map.toString());
+        Log.e("Map is",url+ map.toString());
         pypApplication.customStringRequest(url, map, new DataCallback() {
             @Override
             public void onSuccess(Object result) {
@@ -185,10 +196,15 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
                     JSONObject jsonObject = new JSONObject(result.toString());
                     if (jsonObject.getString("success").trim().equalsIgnoreCase("added")) {
                         myDataList.get(position).setfId(jsonObject.getString("f_id"));
-                        notifyDataSetChanged();
                     } else {
-                        myDataList.get(position).setfId(null);
-                        notifyDataSetChanged();
+                        myDataList.get(position).setfId("");
+                    }
+                    if (myDataList.get(position).getfId().trim().equalsIgnoreCase(null) || myDataList.get(position).getfId().trim().equalsIgnoreCase("null")) {
+                        holder.favoriteImg.setImageResource(R.mipmap.un_favorite);
+                        isFav = true;
+                    } else {
+                        holder.favoriteImg.setImageResource(R.mipmap.favorite);
+                        isFav = false;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

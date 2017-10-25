@@ -164,7 +164,7 @@ public class MyProfileFragment extends Fragment {
             public void onClick(View view) {
                 int permissionCheck = ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE);
                 if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 } else {
                     callImage();
                 }
@@ -182,7 +182,7 @@ public class MyProfileFragment extends Fragment {
 
     public void initVariables() {
         pypApplication = new PYPApplication(mContext);
-        preferences=Utils.getSharedPreferences(mContext);
+        preferences = Utils.getSharedPreferences(mContext);
         dialog = pypApplication.getProgressDialog(mContext);
         resultImage = (ImageView) mView.findViewById(R.id.resultImage);
         originalImage = (ImageView) mView.findViewById(R.id.originalImage);
@@ -316,15 +316,15 @@ public class MyProfileFragment extends Fragment {
 
     private void updateUI(ProfileData data) {
         firstName.setText(data.getFirstName());
-        lastName.setText(data.getLastName().equalsIgnoreCase("null")?"":data.getLastName());
+        lastName.setText(data.getLastName().equalsIgnoreCase("null") ? "" : data.getLastName());
         profileName.setText(data.getFirstName() + " " + data.getLastName());
-        email.setText(data.getEmail().equalsIgnoreCase("null")?"":data.getEmail());
-        phone.setText(data.getPhone().equalsIgnoreCase("null")?"":data.getPhone());
-        addressEdt.setText(data.getAddress().equalsIgnoreCase("null")?"":data.getAddress());
-        city.setText(data.getCity().equalsIgnoreCase("null")?"":data.getCity());
-        state.setText(data.getState().equalsIgnoreCase("null")?"":data.getState());
-        country.setText(data.getCountry().equalsIgnoreCase("null")?"":data.getCountry());
-        postalCode.setText(data.getPostalCode().equalsIgnoreCase("null")?"":data.getPostalCode());
+        email.setText(data.getEmail().equalsIgnoreCase("null") ? "" : data.getEmail());
+        phone.setText(data.getPhone().equalsIgnoreCase("null") ? "" : data.getPhone());
+        addressEdt.setText(data.getAddress().equalsIgnoreCase("null") ? "" : data.getAddress());
+        city.setText(data.getCity().equalsIgnoreCase("null") ? "" : data.getCity());
+        state.setText(data.getState().equalsIgnoreCase("null") ? "" : data.getState());
+        country.setText(data.getCountry().equalsIgnoreCase("null") ? "" : data.getCountry());
+        postalCode.setText(data.getPostalCode().equalsIgnoreCase("null") ? "" : data.getPostalCode());
         oldImage = data.getImage();
         new LoadImage(data.getImage()).execute();
     }
@@ -363,7 +363,6 @@ public class MyProfileFragment extends Fragment {
     class UploadFileToServer extends AsyncTask<Void, Integer, String> {
 
         long totalSize = 0;
-        private Dialog dialog;
         private View view;
         private Context mContext;
         private String imgPath;
@@ -381,7 +380,6 @@ public class MyProfileFragment extends Fragment {
             this.oldImage = oldImage;
             this.i = i;
             url = URLConstants.urlImageUpload;
-
             preferences = Utils.getSharedPreferences(mContext);
         }
 
@@ -488,7 +486,7 @@ public class MyProfileFragment extends Fragment {
 //            map.put("img_hidden", oldImage);
                 map.put("lat", latitude + "");
                 map.put("lng", longitude + "");
-                map.put("site_user_id", preferences.getString(SessionManager.KEY_USERID,"")+ "");
+                map.put("site_user_id", preferences.getString(SessionManager.KEY_USERID, "") + "");
                 Log.e("Map", map.toString());
                 pypApplication.customStringRequest(URLConstants.urlUpdateUserProfile, map, new DataCallback() {
                     @Override
@@ -682,7 +680,7 @@ public class MyProfileFragment extends Fragment {
 //                Toast.makeText(mContext, "No Location found",Toast.LENGTH_SHORT).show();
             }
 
-            if(addresses!=null) {
+            if (addresses != null) {
                 // Adding Markers on Google Map for each matching addressEdt
                 for (int i = 0; i < addresses.size(); i++) {
 
@@ -789,7 +787,10 @@ public class MyProfileFragment extends Fragment {
             case 1: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     callImage();
+                } else {
+
                 }
+                return;
             }
         }
     }

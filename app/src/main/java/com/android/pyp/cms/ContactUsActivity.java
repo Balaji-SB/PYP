@@ -1,5 +1,6 @@
 package com.android.pyp.cms;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +39,7 @@ public class ContactUsActivity extends AppCompatActivity {
     private Context mContext;
     private View mView;
     private PYPApplication pypApplication;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class ContactUsActivity extends AppCompatActivity {
     private void submitContactusDetails() {
         if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
             if (validateComponents()) {
+                dialog.show();
                 Map<String, String> map = new HashMap<>();
                 map.put("contact_name", supName.getText().toString().trim());
                 map.put("contact_email", supEmail.getText().toString().trim());
@@ -64,11 +68,15 @@ public class ContactUsActivity extends AppCompatActivity {
                 pypApplication.customStringRequest(URLConstants.urlCMSContactUs, map, new DataCallback() {
                     @Override
                     public void onSuccess(Object result) {
+                        Log.e("Result",result.toString());
+                        dialog.dismiss();
+                        clearUI();
                         Utils.presentSnackBar(mView, result.toString(), 0);
                     }
 
                     @Override
                     public void onError(VolleyError error) {
+                        dialog.dismiss();
                         Utils.presentSnackBar(mView, error.toString(), 0);
                     }
                 });
@@ -103,6 +111,7 @@ public class ContactUsActivity extends AppCompatActivity {
 
     private void initVariables() {
         pypApplication = new PYPApplication(mContext);
+        dialog=pypApplication.getProgressDialog(mContext);
         supName = (EditText) mView.findViewById(R.id.supName);
         supEmail = (EditText) mView.findViewById(R.id.supEmail);
         supSub = (EditText) mView.findViewById(R.id.supSub);

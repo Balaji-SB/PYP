@@ -118,6 +118,7 @@
                     android:padding="2sp"
                     android:layout_gravity="center"
                     android:src="@drawable/email_old"
+                    android:focusableInTouchMode="true"
                     android:tint="@color/white" />
 
 

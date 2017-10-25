@@ -12,7 +12,7 @@
     <item
         android:id="@+id/addProperty"
         android:icon="@drawable/favorite"
-        android:title="@string/add_property" />
+        android:title="@string/my_favorites" />
 
     <item
         android:id="@+id/menuhome"

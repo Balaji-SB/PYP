@@ -48,35 +48,39 @@
         <activity
             android:name=".usermodule.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".property.DetailsActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".property.DetailsMapActivity" />
         <activity
             android:name=".property.FilterActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".usermodule.ChangePasswordActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".cms.ContactUsActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".addproperty.AddPropertyHome"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".usermodule.ForgotPasswordActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".home.HomeActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".usermodule.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".cms.AboutUsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
 
         <meta-data

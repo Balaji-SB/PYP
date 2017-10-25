@@ -82,6 +82,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
@@ -119,6 +120,7 @@
             </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="70sp"
@@ -215,6 +217,7 @@
                 android:background="@color/upviolet" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
@@ -254,6 +257,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:visibility="gone"
                 android:layout_marginLeft="70sp"
                 android:layout_marginRight="20sp"
                 android:background="@color/upviolet" />
@@ -300,6 +304,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:visibility="gone"
                 android:layout_marginLeft="70sp"
                 android:layout_marginRight="20sp"
                 android:background="@color/upviolet" />
