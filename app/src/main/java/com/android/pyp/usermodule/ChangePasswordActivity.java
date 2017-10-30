@@ -19,7 +19,6 @@ import android.widget.Button;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
-import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
 import com.android.pyp.utils.Utils;
@@ -61,7 +60,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void updateChangePassword() {
-        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
             if (validateComponents()) {
                 Map<String, String> map = new HashMap<>();
                 map.put("CurrentPassword", oldPassword.getText().toString());
@@ -84,9 +82,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     }
                 });
             }
-        } else {
-            showAlertDialog(mContext);
-        }
     }
 
     private void initVariables() {

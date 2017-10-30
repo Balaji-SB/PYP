@@ -21,7 +21,6 @@ import android.widget.ImageView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
-import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.URLConstants;
@@ -157,105 +156,101 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void loadPropertyDetails() {
-        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
-            Map<String, String> map = new HashMap<>();
-            map.put("site_user_id", site_user_id);
-            map.put("property_id", property_id);
-            Log.e("Map", map + "");
-            dialog.show();
-            pypApplication.customStringRequest(URLConstants.urlPropertyDetails, map, new DataCallback() {
-                @Override
-                public void onSuccess(Object result) {
-                    dialog.dismiss();
-                    Log.e("Result", result.toString());
-                    try {
-                        JSONObject object = new JSONObject(result.toString());
-                        if (object.has("image")) {
-                            JSONArray array = object.getJSONArray("image");
-                            for (int i = 0; i < array.length(); i++) {
-                                if (array.get(i) instanceof String) {
-                                    imagesList.add(array.getString(i));
-                                } else {
-                                    JSONObject jsonObject = array.getJSONObject(i);
-                                    imagesList.add(jsonObject.getString("image_name"));
-                                }
-
+        Map<String, String> map = new HashMap<>();
+        map.put("site_user_id", site_user_id);
+        map.put("property_id", property_id);
+        Log.e("Map", map + "");
+        dialog.show();
+        pypApplication.customStringRequest(URLConstants.urlPropertyDetails, map, new DataCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                dialog.dismiss();
+                Log.e("Result", result.toString());
+                try {
+                    JSONObject object = new JSONObject(result.toString());
+                    if (object.has("image")) {
+                        JSONArray array = object.getJSONArray("image");
+                        for (int i = 0; i < array.length(); i++) {
+                            if (array.get(i) instanceof String) {
+                                imagesList.add(array.getString(i));
+                            } else {
+                                JSONObject jsonObject = array.getJSONObject(i);
+                                imagesList.add(jsonObject.getString("image_name"));
                             }
 
-                            JSONObject object1 = object.getJSONObject("details");
-                            for (int k = 0; k < object1.length(); k++) {
-                                PropertyData data = new PropertyData();
-                                List<PropertyData> amentyList = new ArrayList<PropertyData>();
-                                List<PropertyData> rulesList = new ArrayList<PropertyData>();
-                                data.setPropertyId(object1.getString("p_id"));
-                                data.setPropertyType(object1.getString("property_type"));
-                                data.setNationality(object1.getString("nationality"));
-                                data.setGender(object1.getString("gender"));
-                                data.setPrice(object1.getString("price"));
-                                data.setCurrency(object1.getString("currency"));
-                                data.setCity(object1.getString("city"));
-                                data.setState(object1.getString("state"));
-                                data.setCountry(object1.getString("country"));
-                                data.setContactNum(object1.getString("contact_number"));
-                                data.setLatitude(object1.getDouble("latitude"));
-                                data.setLongitude(object1.getDouble("longitude"));
-                                data.setLandmark(object1.getString("landmark"));
-                                data.setDescription(object1.getString("description"));
-                                data.setAddress(object1.getString("address"));
-                                data.setAdminVerify(object1.getString("admin_verifi"));
-                                data.setSqft(object1.getString("sqft"));
-                                data.setBhk(object1.getString("bhk"));
-                                data.setShareLink(object.getString("link"));
-                                data.setTitle(object1.getString("name"));
-                                JSONArray array1 = object.getJSONArray("amenity");
-                                for (int ij = 0; ij < array1.length(); ij++) {
-                                    JSONObject object2 = array1.getJSONObject(ij);
-                                    PropertyData data1 = new PropertyData();
-                                    data1.setAmentyName(object2.getString("amenity_name"));
-                                    data1.setAmentyImg(object2.getString("image"));
-                                    amentyList.add(data1);
-                                }
-                                data.setAmentiesList(amentyList);
-
-                                if (object.get("rules") instanceof JSONArray) {
-                                    JSONArray array2 = object.getJSONArray("rules");
-
-                                    for (int ij = 0; ij < array2.length(); ij++) {
-                                        JSONObject object2 = array2.getJSONObject(ij);
-                                        PropertyData data1 = new PropertyData();
-                                        data1.setRulesName(object2.getString("rule_name"));
-                                        data1.setRulesImg(object2.getString("image"));
-                                        rulesList.add(data1);
-                                    }
-                                    data.setRulesList(rulesList);
-                                } else {
-                                    rulesList = new ArrayList<PropertyData>();
-                                    data.setRulesList(rulesList);
-                                }
-                                propertyDataList.add(data);
-                            }
-
-                            updateImages(imagesList);
-                            updateUI(propertyDataList);
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        dialog.dismiss();
+
+                        JSONObject object1 = object.getJSONObject("details");
+                        for (int k = 0; k < object1.length(); k++) {
+                            PropertyData data = new PropertyData();
+                            List<PropertyData> amentyList = new ArrayList<PropertyData>();
+                            List<PropertyData> rulesList = new ArrayList<PropertyData>();
+                            data.setPropertyId(object1.getString("p_id"));
+                            data.setPropertyType(object1.getString("property_type"));
+                            data.setNationality(object1.getString("nationality"));
+                            data.setGender(object1.getString("gender"));
+                            data.setPrice(object1.getString("price"));
+                            data.setCurrency(object1.getString("currency"));
+                            data.setCity(object1.getString("city"));
+                            data.setState(object1.getString("state"));
+                            data.setCountry(object1.getString("country"));
+                            data.setContactNum(object1.getString("contact_number"));
+                            data.setLatitude(object1.getDouble("latitude"));
+                            data.setLongitude(object1.getDouble("longitude"));
+                            data.setLandmark(object1.getString("landmark"));
+                            data.setDescription(object1.getString("description"));
+                            data.setAddress(object1.getString("address"));
+                            data.setAdminVerify(object1.getString("admin_verifi"));
+                            data.setSqft(object1.getString("sqft"));
+                            data.setBhk(object1.getString("bhk"));
+                            data.setShareLink(object.getString("link"));
+                            data.setTitle(object1.getString("name"));
+                            JSONArray array1 = object.getJSONArray("amenity");
+                            for (int ij = 0; ij < array1.length(); ij++) {
+                                JSONObject object2 = array1.getJSONObject(ij);
+                                PropertyData data1 = new PropertyData();
+                                data1.setAmentyName(object2.getString("amenity_name"));
+                                data1.setAmentyImg(object2.getString("image"));
+                                amentyList.add(data1);
+                            }
+                            data.setAmentiesList(amentyList);
+
+                            if (object.get("rules") instanceof JSONArray) {
+                                JSONArray array2 = object.getJSONArray("rules");
+
+                                for (int ij = 0; ij < array2.length(); ij++) {
+                                    JSONObject object2 = array2.getJSONObject(ij);
+                                    PropertyData data1 = new PropertyData();
+                                    data1.setRulesName(object2.getString("rule_name"));
+                                    data1.setRulesImg(object2.getString("image"));
+                                    rulesList.add(data1);
+                                }
+                                data.setRulesList(rulesList);
+                            } else {
+                                rulesList = new ArrayList<PropertyData>();
+                                data.setRulesList(rulesList);
+                            }
+                            propertyDataList.add(data);
+                        }
+
+                        updateImages(imagesList);
+                        updateUI(propertyDataList);
                     }
-
-
-                }
-
-
-                @Override
-                public void onError(VolleyError error) {
-                    Log.e("Error", error.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
                     dialog.dismiss();
                 }
-            });
-        } else {
-            showAlertDialog(mContext);
-        }
+
+
+            }
+
+
+            @Override
+            public void onError(VolleyError error) {
+                Log.e("Error", error.toString());
+                dialog.dismiss();
+            }
+        });
     }
 
     public void showAlertDialog(final Context mContext) {

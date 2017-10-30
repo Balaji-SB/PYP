@@ -25,7 +25,6 @@ import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
-import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
 import com.android.volley.VolleyError;
@@ -113,7 +112,7 @@ public class ListingsFragment extends Fragment {
 
 
     private void propertyListings() {
-        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+
             if (TextUtils.isEmpty(gender_type)) {
                 gender_type = "";
             }
@@ -191,9 +190,7 @@ public class ListingsFragment extends Fragment {
                     nopropertyTxt.setVisibility(View.VISIBLE);
                 }
             });
-        } else {
-            showAlertDialog(mContext);
-        }
+
     }
 
 

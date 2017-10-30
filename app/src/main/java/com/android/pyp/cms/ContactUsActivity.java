@@ -19,7 +19,6 @@ import android.widget.EditText;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
-import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
 import com.android.pyp.utils.Utils;
@@ -57,7 +56,6 @@ public class ContactUsActivity extends AppCompatActivity {
     }
 
     private void submitContactusDetails() {
-        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
             if (validateComponents()) {
                 dialog.show();
                 Map<String, String> map = new HashMap<>();
@@ -81,9 +79,6 @@ public class ContactUsActivity extends AppCompatActivity {
                     }
                 });
             }
-        } else {
-            showAlertDialog(mContext);
-        }
     }
 
     public void showAlertDialog(final Context mContext) {

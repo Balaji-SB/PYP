@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
-import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.URLConstants;
@@ -78,7 +77,6 @@ public class MyFavoriteProperty extends Fragment {
     }
 
     private void myFavoriteProperties() {
-        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
             Map<String, String> map = new HashMap<>();
             map.put("site_user_id", site_user_id);
             Log.e("Map is", map.toString());
@@ -92,7 +90,6 @@ public class MyFavoriteProperty extends Fragment {
 
                     try {
                         JSONObject object = new JSONObject(result.toString());
-
                         JSONArray array = object.getJSONArray("result");
                         if (array.length() > 0) {
                             nopropertyTxt.setVisibility(View.GONE);
@@ -118,7 +115,6 @@ public class MyFavoriteProperty extends Fragment {
                                 propertyDataList.get(i).setImageName(array1.getString(i));
                             }
                         }
-
                         updateUI(propertyDataList);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -135,9 +131,6 @@ public class MyFavoriteProperty extends Fragment {
                     nopropertyTxt.setVisibility(View.VISIBLE);
                 }
             });
-        } else {
-            showAlertDialog(mContext);
-        }
     }
 
 

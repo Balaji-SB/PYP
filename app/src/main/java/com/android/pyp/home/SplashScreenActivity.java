@@ -11,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.pyp.R;
-import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.Utils;
 import com.facebook.common.util.UriUtil;
@@ -64,20 +63,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                         try {
                             Thread.sleep(5500);
 //                                animatable.stop();
-                            if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
 
-                                Intent intent = new Intent(mContext, HomeActivity.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        showAlertDialog(mContext);
-                                    }
-                                });
+                            Intent intent = new Intent(mContext, HomeActivity.class);
+                            startActivity(intent);
+                            finish();
 
-                            }
 
                         } catch (Exception e) {
                             e.printStackTrace();

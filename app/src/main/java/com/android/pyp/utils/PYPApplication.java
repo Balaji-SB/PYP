@@ -1,8 +1,10 @@
 package com.android.pyp.utils;
 
+import android.app.AlertDialog;
 import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.ActionBar;
@@ -11,6 +13,7 @@ import android.view.Window;
 
 import com.android.pyp.R;
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -33,8 +36,10 @@ public class PYPApplication extends Application {
 
     private RequestQueue mRequestQueue;
     private ServiceHandler handler;
+    private Context mContext;
 
     public PYPApplication(Context mContext) {
+        this.mContext = mContext;
         getRequestQueueInstance(mContext);
     }
 
@@ -71,7 +76,7 @@ public class PYPApplication extends Application {
     }
 
 
-    public void customStringRequest(String url, final Map<String, String> map, final DataCallback callback) {
+    public void customStringRequest(final String url, final Map<String, String> map, final DataCallback callback) {
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -82,6 +87,9 @@ public class PYPApplication extends Application {
             @Override
             public void onErrorResponse(VolleyError error) {
                 callback.onError(error);
+                if (error instanceof NetworkError) {
+                    callAlertDialog(url, map, callback);
+                }
             }
         }) {
             @Override
@@ -103,6 +111,9 @@ public class PYPApplication extends Application {
             @Override
             public void retry(VolleyError error) throws VolleyError {
                 Log.e("Error", error + "");
+                if (error instanceof NetworkError) {
+                    callAlertDialog(url, map, callback);
+                }
             }
         });
         mRequestQueue.add(request);
@@ -117,4 +128,27 @@ public class PYPApplication extends Application {
         progressDialog.getWindow().setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
         return progressDialog;
     }
+
+    private void callAlertDialog(final String url, final Map<String, String> map, final DataCallback callback) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("PYP");
+        builder.setMessage("There is some problem with your network connection");
+        builder.setIcon(R.drawable.logo);
+        builder.setPositiveButton("Try Again", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                customStringRequest(url, map, callback);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
+    }
+
 }

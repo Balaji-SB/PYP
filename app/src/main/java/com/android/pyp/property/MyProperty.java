@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
-import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.URLConstants;
@@ -100,57 +99,54 @@ public class MyProperty extends Fragment {
     }
 
     private void myProperties() {
-        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
-            Map<String, String> map = new HashMap<>();
-            map.put("site_user_id", site_user_id);
-            Log.e("Map is", map.toString());
-            dialog.show();
-            pypApplication.customStringRequest(URLConstants.urlMyListings, map, new DataCallback() {
-                @Override
-                public void onSuccess(Object result) {
-                    Log.e("Result is", result.toString());
-                    propertyDataList = new ArrayList<>();
-                    dialog.dismiss();
-                    try {
-                        JSONObject object = new JSONObject(result.toString());
+        Map<String, String> map = new HashMap<>();
+        map.put("site_user_id", site_user_id);
+        Log.e("Map is", map.toString());
+        dialog.show();
+        pypApplication.customStringRequest(URLConstants.urlMyListings, map, new DataCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                Log.e("Result is", result.toString());
+                propertyDataList = new ArrayList<>();
+                dialog.dismiss();
+                try {
+                    JSONObject object = new JSONObject(result.toString());
 
-                        JSONArray array = object.getJSONArray("details");
-                        if (array.length() > 0) {
-                            nopropertyTxt.setVisibility(View.GONE);
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject jsonObject = array.getJSONObject(i);
-                                PropertyData data = new PropertyData();
-                                data.setPropertyId(jsonObject.getString("p_id"));
-                                data.setPrice(jsonObject.getString("price"));
-                                data.setCurrency(jsonObject.getString("currency"));
-                                data.setImageName(jsonObject.getString("image_name"));
-                                data.setCity(jsonObject.getString("city"));
-                                data.setState(jsonObject.getString("state"));
-                                data.setCountry(jsonObject.getString("country"));
-                                propertyDataList.add(data);
-                            }
-                            updateUI(propertyDataList);
-                        } else {
-                            nopropertyTxt.setVisibility(View.VISIBLE);
+                    JSONArray array = object.getJSONArray("details");
+                    if (array.length() > 0) {
+                        nopropertyTxt.setVisibility(View.GONE);
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject jsonObject = array.getJSONObject(i);
+                            PropertyData data = new PropertyData();
+                            data.setPropertyId(jsonObject.getString("p_id"));
+                            data.setPrice(jsonObject.getString("price"));
+                            data.setCurrency(jsonObject.getString("currency"));
+                            data.setImageName(jsonObject.getString("image_name"));
+                            data.setCity(jsonObject.getString("city"));
+                            data.setState(jsonObject.getString("state"));
+                            data.setCountry(jsonObject.getString("country"));
+                            propertyDataList.add(data);
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        updateUI(propertyDataList);
+                    } else {
                         nopropertyTxt.setVisibility(View.VISIBLE);
-                        dialog.dismiss();
                     }
-
-                }
-
-                @Override
-                public void onError(VolleyError error) {
-                    Log.e("Error is", error.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
                     nopropertyTxt.setVisibility(View.VISIBLE);
                     dialog.dismiss();
                 }
-            });
-        } else {
-            showAlertDialog(mContext);
-        }
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                Log.e("Error is", error.toString());
+                nopropertyTxt.setVisibility(View.VISIBLE);
+                dialog.dismiss();
+            }
+        });
+
     }
 
 

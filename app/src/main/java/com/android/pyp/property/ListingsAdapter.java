@@ -1,10 +1,7 @@
 package com.android.pyp.property;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.Settings;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,7 +15,6 @@ import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
-import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.URLConstants;
@@ -88,13 +84,13 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
 
 
         String location = "";
-        if (!myDataList.get(position).getCity().equalsIgnoreCase("null") || !myDataList.get(position).getCity().equalsIgnoreCase(null)) {
+        if (!myDataList.get(position).getCity().equalsIgnoreCase("null") && !myDataList.get(position).getCity().equalsIgnoreCase(null)) {
             location += myDataList.get(position).getCity() + ", ";
         }
-        if ( !myDataList.get(position).getState().equalsIgnoreCase("null") || !myDataList.get(position).getState().equalsIgnoreCase(null)) {
+        if ( !myDataList.get(position).getState().equalsIgnoreCase("null") && !myDataList.get(position).getState().equalsIgnoreCase(null)) {
             location += myDataList.get(position).getState() + ", ";
         }
-        if (!myDataList.get(position).getCountry().equalsIgnoreCase("null") || !myDataList.get(position).getCountry().equalsIgnoreCase(null)) {
+        if (!myDataList.get(position).getCountry().equalsIgnoreCase("null") && !myDataList.get(position).getCountry().equalsIgnoreCase(null)) {
             location += myDataList.get(position).getCountry();
         }
         holder.address.setText(location);
@@ -112,7 +108,6 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
         holder.favoriteImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
                     if(Utils.getSessionManager(mContext).checkLogin()) {
                         if (myDataList.get(position).getfId().trim().equalsIgnoreCase(null) || myDataList.get(position).getfId().trim().equalsIgnoreCase("null")) {
                             isFav = true;
@@ -121,9 +116,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
                         }
                         addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
                     }
-                } else {
-                    showAlertDialog(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
-                }
+
             }
         });
 
@@ -139,13 +132,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
     }
 
     private void showAlertDialog(final ListingsViewHolder holder, final int position, String propertyId, String s) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle("PYP");
-        builder.setMessage("Network error..Check your Internet Connection");
-        builder.setIcon(R.mipmap.ic_launcher);
-        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+
                 if(Utils.getSessionManager(mContext).checkLogin()) {
                     if (TextUtils.isEmpty(myDataList.get(position).getfId())){
                         isFav = false;
@@ -154,18 +141,6 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
                     }
                     addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
                 }
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton("Open Settings", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                mContext.startActivity(intent);
-                dialog.dismiss();
-            }
-        });
-        builder.show();
 
     }
 
@@ -206,6 +181,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
                         holder.favoriteImg.setImageResource(R.mipmap.favorite);
                         isFav = false;
                     }
+                    notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

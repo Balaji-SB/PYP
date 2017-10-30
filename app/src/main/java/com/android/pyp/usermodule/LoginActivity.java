@@ -29,7 +29,6 @@ import android.widget.Toast;
 import com.android.pyp.R;
 import com.android.pyp.home.HomeActivity;
 import com.android.pyp.utils.DataCallback;
-import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.URLConstants;
@@ -114,7 +113,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
                     if (validateComponents()) {
                         Map<String, String> map = new HashMap<>();
                         map.put("email", emailEdt.getText().toString().trim());
@@ -149,9 +147,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             }
                         });
                     }
-                } else {
-                    showAlertDialog(LoginActivity.this);
-                }
             }
         });
 
@@ -177,14 +172,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
                     if (google_api_client.isConnected()) {
                         google_api_client.disconnect();
                     }
                     gPlusSignIn();
-                } else {
-                    showAlertDialog(LoginActivity.this);
-                }
+
             }
         });
 
@@ -255,7 +247,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         fbImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
 
                     dialog.show();
                     LoginManager.getInstance().logOut();
@@ -270,10 +261,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 "public_profile", "email", "user_birthday", "user_friends"));
                         loginManager.registerCallback(callbackManager, callback);
                     }
-                }
-                else{
-                    showAlertDialog(mContext);
-                }
+
             }
         });
 

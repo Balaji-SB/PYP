@@ -44,7 +44,6 @@ import com.android.pyp.R;
 import com.android.pyp.utils.AndMultiPartEntity;
 import com.android.pyp.utils.BlurBuilder;
 import com.android.pyp.utils.DataCallback;
-import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.PlaceApi;
 import com.android.pyp.utils.SessionManager;
@@ -266,52 +265,47 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void viewUserProfile() {
-        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
+        Map<String, String> map = new HashMap<>();
+        map.put("site_user_id", site_user_id);
+        dialog.show();
+        pypApplication.customStringRequest(URLConstants.urlViewUserProfile, map, new DataCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                Log.e("Profile Result", result.toString());
+                if (result != null) {
 
-            Map<String, String> map = new HashMap<>();
-            map.put("site_user_id", site_user_id);
-            dialog.show();
-            pypApplication.customStringRequest(URLConstants.urlViewUserProfile, map, new DataCallback() {
-                @Override
-                public void onSuccess(Object result) {
-                    Log.e("Profile Result", result.toString());
-                    if (result != null) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(result.toString());
+                        ProfileData data = new ProfileData();
+                        data.setFirstName(jsonObject.optString("first_name"));
+                        data.setLastName(jsonObject.optString("last_name"));
+                        data.setEmail(jsonObject.optString("key_email"));
+                        data.setPassword(jsonObject.optString("key_pass"));
+                        data.setPhone(jsonObject.optString("phone"));
+                        data.setAddress(jsonObject.optString("address"));
+                        data.setCity(jsonObject.optString("city"));
+                        data.setState(jsonObject.optString("state"));
+                        data.setCountry(jsonObject.optString("country"));
+                        data.setPostalCode(jsonObject.optString("postel_codes"));
+                        data.setImage(jsonObject.optString("image"));
+                        data.setLatitude(jsonObject.optDouble("latitude"));
+                        data.setLongitude(jsonObject.optDouble("longitude"));
+                        updateUI(data);
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(result.toString());
-                            ProfileData data = new ProfileData();
-                            data.setFirstName(jsonObject.optString("first_name"));
-                            data.setLastName(jsonObject.optString("last_name"));
-                            data.setEmail(jsonObject.optString("key_email"));
-                            data.setPassword(jsonObject.optString("key_pass"));
-                            data.setPhone(jsonObject.optString("phone"));
-                            data.setAddress(jsonObject.optString("address"));
-                            data.setCity(jsonObject.optString("city"));
-                            data.setState(jsonObject.optString("state"));
-                            data.setCountry(jsonObject.optString("country"));
-                            data.setPostalCode(jsonObject.optString("postel_codes"));
-                            data.setImage(jsonObject.optString("image"));
-                            data.setLatitude(jsonObject.optDouble("latitude"));
-                            data.setLongitude(jsonObject.optDouble("longitude"));
-                            updateUI(data);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    } else {
-
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }
 
-                @Override
-                public void onError(VolleyError error) {
-                    Log.e("Profile Error Result", error.toString());
+                } else {
+
                 }
-            });
-        } else {
-            showAlertDialog(mContext, 1);
-        }
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                Log.e("Profile Error Result", error.toString());
+            }
+        });
     }
 
     private void updateUI(ProfileData data) {
@@ -347,11 +341,8 @@ public class MyProfileFragment extends Fragment {
                 Log.e("imgPath", imgPath + " ");
                 int size = imgPath.split("/").length;
                 tempImage = imgPath.split("/")[size - 1];
-                if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
-                    new UploadFileToServer(mView, mContext, imgPath, oldImage).execute();
-                } else {
-                    showAlertDialog(mContext, 3);
-                }
+                new UploadFileToServer(mView, mContext, imgPath, oldImage).execute();
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -472,7 +463,6 @@ public class MyProfileFragment extends Fragment {
 
 
     private void updateProfile() {
-        if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
             if (validateComponents()) {
                 Map<String, String> map = new HashMap<>();
                 map.put("fname", firstName.getText().toString().trim());
@@ -513,9 +503,7 @@ public class MyProfileFragment extends Fragment {
                     }
                 });
             }
-        } else {
-            showAlertDialog(mContext, 2);
-        }
+
 
     }
 

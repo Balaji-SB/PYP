@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
-import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
 import com.android.pyp.utils.Utils;
@@ -72,13 +71,13 @@ public class MyFavoritePropertyAdapter extends RecyclerView.Adapter<MyFavoritePr
 
 
         String location = "";
-        if (!propertyDataList.get(position).getCity().equalsIgnoreCase("null") || !propertyDataList.get(position).getCity().equalsIgnoreCase(null)) {
+        if (!propertyDataList.get(position).getCity().equalsIgnoreCase("null") && !propertyDataList.get(position).getCity().equalsIgnoreCase(null)) {
             location += propertyDataList.get(position).getCity() + ", ";
         }
-        if (!propertyDataList.get(position).getState().equalsIgnoreCase("null") || !propertyDataList.get(position).getState().equalsIgnoreCase(null)) {
+        if (!propertyDataList.get(position).getState().equalsIgnoreCase("null") && !propertyDataList.get(position).getState().equalsIgnoreCase(null)) {
             location += propertyDataList.get(position).getState() + ", ";
         }
-        if (!propertyDataList.get(position).getCountry().equalsIgnoreCase("null") || !propertyDataList.get(position).getCountry().equalsIgnoreCase(null)) {
+        if (!propertyDataList.get(position).getCountry().equalsIgnoreCase("null") && !propertyDataList.get(position).getCountry().equalsIgnoreCase(null)) {
             location += propertyDataList.get(position).getCountry();
         }
         holder.propertyLocation.setText(location);
@@ -88,13 +87,10 @@ public class MyFavoritePropertyAdapter extends RecyclerView.Adapter<MyFavoritePr
         holder.favImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (InternetDetector.getInstance(mContext).isOnline(mContext)) {
                     if (Utils.getSessionManager(mContext).checkLogin()) {
                         addOrRemoveFav(position, propertyDataList.get(position).getPropertyId(), propertyDataList.get(position).getfId());
                     }
-                } else {
-                    showAlertDialog(position, propertyDataList.get(position).getPropertyId(), propertyDataList.get(position).getfId());
-                }
+
             }
         });
 

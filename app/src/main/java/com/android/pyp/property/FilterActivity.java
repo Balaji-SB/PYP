@@ -21,7 +21,6 @@ import android.widget.RadioGroup;
 
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
-import com.android.pyp.utils.InternetDetector;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.URLConstants;
 import com.android.volley.VolleyError;
@@ -280,7 +279,6 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     private void getFilters() {
-        if(InternetDetector.getInstance(mContext).isOnline(mContext)) {
             filterTypeList = new ArrayList<>();
             filterLocationList = new ArrayList<>();
             Map<String, String> map = new HashMap<>();
@@ -323,9 +321,6 @@ public class FilterActivity extends AppCompatActivity {
                     Log.e("Error", error.toString());
                 }
             });
-        }else{
-            showAlertDialog(mContext);
-        }
     }
 
     public void showAlertDialog(final Context mContext) {
