@@ -20,6 +20,7 @@ import android.widget.Button;
 import com.android.pyp.R;
 import com.android.pyp.utils.DataCallback;
 import com.android.pyp.utils.PYPApplication;
+import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.URLConstants;
 import com.android.pyp.utils.Utils;
 import com.android.volley.VolleyError;
@@ -60,28 +61,29 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void updateChangePassword() {
-            if (validateComponents()) {
-                Map<String, String> map = new HashMap<>();
-                map.put("CurrentPassword", oldPassword.getText().toString());
-                map.put("NewPassword", newPassword.getText().toString());
-                map.put("Confirmpass", confirmPassword.getText().toString());
-                Log.e("params is", map + "");
-                dialog.show();
-                pypApplication.customStringRequest(URLConstants.urlChangePassword, map, new DataCallback() {
-                    @Override
-                    public void onSuccess(Object result) {
-                        dialog.dismiss();
-                        Utils.presentSnackBar(mView, result.toString(), 0);
-                        clearUI();
-                    }
+        if (validateComponents()) {
+            Map<String, String> map = new HashMap<>();
+            map.put("currentPassword", oldPassword.getText().toString());
+            map.put("newPassword", newPassword.getText().toString());
+            map.put("confirmpass", confirmPassword.getText().toString());
+            map.put("site_user_id", Utils.getSharedPreferences(mContext).getString(SessionManager.KEY_USERID,""));
+            Log.e("params is", map + "");
+            dialog.show();
+            pypApplication.customStringRequest(URLConstants.urlChangePassword, map, new DataCallback() {
+                @Override
+                public void onSuccess(Object result) {
+                    dialog.dismiss();
+                    Utils.presentSnackBar(mView, result.toString(), 1);
+                    clearUI();
+                }
 
-                    @Override
-                    public void onError(VolleyError error) {
-                        Utils.presentSnackBar(mView, error.toString(), 0);
-                        dialog.dismiss();
-                    }
-                });
-            }
+                @Override
+                public void onError(VolleyError error) {
+                    Utils.presentSnackBar(mView, error.toString(), 1);
+                    dialog.dismiss();
+                }
+            });
+        }
     }
 
     private void initVariables() {

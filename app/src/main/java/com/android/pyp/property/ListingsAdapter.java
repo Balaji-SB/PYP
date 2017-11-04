@@ -172,9 +172,9 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
                     if (jsonObject.getString("success").trim().equalsIgnoreCase("added")) {
                         myDataList.get(position).setfId(jsonObject.getString("f_id"));
                     } else {
-                        myDataList.get(position).setfId("");
+                        myDataList.get(position).setfId("null");
                     }
-                    if (myDataList.get(position).getfId().trim().equalsIgnoreCase(null) || myDataList.get(position).getfId().trim().equalsIgnoreCase("null")) {
+                    if (myDataList.get(position).getfId().trim().equalsIgnoreCase(null) && myDataList.get(position).getfId().trim().equalsIgnoreCase("null")) {
                         holder.favoriteImg.setImageResource(R.mipmap.un_favorite);
                         isFav = true;
                     } else {
