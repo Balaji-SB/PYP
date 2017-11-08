@@ -127,7 +127,6 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!isEditable) {
-
                     isEditable = true;
                     myProfileFAB.setImageResource(R.drawable.completed);
                     firstName.setEnabled(true);
@@ -167,7 +166,6 @@ public class MyProfileFragment extends Fragment {
                 } else {
                     callImage();
                 }
-
             }
         });
         return mView;
@@ -273,7 +271,6 @@ public class MyProfileFragment extends Fragment {
             public void onSuccess(Object result) {
                 Log.e("Profile Result", result.toString());
                 if (result != null) {
-
                     try {
                         JSONObject jsonObject = new JSONObject(result.toString());
                         ProfileData data = new ProfileData();
@@ -320,7 +317,11 @@ public class MyProfileFragment extends Fragment {
         country.setText(data.getCountry().equalsIgnoreCase("null") ? "" : data.getCountry());
         postalCode.setText(data.getPostalCode().equalsIgnoreCase("null") ? "" : data.getPostalCode());
         oldImage = data.getImage();
-        new LoadImage(data.getImage()).execute();
+        if (data.getImage() != null) {
+            new LoadImage(data.getImage()).execute();
+        } else {
+            dialog.dismiss();
+        }
     }
 
 
@@ -463,46 +464,46 @@ public class MyProfileFragment extends Fragment {
 
 
     private void updateProfile() {
-            if (validateComponents()) {
-                Map<String, String> map = new HashMap<>();
-                map.put("fname", firstName.getText().toString().trim());
-                map.put("lname", lastName.getText().toString().trim());
-                map.put("phone", phone.getText().toString().trim());
-                map.put("address", addressEdt.getText().toString().trim());
-                map.put("postal_code", postalCode.getText().toString().trim());
-                map.put("locality", city.getText().toString().trim());
-                map.put("administrative_area_level_1", state.getText().toString().trim());
-                map.put("country", country.getText().toString().trim());
+        if (validateComponents()) {
+            Map<String, String> map = new HashMap<>();
+            map.put("fname", firstName.getText().toString().trim());
+            map.put("lname", lastName.getText().toString().trim());
+            map.put("phone", phone.getText().toString().trim());
+            map.put("address", addressEdt.getText().toString().trim());
+            map.put("postal_code", postalCode.getText().toString().trim());
+            map.put("locality", city.getText().toString().trim());
+            map.put("administrative_area_level_1", state.getText().toString().trim());
+            map.put("country", country.getText().toString().trim());
 //            map.put("img_hidden", oldImage);
-                map.put("lat", latitude + "");
-                map.put("lng", longitude + "");
-                map.put("site_user_id", preferences.getString(SessionManager.KEY_USERID, "") + "");
-                Log.e("Map", map.toString());
-                pypApplication.customStringRequest(URLConstants.urlUpdateUserProfile, map, new DataCallback() {
-                    @Override
-                    public void onSuccess(Object result) {
-                        Log.e("Result is", result.toString());
-                        Utils.presentSnackBar(mView, result.toString(), 1);
-                        isEditable = false;
-                        myProfileFAB.setImageResource(R.drawable.edit);
-                        firstName.setEnabled(false);
-                        location.setEnabled(false);
-                        lastName.setEnabled(false);
-                        phone.setEnabled(false);
+            map.put("lat", latitude + "");
+            map.put("lng", longitude + "");
+            map.put("site_user_id", preferences.getString(SessionManager.KEY_USERID, "") + "");
+            Log.e("Map", map.toString());
+            pypApplication.customStringRequest(URLConstants.urlUpdateUserProfile, map, new DataCallback() {
+                @Override
+                public void onSuccess(Object result) {
+                    Log.e("Result is", result.toString());
+                    Utils.presentSnackBar(mView, result.toString(), 1);
+                    isEditable = false;
+                    myProfileFAB.setImageResource(R.drawable.edit);
+                    firstName.setEnabled(false);
+                    location.setEnabled(false);
+                    lastName.setEnabled(false);
+                    phone.setEnabled(false);
 //                        email.setEnabled(false);
-                        addressEdt.setEnabled(false);
-                        city.setEnabled(false);
-                        state.setEnabled(false);
-                        postalCode.setEnabled(false);
-                        country.setEnabled(false);
-                    }
+                    addressEdt.setEnabled(false);
+                    city.setEnabled(false);
+                    state.setEnabled(false);
+                    postalCode.setEnabled(false);
+                    country.setEnabled(false);
+                }
 
-                    @Override
-                    public void onError(VolleyError error) {
-                        Log.e("Error is", error.toString());
-                    }
-                });
-            }
+                @Override
+                public void onError(VolleyError error) {
+                    Log.e("Error is", error.toString());
+                }
+            });
+        }
 
 
     }
@@ -566,8 +567,6 @@ public class MyProfileFragment extends Fragment {
         } else {
             return true;
         }
-
-
     }
 
     class AutoCompleteAdapter extends ArrayAdapter<Object> implements

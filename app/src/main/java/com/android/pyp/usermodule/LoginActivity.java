@@ -113,40 +113,40 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    if (validateComponents()) {
-                        Map<String, String> map = new HashMap<>();
-                        map.put("email", emailEdt.getText().toString().trim());
-                        map.put("password", passwordEdt.getText().toString().trim());
-                        dialog.show();
-                        pypApplication.customStringRequest(URLConstants.urlLogin, map, new DataCallback() {
-                            @Override
-                            public void onSuccess(Object result) {
-                                dialog.dismiss();
-                                Log.e("Success result is", result.toString());
-                                try {
-                                    JSONObject jsonObject = new JSONObject(result.toString());
-                                    if (jsonObject.getString("result").trim().equalsIgnoreCase("success")) {
-                                        JSONObject object = jsonObject.getJSONObject("userdetails");
-                                        manager.createLoginSession(object.getString("auth_id"), object.getString("key_email"), object.getString("first_name") + " " + object.getString("last_name"), object.getString("key_pass"), object.getString("phone"), object.getString("image"));
-                                        Intent intent = new Intent(mContext, HomeActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    } else {
-                                        Utils.presentSnackBar(mView, jsonObject.getString("result"), 1);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    dialog.dismiss();
+                if (validateComponents()) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("email", emailEdt.getText().toString().trim());
+                    map.put("password", passwordEdt.getText().toString().trim());
+                    dialog.show();
+                    pypApplication.customStringRequest(URLConstants.urlLogin, map, new DataCallback() {
+                        @Override
+                        public void onSuccess(Object result) {
+                            dialog.dismiss();
+                            Log.e("Success result is", result.toString());
+                            try {
+                                JSONObject jsonObject = new JSONObject(result.toString());
+                                if (jsonObject.getString("result").trim().equalsIgnoreCase("success")) {
+                                    JSONObject object = jsonObject.getJSONObject("userdetails");
+                                    manager.createLoginSession(object.getString("auth_id"), object.getString("key_email"), object.getString("first_name") + " " + object.getString("last_name"), object.getString("key_pass"), object.getString("phone"), object.getString("image"));
+                                    Intent intent = new Intent(mContext, HomeActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    Utils.presentSnackBar(mView, jsonObject.getString("result"), 1);
                                 }
-                            }
-
-                            @Override
-                            public void onError(VolleyError error) {
-                                Log.e("Error result is", error.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                                 dialog.dismiss();
                             }
-                        });
-                    }
+                        }
+
+                        @Override
+                        public void onError(VolleyError error) {
+                            Log.e("Error result is", error.toString());
+                            dialog.dismiss();
+                        }
+                    });
+                }
             }
         });
 
@@ -172,10 +172,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                    if (google_api_client.isConnected()) {
-                        google_api_client.disconnect();
-                    }
-                    gPlusSignIn();
+                if (google_api_client.isConnected()) {
+                    google_api_client.disconnect();
+                }
+                gPlusSignIn();
 
             }
         });
@@ -191,6 +191,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
                 //  nextActivity(newProfile);
+                dialog.dismiss();
             }
         };
 //        accessTokenTracker.startTracking();
@@ -237,30 +238,31 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             @Override
             public void onCancel() {
+                dialog.dismiss();
             }
 
             @Override
             public void onError(FacebookException e) {
+                dialog.dismiss();
             }
         };
 
         fbImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                    dialog.show();
+                dialog.show();
+                LoginManager.getInstance().logOut();
+                loginManager.unregisterCallback(callbackManager);
+//                Utils.presentToast(mContext,"FB logged out 1",0);;
+                if (AccessToken.getCurrentAccessToken() != null) {
                     LoginManager.getInstance().logOut();
                     loginManager.unregisterCallback(callbackManager);
-//                Utils.presentToast(mContext,"FB logged out 1",0);;
-                    if (AccessToken.getCurrentAccessToken() != null) {
-//                    LoginManager.getInstance().logOut();
-//                    loginManager.unregisterCallback(callbackManager);
 //                    Utils.presentToast(mContext,"FB logged out 1",0);;
-                    } else {
-                        loginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList(
-                                "public_profile", "email", "user_birthday", "user_friends"));
-                        loginManager.registerCallback(callbackManager, callback);
-                    }
+                } else {
+                    loginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList(
+                            "public_profile", "email", "user_birthday", "user_friends"));
+                    loginManager.registerCallback(callbackManager, callback);
+                }
 
             }
         });
@@ -276,10 +278,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         @Override
         public void onCancel() {
+            dialog.dismiss();
         }
 
         @Override
         public void onError(FacebookException e) {
+            dialog.dismiss();
         }
     };
 
@@ -342,7 +346,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void resolveSignInError() {
-        if(connection_result!=null) {
+        if (connection_result != null) {
             if (connection_result.hasResolution()) {
                 try {
                     is_intent_inprogress = true;
@@ -353,7 +357,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     google_api_client.connect();
                 }
             }
-        }else{
+        } else {
             is_intent_inprogress = false;
             google_api_client.connect();
         }
@@ -504,8 +508,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 dialog.dismiss();
                 try {
                     JSONObject object1 = new JSONObject(result.toString());
-                    if(object1.optString("result").equalsIgnoreCase("success")){
-                        JSONObject object=object1.getJSONObject("userdetails");
+                    if (object1.optString("result").equalsIgnoreCase("success")) {
+                        JSONObject object = object1.getJSONObject("userdetails");
                         manager.createLoginSession(object.getString("auth_id"), object.getString("key_email"), object.getString("first_name") + " " + object.getString("last_name"), object.getString("key_pass"), object.getString("phone"), object.getString("image"));
                         Intent intent = new Intent(mContext, HomeActivity.class);
                         startActivity(intent);

@@ -123,7 +123,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                             Log.e("Success result is", result.toString());
                             Utils.presentSnackBar(mView, result.toString(), 1);
                             clearUI();
-
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            startActivity(intent);
                         }
 
                         @Override
@@ -201,10 +202,12 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
             @Override
             public void onCancel() {
+                dialog.dismiss();
             }
 
             @Override
             public void onError(FacebookException e) {
+                dialog.dismiss();
             }
         };
 
@@ -215,8 +218,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                 loginManager.unregisterCallback(callbackManager);
 //                Utils.presentToast(mContext,"FB logged out 1",0);;
                 if (AccessToken.getCurrentAccessToken() != null) {
-//                    LoginManager.getInstance().logOut();
-//                    loginManager.unregisterCallback(callbackManager);
+                    LoginManager.getInstance().logOut();
+                    loginManager.unregisterCallback(callbackManager);
 //                    Utils.presentToast(mContext,"FB logged out 1",0);;
                 } else {
                     loginManager.logInWithReadPermissions(RegisterActivity.this, Arrays.asList(
@@ -444,7 +447,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     private void initVariables() {
         pypApplication = new PYPApplication(mContext);
-        dialog=pypApplication.getProgressDialog(mContext);
+        dialog = pypApplication.getProgressDialog(mContext);
         manager = Utils.getSessionManager(mContext);
         preferences = Utils.getSharedPreferences(mContext);
         fbImg = (ImageView) mView.findViewById(R.id.fbImg);
