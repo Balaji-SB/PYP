@@ -46,6 +46,7 @@ public class AboutUsActivity extends AppCompatActivity {
         mView = LayoutInflater.from(mContext).inflate(R.layout.fragment_aboutus, null, false);
         setContentView(mView);
         initVariables();
+        getAboutUs();
     }
 
     private void initVariables() {
@@ -58,22 +59,22 @@ public class AboutUsActivity extends AppCompatActivity {
         aboutUsTxt = (TextView) mView.findViewById(R.id.aboutUsTxt);
     }
 
-    private void submitContactusDetails() {
+    private void getAboutUs() {
         dialog.show();
         Map<String, String> map = new HashMap<>();
-        pypApplication.customStringRequest(URLConstants.urlCMSContactUs, map, new DataCallback() {
+        pypApplication.customStringRequest(URLConstants.urlCMSAboutUs, map, new DataCallback() {
             @Override
             public void onSuccess(Object result) {
                 Log.e("Result", result.toString());
                 dialog.dismiss();
                 aboutUsTxt.setText(Html.fromHtml(result.toString()));
-                Utils.presentSnackBar(mView, result.toString(), 0);
+                Utils.presentSnackBar(mView, result.toString(), 1);
             }
 
             @Override
             public void onError(VolleyError error) {
                 dialog.dismiss();
-                Utils.presentSnackBar(mView, error.toString(), 0);
+                Utils.presentSnackBar(mView, error.toString(), 1);
             }
         });
     }
@@ -85,6 +86,4 @@ public class AboutUsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

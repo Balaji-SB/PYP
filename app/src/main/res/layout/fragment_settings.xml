@@ -12,77 +12,76 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="15sp"
             android:layout_marginBottom="15dp"
-            >
+            android:layout_marginTop="15sp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="General"
                 android:padding="5sp"
-                android:textSize="18sp"
+                android:text="General"
                 android:textColor="@color/downviolet"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/changePwdLinear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-            <LinearLayout
+                android:orientation="vertical">
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="3dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                <LinearLayout
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:padding="5dp"
-                    android:tint="@color/downviolet"
-                    android:src="@drawable/key" />
-
-                <TextView
-                    android:id="@+id/changePwdTxt"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:text="Change Password"
-                    
-                    android:textColor="@color/black" />
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="40sp"
-                    android:layout_height="40sp"
-                    android:layout_marginRight="10sp"
-                    android:src="@mipmap/ic_next" />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:padding="5dp"
+                        android:src="@drawable/key"
+                        android:tint="@color/downviolet" />
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/changePwdTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="Change Password"
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="70sp"
-                android:layout_marginRight="20sp"
-                android:background="@color/upviolet" />
+                        android:textColor="@color/black" />
+
+                    <ImageView
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:layout_marginRight="10sp"
+                        android:src="@mipmap/ic_next" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="70sp"
+                    android:layout_marginRight="20sp"
+                    android:background="@color/upviolet" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
+                android:id="@+id/changeLangLinear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
@@ -90,23 +89,24 @@
                 android:layout_marginRight="3dp"
                 android:layout_marginTop="15dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
                     android:padding="5dp"
-                    android:tint="@color/downviolet"
-                    android:src="@drawable/language_google" />
+                    android:src="@drawable/language_google"
+                    android:tint="@color/downviolet" />
 
                 <TextView
                     android:id="@+id/changeLangTxt"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:padding="5dp"
                     android:text="Change Language"
                     android:textColor="@color/black" />
@@ -120,12 +120,12 @@
             </LinearLayout>
 
             <View
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="70sp"
                 android:layout_marginRight="20sp"
-                android:background="@color/upviolet" />
+                android:background="@color/upviolet"
+                android:visibility="visible" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -142,16 +142,16 @@
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
                     android:padding="5dp"
-                    android:tint="@color/downviolet"
-                    android:src="@drawable/about_us" />
+                    android:src="@drawable/about_us"
+                    android:tint="@color/downviolet" />
 
                 <TextView
                     android:id="@+id/aboutUsTxt"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:padding="5dp"
                     android:text="About Us"
                     android:textColor="@color/black" />
@@ -186,19 +186,19 @@
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
                     android:padding="5dp"
-                    android:tint="@color/downviolet"
-                    android:src="@drawable/contact_us" />
+                    android:src="@drawable/contact_us"
+                    android:tint="@color/downviolet" />
 
                 <TextView
                     android:id="@+id/contactUsTxt"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:padding="5dp"
                     android:text="Contact Us"
-                    
+
                     android:textColor="@color/black" />
 
                 <ImageView
@@ -217,7 +217,6 @@
                 android:background="@color/upviolet" />
 
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
@@ -225,23 +224,24 @@
                 android:layout_marginRight="3dp"
                 android:layout_marginTop="15dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
                     android:padding="5dp"
-                    android:tint="@color/downviolet"
-                    android:src="@drawable/favorite" />
+                    android:src="@drawable/favorite"
+                    android:tint="@color/downviolet" />
 
                 <TextView
                     android:id="@+id/myFavorites"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:padding="5dp"
                     android:text="My Favorites"
                     android:textColor="@color/black" />
@@ -257,37 +257,37 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:visibility="gone"
                 android:layout_marginLeft="70sp"
                 android:layout_marginRight="20sp"
-                android:background="@color/upviolet" />
+                android:background="@color/upviolet"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:layout_marginLeft="10dp"
-                android:visibility="gone"
                 android:layout_marginRight="3dp"
                 android:layout_marginTop="15dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
                     android:padding="5dp"
-                    android:tint="@color/downviolet"
-                    android:src="@drawable/support" />
+                    android:src="@drawable/support"
+                    android:tint="@color/downviolet" />
 
                 <TextView
                     android:id="@+id/supportTxt"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:padding="5dp"
                     android:text="Support"
 
@@ -304,62 +304,61 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:visibility="gone"
                 android:layout_marginLeft="70sp"
                 android:layout_marginRight="20sp"
-                android:background="@color/upviolet" />
+                android:background="@color/upviolet"
+                android:visibility="gone" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:id="@+id/logoutLinear"
-                >
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="3dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:padding="5dp"
-                    android:tint="@color/downviolet"
-                    android:src="@drawable/logout" />
-
-                <TextView
-                    android:id="@+id/logoutTxt"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:text="Logout"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                    android:textColor="@color/black" />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:padding="5dp"
+                        android:src="@drawable/logout"
+                        android:tint="@color/downviolet" />
 
-                <ImageView
-                    android:layout_width="40sp"
-                    android:layout_height="40sp"
-                    android:layout_marginRight="10sp"
-                    android:src="@mipmap/ic_next" />
+                    <TextView
+                        android:id="@+id/logoutTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="Logout"
 
-            </LinearLayout>
+                        android:textColor="@color/black" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="70sp"
-                android:layout_marginRight="20sp"
-                android:background="@color/upviolet" />
+                    <ImageView
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:layout_marginRight="10sp"
+                        android:src="@mipmap/ic_next" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="70sp"
+                    android:layout_marginRight="20sp"
+                    android:background="@color/upviolet" />
 
             </LinearLayout>
 

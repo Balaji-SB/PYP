@@ -405,7 +405,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 //        google_api_client.connect();
         if (AccessToken.getCurrentAccessToken() != null) {
             LoginManager.getInstance().logOut();
-            Utils.presentToast(mContext, "FB logged out", 0);
+            Utils.presentToast(mContext, "FB logged out", 1);
             ;
         }
 

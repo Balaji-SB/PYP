@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.pyp.R;
+import com.android.pyp.home.HomeActivity;
 import com.android.pyp.utils.DataCallback;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.SessionManager;
@@ -158,5 +159,13 @@ public class MyProperty extends Fragment {
                 mypropertyRecycler.setAdapter(myFavoritePropertyAdapter);
             }
         });
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        nopropertyTxt.setVisibility(View.GONE);
+        ((HomeActivity)mContext).setSelectedItem(R.id.menumyProperty);
     }
 }

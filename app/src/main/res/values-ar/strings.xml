@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">اختر أماكنك</string>
+    <string name="home">منزل</string>
+    <string name="settings">إعدادات</string>
+    <string name="contact_us">اتصل بنا</string>
+    <string name="about_us">معلومات عنا</string>
+    <string name="change_lang">غير اللغة</string>
+    <string name="change_pwd">تغيير كلمة السر</string>
+    <string name="logout">الخروج</string>
+</resources>

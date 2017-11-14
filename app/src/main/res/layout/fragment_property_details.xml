@@ -241,6 +241,74 @@
 
 
                     </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/sqftLinear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5sp">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4"
+                                android:gravity="start"
+                                android:padding="5sp"
+                                android:text="Sqft"
+                                android:textColor="@color/textblack"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+
+                            <TextView
+                                android:id="@+id/sqft"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.6"
+                                android:gravity="end"
+                                android:padding="5sp"
+                                android:text="2"
+                                android:textColor="@color/textblack"
+                                android:textSize="14sp"
+                                android:textStyle="normal" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/genderLinear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5sp">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4"
+                                android:gravity="start"
+                                android:padding="5sp"
+                                android:text="Gender"
+                                android:textColor="@color/textblack"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+
+                            <TextView
+                                android:id="@+id/gender"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.6"
+                                android:gravity="end"
+                                android:padding="5sp"
+                                android:text="2"
+                                android:textColor="@color/textblack"
+                                android:textSize="14sp"
+                                android:textStyle="normal" />
+                        </LinearLayout>
+
+
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

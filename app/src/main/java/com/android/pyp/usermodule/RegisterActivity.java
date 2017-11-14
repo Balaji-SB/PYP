@@ -369,7 +369,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         if (AccessToken.getCurrentAccessToken() != null) {
             LoginManager.getInstance().logOut();
 
-            Utils.presentToast(mContext, "FB logged out", 0);
+            Utils.presentToast(mContext, "FB logged out", 1);
             ;
         }
 

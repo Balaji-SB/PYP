@@ -41,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.pyp.R;
+import com.android.pyp.home.HomeActivity;
 import com.android.pyp.utils.AndMultiPartEntity;
 import com.android.pyp.utils.BlurBuilder;
 import com.android.pyp.utils.DataCallback;
@@ -308,7 +309,7 @@ public class MyProfileFragment extends Fragment {
     private void updateUI(ProfileData data) {
         firstName.setText(data.getFirstName());
         lastName.setText(data.getLastName().equalsIgnoreCase("null") ? "" : data.getLastName());
-        profileName.setText(data.getFirstName() + " " + data.getLastName());
+        profileName.setText(firstName.getText().toString() + " " + lastName.getText().toString());
         email.setText(data.getEmail().equalsIgnoreCase("null") ? "" : data.getEmail());
         phone.setText(data.getPhone().equalsIgnoreCase("null") ? "" : data.getPhone());
         addressEdt.setText(data.getAddress().equalsIgnoreCase("null") ? "" : data.getAddress());
@@ -780,5 +781,11 @@ public class MyProfileFragment extends Fragment {
                 return;
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity) mContext).setSelectedItem(R.id.menumyProfile);
     }
 }

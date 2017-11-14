@@ -69,13 +69,13 @@ public class ContactUsActivity extends AppCompatActivity {
                         Log.e("Result",result.toString());
                         dialog.dismiss();
                         clearUI();
-                        Utils.presentSnackBar(mView, result.toString(), 0);
+                        Utils.presentSnackBar(mView, result.toString(), 1);
                     }
 
                     @Override
                     public void onError(VolleyError error) {
                         dialog.dismiss();
-                        Utils.presentSnackBar(mView, error.toString(), 0);
+                        Utils.presentSnackBar(mView, error.toString(), 1);
                     }
                 });
             }

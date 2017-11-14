@@ -17,7 +17,6 @@
     <item
         android:id="@+id/menuhome"
         android:icon="@drawable/home"
-
         android:title="@string/home" />
     <item
         android:id="@+id/menumyProperty"

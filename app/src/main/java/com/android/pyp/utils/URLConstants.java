@@ -39,6 +39,8 @@ public class URLConstants {
 
     public static String urlCMSContactUs = BASEURL + "contact_us";
 
+    public static String urlCMSAboutUs= BASEURL + "about_us";
+
     public static String urlFitler = BASEURL + "filter";
 
     public static String urlImage=TESTURL+"uploads/property/";

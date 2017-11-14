@@ -1,10 +1,12 @@
 package com.android.pyp.cms;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.pyp.R;
+import com.android.pyp.home.HomeActivity;
 import com.android.pyp.property.MyFavoriteProperty;
 import com.android.pyp.usermodule.ChangePasswordActivity;
 import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.Utils;
+
+import java.util.Locale;
 
 /**
  * Created by devel-73 on 17/8/17.
@@ -27,7 +32,8 @@ public class SettingsFragment extends Fragment {
     private FragmentActivity mContext;
     private TextView contactUsTxt, aboutUsTxt, myFavorites, changeLangTxt, changePwdTxt, logoutTxt;
     private SessionManager manager;
-    private LinearLayout changePwdLinear, logoutLinear;
+    private LinearLayout changePwdLinear, logoutLinear, changeLangLinear;
+    private boolean isEnglish=false;
 
     @Nullable
     @Override
@@ -80,6 +86,30 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        changeLangLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isEnglish){
+                    isEnglish=true;
+                    Resources res = mContext.getResources();
+                    DisplayMetrics dm = res.getDisplayMetrics();
+                    android.content.res.Configuration conf = res.getConfiguration();
+                    conf.setLocale(new Locale("ar".toLowerCase()));
+                    res.updateConfiguration(conf, dm);
+                    updateUI();
+                }else{
+                    isEnglish=false;
+                    Resources res = mContext.getResources();
+                    DisplayMetrics dm = res.getDisplayMetrics();
+                    android.content.res.Configuration conf = res.getConfiguration();
+                    conf.setLocale(new Locale("en".toLowerCase()));
+                    res.updateConfiguration(conf, dm);
+                    updateUI();
+                }
+
+            }
+        });
+
         return mView;
     }
 
@@ -92,9 +122,24 @@ public class SettingsFragment extends Fragment {
         myFavorites = (TextView) mView.findViewById(R.id.myFavorites);
         changePwdLinear = (LinearLayout) mView.findViewById(R.id.changePwdLinear);
         logoutLinear = (LinearLayout) mView.findViewById(R.id.logoutLinear);
-        getActivity().setTitle("Settings");
+        changeLangLinear = (LinearLayout) mView.findViewById(R.id.changeLangLinear);
+        getActivity().setTitle(getString(R.string.settings));
         manager = Utils.getSessionManager(mContext);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity) mContext).setSelectedItem(R.id.menusettings);
+        updateUI();
+    }
+
+    private void updateUI() {
+        contactUsTxt.setText(getString(R.string.contact_us));
+        aboutUsTxt.setText(getString(R.string.about_us));
+        changeLangTxt.setText(getString(R.string.change_lang));
+        changePwdTxt.setText(getString(R.string.change_pwd));
+        logoutTxt.setText(getString(R.string.logout));
+    }
 
 }

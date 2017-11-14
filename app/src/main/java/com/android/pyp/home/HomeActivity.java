@@ -35,16 +35,10 @@ public class HomeActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.menuhome);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
-
-
     }
 
     private void updateDisplay(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.homeFrame, fragment).addToBackStack(null).commit();
-    }
-
-    public void updateNavItem(int itemId) {
-        navigation.setSelectedItemId(itemId);
     }
 
 
@@ -100,5 +94,16 @@ public class HomeActivity extends AppCompatActivity {
             return false;
         }
     };
+
+
+
+    public void setSelectedItem(final int id) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                navigation.getMenu().findItem(id).setChecked(true);
+            }
+        });
+    }
 
 }

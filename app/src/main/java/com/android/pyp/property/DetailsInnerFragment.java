@@ -35,8 +35,8 @@ public class DetailsInnerFragment extends Fragment {
     private List<PropertyData> propertyList;
     private PropertyData propertyData;
     private String contactNum = "";
-    private LinearLayout bhkLinear;
-    private TextView title, description, priceCurrency, bhk, nationality, city, state, country, landmark;
+    private LinearLayout bhkLinear, genderLinear, sqftLinear;
+    private TextView title, description, priceCurrency, bhk, nationality, city, state, country, landmark, sqft, gender;
 
 
     @Nullable
@@ -86,7 +86,7 @@ public class DetailsInnerFragment extends Fragment {
                         callPhone();
                     }
                 } else {
-                    Utils.presentToast(mContext, "This user doesn't provide contact number", 0);
+                    Utils.presentToast(mContext, "This user doesn't provide contact number", 1);
                 }
             }
         });
@@ -99,20 +99,25 @@ public class DetailsInnerFragment extends Fragment {
     private void updateUI() {
         title.setText("Rent for " + propertyData.getTitle());
         getActivity().setTitle("Rent for " + propertyData.getTitle());
-        if(propertyData.getTitle().trim().equalsIgnoreCase("bedspace")){
+        if (propertyData.getTitle().trim().equalsIgnoreCase("bedspace")) {
             bhkLinear.setVisibility(View.GONE);
-        }else{
+            genderLinear.setVisibility(View.GONE);
+            sqftLinear.setVisibility(View.GONE);
+        } else {
             bhkLinear.setVisibility(View.VISIBLE);
+            genderLinear.setVisibility(View.VISIBLE);
+            sqftLinear.setVisibility(View.VISIBLE);
         }
-        bhk.setText(propertyData.getBhk());
+        bhk.setText(propertyData.getBhk().equalsIgnoreCase("null") ? "0" : propertyData.getBhk());
+        gender.setText(propertyData.getGender().equalsIgnoreCase("null") ? "0" : propertyData.getGender());
+        sqft.setText(propertyData.getSqft().equalsIgnoreCase("null") ? "0" : propertyData.getSqft());
         priceCurrency.setText(propertyData.getPrice() + " " + propertyData.getCurrency());
-        nationality.setText(propertyData.getNationality());
-        city.setText(propertyData.getCity());
-        state.setText(propertyData.getState());
-        country.setText(propertyData.getCountry());
-        landmark.setText(propertyData.getLandmark());
-        description.setText(propertyData.getDescription().equalsIgnoreCase(null)?propertyData.getDescription():"");
-
+        nationality.setText(propertyData.getNationality().equalsIgnoreCase("null") ? "Not Specified" : propertyData.getNationality());
+        city.setText(propertyData.getCity().equalsIgnoreCase("null") ? "Not Specified" : propertyData.getCity());
+        state.setText(propertyData.getState().equalsIgnoreCase("null") ? "Not Specified" : propertyData.getState());
+        country.setText(propertyData.getCountry().equalsIgnoreCase("null") ? "Not Specified" : propertyData.getCountry());
+        landmark.setText(propertyData.getLandmark().equalsIgnoreCase("null") ? "Not Specified" : propertyData.getLandmark());
+        description.setText(propertyData.getDescription().equalsIgnoreCase("null") ? "No Description Found" : propertyData.getDescription());
     }
 
 
@@ -147,7 +152,12 @@ public class DetailsInnerFragment extends Fragment {
         state = (TextView) mView.findViewById(R.id.state);
         country = (TextView) mView.findViewById(R.id.country);
         landmark = (TextView) mView.findViewById(R.id.landmark);
+        sqft = (TextView) mView.findViewById(R.id.sqft);
+        gender = (TextView) mView.findViewById(R.id.gender);
+        sqft = (TextView) mView.findViewById(R.id.sqft);
         bhkLinear = (LinearLayout) mView.findViewById(R.id.bhkLinear);
+        genderLinear = (LinearLayout) mView.findViewById(R.id.genderLinear);
+        sqftLinear = (LinearLayout) mView.findViewById(R.id.sqftLinear);
 
     }
 

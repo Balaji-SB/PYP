@@ -58,13 +58,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Object result) {
                             dialog.dismiss();
-                            Utils.presentSnackBar(mView, result.toString(), 0);
+                            Utils.presentSnackBar(mView, result.toString(), 1);
                             clearUI();
                         }
 
                         @Override
                         public void onError(VolleyError error) {
-                            Utils.presentSnackBar(mView, error.toString(), 0);
+                            Utils.presentSnackBar(mView, error.toString(), 1);
                             dialog.dismiss();
                         }
                     });
