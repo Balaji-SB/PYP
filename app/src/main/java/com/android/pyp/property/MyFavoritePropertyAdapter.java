@@ -43,7 +43,7 @@ public class MyFavoritePropertyAdapter extends RecyclerView.Adapter<MyFavoritePr
 
     public MyFavoritePropertyAdapter(Context mContext, List<PropertyData> propertyDataList, int type) {
         this.mContext = mContext;
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         this.type = type;
         this.propertyDataList = propertyDataList;
     }

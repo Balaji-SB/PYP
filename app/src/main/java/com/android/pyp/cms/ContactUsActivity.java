@@ -105,7 +105,7 @@ public class ContactUsActivity extends AppCompatActivity {
     }
 
     private void initVariables() {
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         dialog=pypApplication.getProgressDialog(mContext);
         supName = (EditText) mView.findViewById(R.id.supName);
         supEmail = (EditText) mView.findViewById(R.id.supEmail);

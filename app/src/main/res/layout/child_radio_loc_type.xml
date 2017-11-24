@@ -5,6 +5,5 @@
     android:layout_height="wrap_content"
     android:layout_margin="5sp"
     android:buttonTint="@color/colorPrimary"
-    android:checked="true"
     android:text="Sample"
     android:textSize="16sp" />

@@ -50,7 +50,7 @@ public class AboutUsActivity extends AppCompatActivity {
     }
 
     private void initVariables() {
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         dialog = pypApplication.getProgressDialog(mContext);
         preferences = Utils.getSharedPreferences(mContext);
         manager = Utils.getSessionManager(mContext);

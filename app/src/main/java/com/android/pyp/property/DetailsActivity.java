@@ -134,7 +134,7 @@ public class DetailsActivity extends AppCompatActivity {
         propertyDataList = new ArrayList<>();
         manager = Utils.getSessionManager(mContext);
         preferences = Utils.getSharedPreferences(mContext);
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         dialog = pypApplication.getProgressDialog(mContext);
         detailsTabLayout = (TabLayout) mView.findViewById(R.id.detailsTabLayout);
         propertyImagesPager = (ViewPager) mView.findViewById(R.id.propertyImagesPager);

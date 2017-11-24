@@ -24,6 +24,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import org.json.JSONException;
+import org.json.JSONTokener;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
@@ -34,8 +37,9 @@ import java.util.Map;
 
 public class PYPApplication extends Application {
 
-    private RequestQueue mRequestQueue;
-    private ServiceHandler handler;
+    private static PYPApplication pypApplication;
+    private static RequestQueue mRequestQueue;
+    private static ServiceHandler handler;
     private Context mContext;
     private String filterLocation;
     private String filterType;
@@ -65,10 +69,15 @@ public class PYPApplication extends Application {
         this.filterGender = filterGender;
     }
 
-    public PYPApplication(Context mContext) {
-        this.mContext = mContext;
-        getRequestQueueInstance(mContext);
+
+    public static PYPApplication getInstance(Context mContext){
+        if(pypApplication==null){
+            pypApplication=new PYPApplication();
+            getRequestQueueInstance(mContext);
+        }
+        return pypApplication;
     }
+
 
     public PYPApplication() {
     }
@@ -83,7 +92,7 @@ public class PYPApplication extends Application {
         TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/EBGaramond-Regular.ttf");
     }
 
-    public synchronized RequestQueue getRequestQueueInstance(Context context) {
+    public static synchronized RequestQueue getRequestQueueInstance(Context context) {
         if (mRequestQueue == null) {
             try {
                 handler = new ServiceHandler(context);
@@ -108,7 +117,14 @@ public class PYPApplication extends Application {
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                callback.onSuccess(response);
+                Object jsonResult = null;
+                try {
+                    jsonResult = new JSONTokener(response.trim()).nextValue();
+                    callback.onSuccess(jsonResult);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override

@@ -44,7 +44,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
     public ListingsAdapter(Context mContext, List<PropertyData> myDataList) {
         this.mContext = mContext;
         this.myDataList = myDataList;
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
                     } else {
                         isFav = false;
                     }
-                    addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
+                    addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getFav_id());
                 }
 
             }

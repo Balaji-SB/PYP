@@ -87,7 +87,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void initVariables() {
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         dialog = pypApplication.getProgressDialog(mContext);
         updatePwdBtn = (Button) mView.findViewById(R.id.updatePwdBtn);
         oldPassword = (TextInputEditText) mView.findViewById(R.id.oldPassword);

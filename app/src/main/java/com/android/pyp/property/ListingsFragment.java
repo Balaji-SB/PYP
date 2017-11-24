@@ -91,7 +91,7 @@ public class ListingsFragment extends Fragment {
 
     private void initVariables() {
         myDataList = new ArrayList<>();
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         dialog = pypApplication.getProgressDialog(mContext);
         propertyListings = (RecyclerView) mView.findViewById(R.id.propertyListings);
         nopropertyTxt = (TextView) mView.findViewById(R.id.nopropertyTxt);
@@ -120,19 +120,16 @@ public class ListingsFragment extends Fragment {
 
     private void propertyListings() {
 
-        if (TextUtils.isEmpty(gender_type)) {
-            gender_type = "";
-        }
-        if (TextUtils.isEmpty(property_type)) {
+        if (TextUtils.isEmpty(property_type) || TextUtils.equals("None",property_type)) {
             property_type = "";
         }
-        if (TextUtils.isEmpty(gender_type)) {
+        if (TextUtils.isEmpty(gender_type) || TextUtils.equals("None",gender_type)) {
             gender_type = "";
         }
         if (TextUtils.isEmpty(amenties)) {
             amenties = "";
         }
-        if (TextUtils.isEmpty(country)) {
+        if (TextUtils.isEmpty(country) || TextUtils.equals("None",country)) {
             country = "";
         }
         if (TextUtils.isEmpty(state)) {
@@ -142,7 +139,7 @@ public class ListingsFragment extends Fragment {
             city = "";
         }
         Map<String, String> map = new HashMap<>();
-        map.put("gender_type", gender_type);
+        map.put("gender_type", gender_type.toLowerCase());
         map.put("property_type", property_type);
         map.put("amenties", amenties);
         map.put("country", country);
@@ -158,35 +155,44 @@ public class ListingsFragment extends Fragment {
                 myDataList = new ArrayList<>();
                 dialog.dismiss();
                 try {
+                    if (!result.equals(null)) {
+                        nopropertyTxt.setVisibility(View.GONE);
+                        propertyListings.setVisibility(View.VISIBLE);
+                        JSONArray array = new JSONArray(result.toString());
+                        if (array.length() > 0) {
+                            for (int i = 0; i < array.length(); i++) {
+                                if (array.get(i) instanceof String) {
+                                    nopropertyTxt.setVisibility(View.VISIBLE);
+                                } else {
+                                    nopropertyTxt.setVisibility(View.GONE);
+                                    JSONObject jsonObject = array.optJSONObject(i);
+                                    PropertyData data = new PropertyData();
+                                    data.setPropertyId(jsonObject.getString("p_id"));
+                                    data.setPrice(jsonObject.getString("price"));
+                                    data.setCurrency(jsonObject.getString("currency"));
+                                    data.setImageName(jsonObject.getString("image_name"));
+                                    data.setCity(jsonObject.getString("city"));
+                                    data.setState(jsonObject.getString("state"));
+                                    data.setCountry(jsonObject.getString("country"));
+                                    data.setfId(jsonObject.getString("fav"));
+                                    data.setFav_id(jsonObject.getString("fav_id"));
+                                    data.setAmentyName(jsonObject.getString("name"));
+                                    myDataList.add(data);
 
-                    JSONArray array = new JSONArray(result.toString());
-                    if (array.length() > 0) {
-                        for (int i = 0; i < array.length(); i++) {
-                            if (array.get(i) instanceof String) {
-                                nopropertyTxt.setVisibility(View.VISIBLE);
-                            } else {
-                                nopropertyTxt.setVisibility(View.GONE);
-                                JSONObject jsonObject = array.optJSONObject(i);
-                                PropertyData data = new PropertyData();
-                                data.setPropertyId(jsonObject.getString("p_id"));
-                                data.setPrice(jsonObject.getString("price"));
-                                data.setCurrency(jsonObject.getString("currency"));
-                                data.setImageName(jsonObject.getString("image_name"));
-                                data.setCity(jsonObject.getString("city"));
-                                data.setState(jsonObject.getString("state"));
-                                data.setCountry(jsonObject.getString("country"));
-                                data.setfId(jsonObject.getString("fav"));
-                                data.setAmentyName(jsonObject.getString("name"));
-                                myDataList.add(data);
-
+                                }
                             }
+                            updateUI(myDataList);
                         }
-                        updateUI(myDataList);
+                    }else{
+
+                        nopropertyTxt.setVisibility(View.VISIBLE);
+                        propertyListings.setVisibility(View.GONE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     dialog.dismiss();
                     nopropertyTxt.setVisibility(View.VISIBLE);
+                    propertyListings.setVisibility(View.GONE);
                 }
 
             }
@@ -196,6 +202,7 @@ public class ListingsFragment extends Fragment {
                 dialog.dismiss();
                 Log.e("Error is", error.toString());
                 nopropertyTxt.setVisibility(View.VISIBLE);
+                propertyListings.setVisibility(View.GONE);
             }
         });
 

@@ -33,7 +33,7 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
     }
 
     private void initVariables() {
-        pypApplication=new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         preferences= Utils.getSharedPreferences(mContext);
         manager= Utils.getSessionManager(mContext);
         site_user_id=preferences.getString(SessionManager.KEY_USERID,"");

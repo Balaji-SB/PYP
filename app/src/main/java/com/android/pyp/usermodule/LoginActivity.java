@@ -458,7 +458,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void initVariables() {
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         dialog = pypApplication.getProgressDialog(mContext);
         manager = Utils.getSessionManager(mContext);
         loginManager = LoginManager.getInstance();

@@ -83,7 +83,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void initVariables() {
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         dialog=pypApplication.getProgressDialog(mContext);
         email = (TextInputEditText) mView.findViewById(R.id.email);
         resetPwdBtn = (Button) mView.findViewById(R.id.resetPwdBtn);

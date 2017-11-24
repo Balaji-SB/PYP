@@ -69,7 +69,7 @@ public class MyProperty extends Fragment {
         manager = Utils.getSessionManager(mContext);
         preferences = Utils.getSharedPreferences(mContext);
         site_user_id = preferences.getString(SessionManager.KEY_USERID, "");
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         dialog = pypApplication.getProgressDialog(mContext);
         nopropertyTxt = (TextView) mView.findViewById(R.id.nopropertyTxt);
         mypropertyRecycler = (RecyclerView) mView.findViewById(R.id.mypropertyRecycler);

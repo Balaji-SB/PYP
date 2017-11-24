@@ -69,7 +69,7 @@ public class MyFavoriteProperty extends Fragment {
         manager = Utils.getSessionManager(mContext);
         preferences = Utils.getSharedPreferences(mContext);
         site_user_id = preferences.getString(SessionManager.KEY_USERID, "");
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         dialog = pypApplication.getProgressDialog(mContext);
         nopropertyTxt = (TextView) mView.findViewById(R.id.nopropertyTxt);
         mypropertyRecycler = (RecyclerView) mView.findViewById(R.id.mypropertyRecycler);
@@ -90,33 +90,38 @@ public class MyFavoriteProperty extends Fragment {
                     dialog.dismiss();
 
                     try {
-                        JSONObject object = new JSONObject(result.toString());
-                        JSONArray array = object.getJSONArray("result");
-                        if (array.length() > 0) {
-                            nopropertyTxt.setVisibility(View.GONE);
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject jsonObject = array.getJSONObject(i);
-                                PropertyData data = new PropertyData();
-                                data.setPropertyId(jsonObject.getString("p_id"));
-                                data.setfId(jsonObject.getString("f_id"));
-                                data.setPrice(jsonObject.getString("price"));
-                                data.setCurrency(jsonObject.getString("currency"));
-                                data.setCity(jsonObject.getString("city"));
-                                data.setState(jsonObject.getString("state"));
-                                data.setCountry(jsonObject.getString("country"));
-                                propertyDataList.add(data);
-                            }
-
-                        } else {
+                        if(result instanceof String) {
                             nopropertyTxt.setVisibility(View.VISIBLE);
                         }
-                        JSONArray array1 = object.getJSONArray("image");
-                        if (array1.length() > 0) {
-                            for (int i = 0; i < array1.length(); i++) {
-                                propertyDataList.get(i).setImageName(array1.getString(i));
+                        else {
+                            JSONObject object = new JSONObject(result.toString());
+                            JSONArray array = object.getJSONArray("result");
+                            if (array.length() > 0) {
+                                nopropertyTxt.setVisibility(View.GONE);
+                                for (int i = 0; i < array.length(); i++) {
+                                    JSONObject jsonObject = array.getJSONObject(i);
+                                    PropertyData data = new PropertyData();
+                                    data.setPropertyId(jsonObject.getString("p_id"));
+                                    data.setfId(jsonObject.getString("f_id"));
+                                    data.setPrice(jsonObject.getString("price"));
+                                    data.setCurrency(jsonObject.getString("currency"));
+                                    data.setCity(jsonObject.getString("city"));
+                                    data.setState(jsonObject.getString("state"));
+                                    data.setCountry(jsonObject.getString("country"));
+                                    propertyDataList.add(data);
+                                }
+
+                            } else {
+                                nopropertyTxt.setVisibility(View.VISIBLE);
                             }
+                            JSONArray array1 = object.getJSONArray("image");
+                            if (array1.length() > 0) {
+                                for (int i = 0; i < array1.length(); i++) {
+                                    propertyDataList.get(i).setImageName(array1.getString(i));
+                                }
+                            }
+                            updateUI(propertyDataList);
                         }
-                        updateUI(propertyDataList);
                     } catch (JSONException e) {
                         e.printStackTrace();
                         nopropertyTxt.setVisibility(View.VISIBLE);

@@ -48,7 +48,7 @@ public class FilterActivity extends AppCompatActivity {
     private EditText minPrice, maxPrice, areaFrom;
     private RadioGroup bedroomRadioGroup, genderRadioGroup, bathroomRadioGroup, typeRadioGroup, buisnessTypeRadioGroup, locationRadioGroup;
     private Button btnApplyFilter;
-    private RadioButton maleRadio, femaleRadio;
+    private RadioButton maleRadio, femaleRadio,allRadio;
     private List<FilterData> filterTypeList, filterLocationList;
 
 
@@ -59,7 +59,7 @@ public class FilterActivity extends AppCompatActivity {
         mView = LayoutInflater.from(mContext).inflate(R.layout.activity_filter, null, false);
         setContentView(mView);
         initVariables();
-
+        Log.e("Fil Loc",pypApplication.getFilterLocation()+"");
         btnApplyFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,11 +244,12 @@ public class FilterActivity extends AppCompatActivity {
 
     private void initVariables() {
 
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         btnApplyFilter = (Button) mView.findViewById(R.id.btnApplyFilter);
         minPrice = (EditText) mView.findViewById(R.id.minPrice);
         maxPrice = (EditText) mView.findViewById(R.id.maxPrice);
         maleRadio = (RadioButton) mView.findViewById(R.id.maleRadio);
+        allRadio = (RadioButton) mView.findViewById(R.id.allRadio);
         femaleRadio = (RadioButton) mView.findViewById(R.id.femaleRadio);
         genderRadioGroup = (RadioGroup) mView.findViewById(R.id.genderRadioGroup);
         bedroomRadioGroup = (RadioGroup) mView.findViewById(R.id.bedroomRadioGroup);
@@ -297,6 +298,10 @@ public class FilterActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(result.toString());
 
                     JSONArray array = jsonObject.getJSONArray("type");
+                    FilterData data1 = new FilterData();
+                    data1.setTypeId("");
+                    data1.setTypeName("None");
+                    filterTypeList.add(data1);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject jsonObject1 = array.getJSONObject(i);
                         FilterData data = new FilterData();
@@ -306,6 +311,10 @@ public class FilterActivity extends AppCompatActivity {
                     }
 
                     JSONArray array1 = jsonObject.getJSONArray("site_country");
+                    FilterData data2 = new FilterData();
+                    data2.setLocationId("");
+                    data2.setLocationName("None");
+                    filterLocationList.add(data2);
                     for (int i = 0; i < array1.length(); i++) {
                         JSONObject jsonObject1 = array1.getJSONObject(i);
                         FilterData data = new FilterData();
@@ -320,10 +329,16 @@ public class FilterActivity extends AppCompatActivity {
                     if (pypApplication.getFilterGender() != null) {
                         if (pypApplication.getFilterGender().equalsIgnoreCase(maleRadio.getText().toString())) {
                             maleRadio.setChecked(true);
+                            allRadio.setChecked(false);
                             femaleRadio.setChecked(false);
-                        } else {
-                            femaleRadio.setChecked(true);
+                        }else if (pypApplication.getFilterGender().equalsIgnoreCase(femaleRadio.getText().toString())) {
                             maleRadio.setChecked(false);
+                            allRadio.setChecked(false);
+                            femaleRadio.setChecked(true);
+                        } else {
+                            femaleRadio.setChecked(false);
+                            maleRadio.setChecked(false);
+                            allRadio.setChecked(true);
                         }
                     }
 
@@ -389,6 +404,7 @@ public class FilterActivity extends AppCompatActivity {
     private void createLocRadioButton(List<FilterData> filterLocationList) {
         locationLinearRadio.removeAllViews();
         locationRadioGroup.setOrientation(RadioGroup.VERTICAL);//or RadioGroup.VERTICAL
+
         for (int i = 0; i < filterLocationList.size(); i++) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.child_radio_loc_type, null, false);
             RadioButton radioButton = (RadioButton) view.findViewById(R.id.radioTitle);

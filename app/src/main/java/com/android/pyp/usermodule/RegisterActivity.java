@@ -469,7 +469,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     private void initVariables() {
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         dialog = pypApplication.getProgressDialog(mContext);
         manager = Utils.getSessionManager(mContext);
         preferences = Utils.getSharedPreferences(mContext);

@@ -179,7 +179,7 @@ public class MyProfileFragment extends Fragment {
     }
 
     public void initVariables() {
-        pypApplication = new PYPApplication(mContext);
+        pypApplication = PYPApplication.getInstance(mContext);
         preferences = Utils.getSharedPreferences(mContext);
         dialog = pypApplication.getProgressDialog(mContext);
         resultImage = (ImageView) mView.findViewById(R.id.resultImage);

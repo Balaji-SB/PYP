@@ -41,6 +41,15 @@ public class PropertyData implements Parcelable {
     private String shareLink;
     private String title;
     private String fId;
+    private String fav_id;
+
+    public String getFav_id() {
+        return fav_id;
+    }
+
+    public void setFav_id(String fav_id) {
+        this.fav_id = fav_id;
+    }
 
     public String getfId() {
         return fId;
