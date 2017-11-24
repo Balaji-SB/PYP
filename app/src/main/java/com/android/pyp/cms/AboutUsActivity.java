@@ -42,7 +42,7 @@ public class AboutUsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = getApplicationContext();
+        mContext = this;
         mView = LayoutInflater.from(mContext).inflate(R.layout.fragment_aboutus, null, false);
         setContentView(mView);
         initVariables();
@@ -56,6 +56,7 @@ public class AboutUsActivity extends AppCompatActivity {
         manager = Utils.getSessionManager(mContext);
         site_user_id = preferences.getString(SessionManager.KEY_USERID, "");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("About Us");
         aboutUsTxt = (TextView) mView.findViewById(R.id.aboutUsTxt);
     }
 
@@ -68,7 +69,7 @@ public class AboutUsActivity extends AppCompatActivity {
                 Log.e("Result", result.toString());
                 dialog.dismiss();
                 aboutUsTxt.setText(Html.fromHtml(result.toString()));
-                Utils.presentSnackBar(mView, result.toString(), 1);
+//                Utils.presentSnackBar(mView, result.toString(), 1);
             }
 
             @Override

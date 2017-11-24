@@ -37,6 +37,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private View mView;
     private PYPApplication pypApplication;
     private Dialog dialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

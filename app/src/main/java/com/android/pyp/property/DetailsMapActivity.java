@@ -68,9 +68,10 @@ public class DetailsMapActivity extends AppCompatActivity implements OnMapReadyC
 
         googleMap.addMarker(marker1);
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(latitude, longitude)).zoom(12).build();
+                .target(new LatLng(latitude, longitude)).zoom(16).build();
 
         googleMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(cameraPosition));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
     }
 }

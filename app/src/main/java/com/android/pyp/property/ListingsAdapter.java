@@ -87,7 +87,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
         if (!myDataList.get(position).getCity().equalsIgnoreCase("null") && !myDataList.get(position).getCity().equalsIgnoreCase(null)) {
             location += myDataList.get(position).getCity() + ", ";
         }
-        if ( !myDataList.get(position).getState().equalsIgnoreCase("null") && !myDataList.get(position).getState().equalsIgnoreCase(null)) {
+        if (!myDataList.get(position).getState().equalsIgnoreCase("null") && !myDataList.get(position).getState().equalsIgnoreCase(null)) {
             location += myDataList.get(position).getState() + ", ";
         }
         if (!myDataList.get(position).getCountry().equalsIgnoreCase("null") && !myDataList.get(position).getCountry().equalsIgnoreCase(null)) {
@@ -96,26 +96,33 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
         holder.address.setText(location);
         holder.priceCurrency.setText(myDataList.get(position).getPrice() + " " + myDataList.get(position).getCurrency());
 
-
+/*
         if (myDataList.get(position).getfId().trim().equalsIgnoreCase(null) || myDataList.get(position).getfId().trim().equalsIgnoreCase("null")) {
             holder.favoriteImg.setImageResource(R.mipmap.un_favorite);
             isFav = true;
         } else {
             holder.favoriteImg.setImageResource(R.mipmap.favorite);
             isFav = false;
-        }
+        }*/
 
+        if (myDataList.get(position).getfId().trim().equalsIgnoreCase("no")) {
+            holder.favoriteImg.setImageResource(R.mipmap.un_favorite);
+            isFav = true;
+        } else {
+            holder.favoriteImg.setImageResource(R.mipmap.favorite);
+            isFav = false;
+        }
         holder.favoriteImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    if(Utils.getSessionManager(mContext).checkLogin()) {
-                        if (myDataList.get(position).getfId().trim().equalsIgnoreCase(null) || myDataList.get(position).getfId().trim().equalsIgnoreCase("null")) {
-                            isFav = true;
-                        } else {
-                            isFav = false;
-                        }
-                        addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
+                if (Utils.getSessionManager(mContext).checkLogin()) {
+                    if (myDataList.get(position).getfId().trim().equalsIgnoreCase("no")) {
+                        isFav = true;
+                    } else {
+                        isFav = false;
                     }
+                    addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
+                }
 
             }
         });
@@ -133,14 +140,14 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
 
     private void showAlertDialog(final ListingsViewHolder holder, final int position, String propertyId, String s) {
 
-                if(Utils.getSessionManager(mContext).checkLogin()) {
-                    if (TextUtils.isEmpty(myDataList.get(position).getfId())){
-                        isFav = false;
-                    }else{
-                        isFav = true;
-                    }
-                    addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
-                }
+        if (Utils.getSessionManager(mContext).checkLogin()) {
+            if (TextUtils.isEmpty(myDataList.get(position).getfId())) {
+                isFav = false;
+            } else {
+                isFav = true;
+            }
+            addOrRemoveFav(holder, position, myDataList.get(position).getPropertyId(), myDataList.get(position).getfId());
+        }
 
     }
 
@@ -161,7 +168,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
             url = URLConstants.urlRemoveFromFav;
             map.put("f_id", favId);
         }
-        Log.e("Map is",url+ map.toString());
+        Log.e("Map is", url + map.toString());
         pypApplication.customStringRequest(url, map, new DataCallback() {
             @Override
             public void onSuccess(Object result) {
@@ -170,9 +177,9 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsViewHolder> {
                 try {
                     JSONObject jsonObject = new JSONObject(result.toString());
                     if (jsonObject.getString("success").trim().equalsIgnoreCase("added")) {
-                        myDataList.get(position).setfId(jsonObject.getString("f_id"));
+                        myDataList.get(position).setfId("yes");
                     } else {
-                        myDataList.get(position).setfId("null");
+                        myDataList.get(position).setfId("no");
                     }
                     if (myDataList.get(position).getfId().trim().equalsIgnoreCase(null) && myDataList.get(position).getfId().trim().equalsIgnoreCase("null")) {
                         holder.favoriteImg.setImageResource(R.mipmap.un_favorite);

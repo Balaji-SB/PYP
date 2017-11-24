@@ -37,6 +37,33 @@ public class PYPApplication extends Application {
     private RequestQueue mRequestQueue;
     private ServiceHandler handler;
     private Context mContext;
+    private String filterLocation;
+    private String filterType;
+    private String filterGender;
+
+    public String getFilterLocation() {
+        return filterLocation;
+    }
+
+    public void setFilterLocation(String filterLocation) {
+        this.filterLocation = filterLocation;
+    }
+
+    public String getFilterType() {
+        return filterType;
+    }
+
+    public void setFilterType(String filterType) {
+        this.filterType = filterType;
+    }
+
+    public String getFilterGender() {
+        return filterGender;
+    }
+
+    public void setFilterGender(String filterGender) {
+        this.filterGender = filterGender;
+    }
 
     public PYPApplication(Context mContext) {
         this.mContext = mContext;

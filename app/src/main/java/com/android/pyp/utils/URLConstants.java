@@ -31,7 +31,7 @@ public class URLConstants {
 
     public static String urlPropertyDetails = BASEURL + "property_single_view";
 
-    public static String urlPropertyListings = BASEURL + "find_property";
+    public static String urlPropertyListings = BASEURL + "find_property1";
 
     public static String urlUpdateUserProfile = BASEURL + "userprofile";
 

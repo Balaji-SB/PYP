@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
@@ -27,6 +28,7 @@ import com.android.pyp.R;
 import com.android.pyp.home.HomeActivity;
 import com.android.pyp.utils.DataCallback;
 import com.android.pyp.utils.PYPApplication;
+import com.android.pyp.utils.SessionManager;
 import com.android.pyp.utils.URLConstants;
 import com.android.volley.VolleyError;
 
@@ -54,6 +56,8 @@ public class ListingsFragment extends Fragment {
     private PYPApplication pypApplication;
     private Dialog dialog;
     private TextView nopropertyTxt;
+    private String userId = "";
+    private SharedPreferences preferences;
     private String gender_type = "", property_type = "", amenties = "", country = "", state = "", city = "";
 
 
@@ -93,6 +97,8 @@ public class ListingsFragment extends Fragment {
         nopropertyTxt = (TextView) mView.findViewById(R.id.nopropertyTxt);
         propertyListings.setLayoutManager(new LinearLayoutManager(mContext));
         getActivity().setTitle("Properties");
+        preferences = mContext.getSharedPreferences(SessionManager.PREF_NAME, SessionManager.PRIVATE_MODE);
+        userId = preferences.getString(SessionManager.KEY_USERID, "");
     }
 
     @Override
@@ -114,83 +120,84 @@ public class ListingsFragment extends Fragment {
 
     private void propertyListings() {
 
-            if (TextUtils.isEmpty(gender_type)) {
-                gender_type = "";
-            }
-            if (TextUtils.isEmpty(property_type)) {
-                property_type = "";
-            }
-            if (TextUtils.isEmpty(gender_type)) {
-                gender_type = "";
-            }
-            if (TextUtils.isEmpty(amenties)) {
-                amenties = "";
-            }
-            if (TextUtils.isEmpty(country)) {
-                country = "";
-            }
-            if (TextUtils.isEmpty(state)) {
-                state = "";
-            }
-            if (TextUtils.isEmpty(city)) {
-                city = "";
-            }
-            Map<String, String> map = new HashMap<>();
-            map.put("gender_type", gender_type);
-            map.put("property_type", property_type);
-            map.put("amenties", amenties);
-            map.put("country", country);
-            map.put("state", state);
-            map.put("city", city);
-            Log.e("Map is", map.toString());
-            dialog.show();
-            pypApplication.customStringRequest(URLConstants.urlPropertyListings, map, new DataCallback() {
-                @Override
-                public void onSuccess(Object result) {
-                    Log.e("Result is", result.toString());
-                    myDataList = new ArrayList<>();
-                    dialog.dismiss();
-                    try {
+        if (TextUtils.isEmpty(gender_type)) {
+            gender_type = "";
+        }
+        if (TextUtils.isEmpty(property_type)) {
+            property_type = "";
+        }
+        if (TextUtils.isEmpty(gender_type)) {
+            gender_type = "";
+        }
+        if (TextUtils.isEmpty(amenties)) {
+            amenties = "";
+        }
+        if (TextUtils.isEmpty(country)) {
+            country = "";
+        }
+        if (TextUtils.isEmpty(state)) {
+            state = "";
+        }
+        if (TextUtils.isEmpty(city)) {
+            city = "";
+        }
+        Map<String, String> map = new HashMap<>();
+        map.put("gender_type", gender_type);
+        map.put("property_type", property_type);
+        map.put("amenties", amenties);
+        map.put("country", country);
+        map.put("state", state);
+        map.put("city", city);
+        map.put("userid", userId);
+        Log.e("Map is", map.toString());
+        dialog.show();
+        pypApplication.customStringRequest(URLConstants.urlPropertyListings, map, new DataCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                Log.e("Result is", result.toString());
+                myDataList = new ArrayList<>();
+                dialog.dismiss();
+                try {
 
-                        JSONArray array = new JSONArray(result.toString());
-                        if (array.length() > 0) {
-                            for (int i = 0; i < array.length(); i++) {
-                                if (array.get(i) instanceof String) {
-                                    nopropertyTxt.setVisibility(View.VISIBLE);
-                                } else {
-                                    nopropertyTxt.setVisibility(View.GONE);
-                                    JSONObject jsonObject = array.optJSONObject(i);
-                                    PropertyData data = new PropertyData();
-                                    data.setPropertyId(jsonObject.getString("prop_id"));
-                                    data.setPrice(jsonObject.getString("price"));
-                                    data.setCurrency(jsonObject.getString("currency"));
-                                    data.setImageName(jsonObject.getString("image_name"));
-                                    data.setCity(jsonObject.getString("city"));
-                                    data.setState(jsonObject.getString("state"));
-                                    data.setCountry(jsonObject.getString("country"));
-                                    data.setfId(jsonObject.getString("f_id"));
-                                    data.setAmentyName(jsonObject.getString("name"));
-                                    myDataList.add(data);
+                    JSONArray array = new JSONArray(result.toString());
+                    if (array.length() > 0) {
+                        for (int i = 0; i < array.length(); i++) {
+                            if (array.get(i) instanceof String) {
+                                nopropertyTxt.setVisibility(View.VISIBLE);
+                            } else {
+                                nopropertyTxt.setVisibility(View.GONE);
+                                JSONObject jsonObject = array.optJSONObject(i);
+                                PropertyData data = new PropertyData();
+                                data.setPropertyId(jsonObject.getString("p_id"));
+                                data.setPrice(jsonObject.getString("price"));
+                                data.setCurrency(jsonObject.getString("currency"));
+                                data.setImageName(jsonObject.getString("image_name"));
+                                data.setCity(jsonObject.getString("city"));
+                                data.setState(jsonObject.getString("state"));
+                                data.setCountry(jsonObject.getString("country"));
+                                data.setfId(jsonObject.getString("fav"));
+                                data.setAmentyName(jsonObject.getString("name"));
+                                myDataList.add(data);
 
-                                }
                             }
-                            updateUI(myDataList);
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        dialog.dismiss();
-                        nopropertyTxt.setVisibility(View.VISIBLE);
+                        updateUI(myDataList);
                     }
-
-                }
-
-                @Override
-                public void onError(VolleyError error) {
+                } catch (JSONException e) {
+                    e.printStackTrace();
                     dialog.dismiss();
-                    Log.e("Error is", error.toString());
                     nopropertyTxt.setVisibility(View.VISIBLE);
                 }
-            });
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                dialog.dismiss();
+                Log.e("Error is", error.toString());
+                nopropertyTxt.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 
@@ -255,6 +262,6 @@ public class ListingsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         nopropertyTxt.setVisibility(View.GONE);
-        ((HomeActivity)mContext).setSelectedItem(R.id.menuhome);
+        ((HomeActivity) mContext).setSelectedItem(R.id.menuhome);
     }
 }

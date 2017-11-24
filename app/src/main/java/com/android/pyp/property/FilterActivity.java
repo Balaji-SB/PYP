@@ -48,6 +48,7 @@ public class FilterActivity extends AppCompatActivity {
     private EditText minPrice, maxPrice, areaFrom;
     private RadioGroup bedroomRadioGroup, genderRadioGroup, bathroomRadioGroup, typeRadioGroup, buisnessTypeRadioGroup, locationRadioGroup;
     private Button btnApplyFilter;
+    private RadioButton maleRadio, femaleRadio;
     private List<FilterData> filterTypeList, filterLocationList;
 
 
@@ -85,10 +86,13 @@ public class FilterActivity extends AppCompatActivity {
                     int idx = genderRadioGroup.indexOfChild(radioButton);
                     gender = ((RadioButton) genderRadioGroup.getChildAt(idx)).getText().toString().trim();
                 }
+                pypApplication.setFilterType(propertyType);
+                pypApplication.setFilterLocation(country);
+                pypApplication.setFilterGender(gender);
                 Intent intent = new Intent(mContext, ListingsFragment.class);
-                intent.putExtra("property_type", propertyType);
-                intent.putExtra("country", country);
-                intent.putExtra("gender_type", gender);
+                intent.putExtra("property_type", pypApplication.getFilterType());
+                intent.putExtra("country", pypApplication.getFilterLocation());
+                intent.putExtra("gender_type", pypApplication.getFilterGender());
                 setResult(1, intent);
                 finish();
             }
@@ -239,10 +243,13 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     private void initVariables() {
+
         pypApplication = new PYPApplication(mContext);
         btnApplyFilter = (Button) mView.findViewById(R.id.btnApplyFilter);
         minPrice = (EditText) mView.findViewById(R.id.minPrice);
         maxPrice = (EditText) mView.findViewById(R.id.maxPrice);
+        maleRadio = (RadioButton) mView.findViewById(R.id.maleRadio);
+        femaleRadio = (RadioButton) mView.findViewById(R.id.femaleRadio);
         genderRadioGroup = (RadioGroup) mView.findViewById(R.id.genderRadioGroup);
         bedroomRadioGroup = (RadioGroup) mView.findViewById(R.id.bedroomRadioGroup);
         bathroomRadioGroup = (RadioGroup) mView.findViewById(R.id.bathroomRadioGroup);
@@ -279,49 +286,60 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     private void getFilters() {
-            filterTypeList = new ArrayList<>();
-            filterLocationList = new ArrayList<>();
-            Map<String, String> map = new HashMap<>();
-            pypApplication.customStringRequest(URLConstants.urlFitler, map, new DataCallback() {
-                @Override
-                public void onSuccess(Object result) {
-                    Log.e("Result", result.toString());
-                    try {
-                        JSONObject jsonObject = new JSONObject(result.toString());
+        filterTypeList = new ArrayList<>();
+        filterLocationList = new ArrayList<>();
+        Map<String, String> map = new HashMap<>();
+        pypApplication.customStringRequest(URLConstants.urlFitler, map, new DataCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                Log.e("Result", result.toString());
+                try {
+                    JSONObject jsonObject = new JSONObject(result.toString());
 
-                        JSONArray array = jsonObject.getJSONArray("type");
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject jsonObject1 = array.getJSONObject(i);
-                            FilterData data = new FilterData();
-                            data.setTypeId(jsonObject1.getString("id"));
-                            data.setTypeName(jsonObject1.getString("name"));
-                            filterTypeList.add(data);
-                        }
-
-                        JSONArray array1 = jsonObject.getJSONArray("site_country");
-                        for (int i = 0; i < array1.length(); i++) {
-                            JSONObject jsonObject1 = array1.getJSONObject(i);
-                            FilterData data = new FilterData();
-                            data.setLocationId(jsonObject1.getString("id"));
-                            data.setLocationName(jsonObject1.getString("country"));
-                            filterLocationList.add(data);
-                        }
-
-                        createRadioButton(filterTypeList);
-                        createLocRadioButton(filterLocationList);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    JSONArray array = jsonObject.getJSONArray("type");
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject1 = array.getJSONObject(i);
+                        FilterData data = new FilterData();
+                        data.setTypeId(jsonObject1.getString("id"));
+                        data.setTypeName(jsonObject1.getString("name"));
+                        filterTypeList.add(data);
                     }
 
+                    JSONArray array1 = jsonObject.getJSONArray("site_country");
+                    for (int i = 0; i < array1.length(); i++) {
+                        JSONObject jsonObject1 = array1.getJSONObject(i);
+                        FilterData data = new FilterData();
+                        data.setLocationId(jsonObject1.getString("id"));
+                        data.setLocationName(jsonObject1.getString("country"));
+                        filterLocationList.add(data);
+                    }
+
+                    createRadioButton(filterTypeList);
+                    createLocRadioButton(filterLocationList);
+
+                    if (pypApplication.getFilterGender() != null) {
+                        if (pypApplication.getFilterGender().equalsIgnoreCase(maleRadio.getText().toString())) {
+                            maleRadio.setChecked(true);
+                            femaleRadio.setChecked(false);
+                        } else {
+                            femaleRadio.setChecked(true);
+                            maleRadio.setChecked(false);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
-                @Override
-                public void onError(VolleyError error) {
-                    Log.e("Error", error.toString());
-                }
-            });
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                Log.e("Error", error.toString());
+            }
+        });
     }
+
 
     public void showAlertDialog(final Context mContext) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -356,6 +374,13 @@ public class FilterActivity extends AppCompatActivity {
             rb[i].setPadding(20, 10, 5, 5);
             rb[i].setText(" " + filterTypeList.get(i).getTypeName());
             rb[i].setId(i + 100);
+            if (pypApplication.getFilterType() != null) {
+                if (filterTypeList.get(i).getTypeName().equalsIgnoreCase(pypApplication.getFilterType())) {
+                    rb[i].setChecked(true);
+                } else {
+                    rb[i].setChecked(false);
+                }
+            }
             typeRadioGroup.addView(rb[i]);
         }
         typeLinearRadio.addView(typeRadioGroup);//you add the whole RadioGroup to the layout
@@ -370,6 +395,13 @@ public class FilterActivity extends AppCompatActivity {
             radioButton.setPadding(20, 10, 5, 5);
             radioButton.setText(" " + filterLocationList.get(i).getLocationName());
             radioButton.setId(i + 100);
+            if (pypApplication.getFilterLocation() != null) {
+                if (filterLocationList.get(i).getLocationName().equalsIgnoreCase(pypApplication.getFilterLocation())) {
+                    radioButton.setChecked(true);
+                } else {
+                    radioButton.setChecked(false);
+                }
+            }
             locationRadioGroup.addView(radioButton);
         }
         locationLinearRadio.addView(locationRadioGroup);//you add the whole RadioGroup to the layout

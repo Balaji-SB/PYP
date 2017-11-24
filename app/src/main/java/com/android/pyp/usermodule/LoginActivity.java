@@ -158,6 +158,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 finish();
             }
         });
+
         fgtPwdTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,7 +177,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     google_api_client.disconnect();
                 }
                 gPlusSignIn();
-
             }
         });
 

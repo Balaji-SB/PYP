@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.pyp.R;
+import com.android.pyp.home.HomeActivity;
 import com.android.pyp.utils.DataCallback;
 import com.android.pyp.utils.PYPApplication;
 import com.android.pyp.utils.SessionManager;
@@ -226,6 +227,19 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                             "public_profile", "email", "user_birthday", "user_friends"));
                     loginManager.registerCallback(callbackManager, callback);
                 }
+            }
+        });
+
+        gplusImg.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                if (google_api_client.isConnected()) {
+                    google_api_client.disconnect();
+                }
+                gPlusSignIn();
+
             }
         });
 
@@ -430,8 +444,16 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             @Override
             public void onSuccess(Object result) {
                 Log.e("Success", result.toString());
+                dialog.dismiss();
                 try {
-                    JSONObject object = new JSONObject(result.toString());
+                    JSONObject object1 = new JSONObject(result.toString());
+                    if (object1.optString("result").equalsIgnoreCase("success")) {
+                        JSONObject object = object1.getJSONObject("userdetails");
+                        manager.createLoginSession(object.getString("auth_id"), object.getString("key_email"), object.getString("first_name") + " " + object.getString("last_name"), object.getString("key_pass"), object.getString("phone"), object.getString("image"));
+                        Intent intent = new Intent(mContext, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -441,6 +463,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             @Override
             public void onError(VolleyError error) {
                 Log.e("error", error.toString());
+                dialog.dismiss();
             }
         });
     }
